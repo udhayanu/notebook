@@ -1,0 +1,41 @@
+{
+  "paragraphs": [
+    {
+      "text": "//https://www.zeppelinhub.com/viewer/search?q\u003dSparkSQL\n\n//http://blog.cloudera.com/blog/2015/09/how-to-prepare-unstructured-data-in-impala-for-analysis/\n//https://www.percona.com/blog/2016/01/07/apache-spark-with-air-ontime-performance-data/\n//https://www.percona.com/blog/2014/04/21/using-apache-hadoop-and-impala-together-with-mysql-for-data-analysis/\n//https://dzone.com/articles/apache-spark-with-air-ontime-performance-data\n\n\n",
+      "dateUpdated": "Jan 29, 2016 3:55:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453233301442_633550278",
+      "id": "20160119-195501_1359788225",
+      "dateCreated": "Jan 19, 2016 7:55:01 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_SQL",
+  "id": "2BB2P3DKW",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

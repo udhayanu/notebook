@@ -1,0 +1,103 @@
+{
+  "paragraphs": [
+    {
+      "text": "//https://www.zeppelinhub.com/viewer/notebooks/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2ZlbGl4Y2hldW5nL3NwYXJrLW5vdGVib29rLWV4YW1wbGVzL21hc3Rlci9aZXBwZWxpbl9ub3RlYm9vay8yQVo5NTg0R0Uvbm90ZS5qc29u\n//https://github.com/datalayer/datalayer-docker/tree/master/spitfire\n//http://stackoverflow.com/questions/33421426/anyone-tried-to-add-r-interpreter-onto-apache-zeppelin\n\n",
+      "dateUpdated": "Feb 15, 2016 8:47:31 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453764332867_1880613031",
+      "id": "20160125-232532_1453750207",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 25, 2016 11:25:32 PM",
+      "dateStarted": "Feb 15, 2016 8:47:31 PM",
+      "dateFinished": "Feb 15, 2016 8:47:31 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sparkr\n\njobs \u003c- as.data.frame(read.csv(\n  \u0027https://raw.githubusercontent.com/nprapps/pym.js/master/examples/graphic/data.csv\u0027,\n  stringsAsFactors \u003d T\n))\njobs$date \u003c- as.Date(paste(jobs$date,\u0027-01\u0027,sep\u003d\u0027\u0027))\n\nprint(names(jobs))\nprint(head(jobs))",
+      "dateUpdated": "Feb 15, 2016 3:39:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455568744363_-298369154",
+      "id": "20160215-153904_1111932261",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "sparkr interpreter not found"
+      },
+      "dateCreated": "Feb 15, 2016 3:39:04 PM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455568749100_301084957",
+      "id": "20160215-153909_1198707007",
+      "dateCreated": "Feb 15, 2016 3:39:09 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_R_Basics",
+  "id": "2BBGVGHWG",
+  "angularObjects": {
+    "2BCRC6M19": [],
+    "2BANG2RG8": [],
+    "2BACPWMUG": [],
+    "2BBBRWT9Q": [],
+    "2BE76JS7C": [],
+    "2BD2FRUTX": [],
+    "2BB4WQTX8": [],
+    "2BD4NNXC9": [],
+    "2BBHZKNQU": [],
+    "2BC7YE4AV": [],
+    "2BDP5QWCV": [],
+    "2BE1GD93Y": [],
+    "2BD1XTDGP": [],
+    "2BE9MUD1W": []
+  },
+  "config": {},
+  "info": {}
+}

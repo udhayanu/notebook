@@ -1,0 +1,41 @@
+{
+  "paragraphs": [
+    {
+      "text": "//https://github.com/spirom/LearningSpark/blob/master/src/main/scala/graphx/SecondDegreeNeighbors.scala\n//Flight Data Graphx Example\n//http://sparktutorials.net/Analyzing+Flight+Data%3A+A+Gentle+Introduction+to+GraphX+in+Spark\n",
+      "dateUpdated": "Jan 25, 2016 8:36:59 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453695078885_425517653",
+      "id": "20160125-041118_976797957",
+      "dateCreated": "Jan 25, 2016 4:11:18 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_GraphX",
+  "id": "2BAXH9DHZ",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

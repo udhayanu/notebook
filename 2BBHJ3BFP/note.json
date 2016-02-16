@@ -1,0 +1,41 @@
+{
+  "paragraphs": [
+    {
+      "text": "//https://github.com/databricks/spark-csv",
+      "dateUpdated": "Jan 25, 2016 9:13:01 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453756367943_1434201153",
+      "id": "20160125-211247_1483426348",
+      "dateCreated": "Jan 25, 2016 9:12:47 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_outputFormats",
+  "id": "2BBHJ3BFP",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

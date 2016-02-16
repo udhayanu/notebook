@@ -1,0 +1,505 @@
+{
+  "paragraphs": [
+    {
+      "text": "import org.apache.spark.sql._\nimport org.apache.spark.sql.functions._\nimport sqlContext.implicits._\n\n//\n// Create a DataFrame based on an RDD of case class objects and perform some basic\n// DataFrame operations. The DataFrame can instead be created more directly from\n// the standard building blocks -- an RDD[Row] and a schema -- see the example\n// FromRowsAndSchema.scala to see how to do that.\n//\n\n\n  case class Cust(id: Integer, name: String, sales: Double, discount: Double, state: String)\n\n\n// create a sequence of case class objects\n// (we defined the case class above)\n    val custs \u003d Seq(\n      Cust(1, \"Widget Co\", 120000.00, 0.00, \"AZ\"),\n      Cust(2, \"Acme Widgets\", 410500.00, 500.00, \"CA\"),\n      Cust(3, \"Widgetry\", 410500.00, 200.00, \"CA\"),\n      Cust(4, \"Widgets R Us\", 410500.00, 0.0, \"CA\"),\n      Cust(5, \"Ye Olde Widgete\", 500.00, 0.0, \"MA\"),\n      Cust(6, \"Widget Co\", 12000.00, 10.00, \"AZ\")\n    )\n    \n    // make it an RDD and convert to a DataFrame\n    val customerDF \u003d sc.parallelize(custs, 4).toDF()\n    \n    println(\"*** toString() just gives you the schema\")\n\n    println(customerDF.toString())\n\n    println(\"*** It\u0027s better to use printSchema()\")\n\n    customerDF.printSchema()\n\n    println(\"*** show() gives you neatly formatted data\")\n\n    customerDF.show()\n    \n    println(\"*** use select() to choose one column\")\n\n    customerDF.select(\"id\").show()\n\n    println(\"*** use select() for multiple columns\")\n\n    customerDF.select(\"sales\", \"state\").show()\n\n    println(\"*** use filter() to choose rows\")\n\n    customerDF.filter($\"state\".equalTo(\"CA\")).show()\n    \n    // remove a couple of columns\n    val fewerCols \u003d customerDF.drop(\"sales\").drop(\"discount\")\n\n    println(\"*** Now with fewer columns\")\n\n    fewerCols.printSchema()\n\n    fewerCols.show()\n\n    // drop fully identical rows\n    val withoutPartials \u003d customerDF.dropDuplicates(Seq(\"name\", \"state\"))\n\n    println(\"*** Now without partial duplicates too\")\n\n    withoutPartials.show()",
+      "dateUpdated": "Feb 12, 2016 3:35:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453487911318_-678412039",
+      "id": "20160122-183831_296189810",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql._\nimport org.apache.spark.sql.functions._\nimport sqlContext.implicits._\ndefined class Cust\ncusts: Seq[Cust] \u003d List(Cust(1,Widget Co,120000.0,0.0,AZ), Cust(2,Acme Widgets,410500.0,500.0,CA), Cust(3,Widgetry,410500.0,200.0,CA), Cust(4,Widgets R Us,410500.0,0.0,CA), Cust(5,Ye Olde Widgete,500.0,0.0,MA), Cust(6,Widget Co,12000.0,10.0,AZ))\ncustomerDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, sales: double, discount: double, state: string]\n*** toString() just gives you the schema\n[id: int, name: string, sales: double, discount: double, state: string]\n*** It\u0027s better to use printSchema()\nroot\n |-- id: integer (nullable \u003d true)\n |-- name: string (nullable \u003d true)\n |-- sales: double (nullable \u003d false)\n |-- discount: double (nullable \u003d false)\n |-- state: string (nullable \u003d true)\n\n*** show() gives you neatly formatted data\n+---+---------------+--------+--------+-----+\n| id|           name|   sales|discount|state|\n+---+---------------+--------+--------+-----+\n|  1|      Widget Co|120000.0|     0.0|   AZ|\n|  2|   Acme Widgets|410500.0|   500.0|   CA|\n|  3|       Widgetry|410500.0|   200.0|   CA|\n|  4|   Widgets R Us|410500.0|     0.0|   CA|\n|  5|Ye Olde Widgete|   500.0|     0.0|   MA|\n|  6|      Widget Co| 12000.0|    10.0|   AZ|\n+---+---------------+--------+--------+-----+\n\n*** use select() to choose one column\n+---+\n| id|\n+---+\n|  1|\n|  2|\n|  3|\n|  4|\n|  5|\n|  6|\n+---+\n\n*** use select() for multiple columns\n+--------+-----+\n|   sales|state|\n+--------+-----+\n|120000.0|   AZ|\n|410500.0|   CA|\n|410500.0|   CA|\n|410500.0|   CA|\n|   500.0|   MA|\n| 12000.0|   AZ|\n+--------+-----+\n\n*** use filter() to choose rows\n+---+------------+--------+--------+-----+\n| id|        name|   sales|discount|state|\n+---+------------+--------+--------+-----+\n|  2|Acme Widgets|410500.0|   500.0|   CA|\n|  3|    Widgetry|410500.0|   200.0|   CA|\n|  4|Widgets R Us|410500.0|     0.0|   CA|\n+---+------------+--------+--------+-----+\n\nfewerCols: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, state: string]\n*** Now with fewer columns\nroot\n |-- id: integer (nullable \u003d true)\n |-- name: string (nullable \u003d true)\n |-- state: string (nullable \u003d true)\n\n+---+---------------+-----+\n| id|           name|state|\n+---+---------------+-----+\n|  1|      Widget Co|   AZ|\n|  2|   Acme Widgets|   CA|\n|  3|       Widgetry|   CA|\n|  4|   Widgets R Us|   CA|\n|  5|Ye Olde Widgete|   MA|\n|  6|      Widget Co|   AZ|\n+---+---------------+-----+\n\nwithoutPartials: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, sales: double, discount: double, state: string]\n*** Now without partial duplicates too\n+---+---------------+--------+--------+-----+\n| id|           name|   sales|discount|state|\n+---+---------------+--------+--------+-----+\n|  5|Ye Olde Widgete|   500.0|     0.0|   MA|\n|  3|       Widgetry|410500.0|   200.0|   CA|\n|  1|      Widget Co|120000.0|     0.0|   AZ|\n|  4|   Widgets R Us|410500.0|     0.0|   CA|\n|  2|   Acme Widgets|410500.0|   500.0|   CA|\n+---+---------------+--------+--------+-----+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 6:38:31 PM",
+      "dateStarted": "Feb 12, 2016 3:35:48 PM",
+      "dateFinished": "Feb 12, 2016 3:36:32 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    println(\"*** use apply() on DataFrame to create column objects, and select though them\")\n\n    customerDF.select(customerDF(\"id\"), customerDF(\"discount\")).show()\n\n    println(\"*** use as() on Column to rename\")\n\n    customerDF.select(customerDF(\"id\").as(\"Customer ID\"),\n                      customerDF(\"discount\").as(\"Total Discount\")).show()\n                      \n    println(\"*** $ as shorthand to obtain Column\")\n\n    customerDF.select($\"id\".as(\"Customer ID\"), $\"discount\".as(\"Total Discount\")).show()\n\n    println(\"*** use DSL to manipulate values\")\n\n    customerDF.select(($\"discount\" * 2).as(\"Double Discount\")).show()\n\n    customerDF.select(\n      ($\"sales\" - $\"discount\").as(\"After Discount\")).show()\n",
+      "dateUpdated": "Feb 12, 2016 3:37:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453495450148_-973457264",
+      "id": "20160122-204410_369132328",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "*** use apply() on DataFrame to create column objects, and select though them\n+---+--------+\n| id|discount|\n+---+--------+\n|  1|     0.0|\n|  2|   500.0|\n|  3|   200.0|\n|  4|     0.0|\n|  5|     0.0|\n|  6|    10.0|\n+---+--------+\n\n*** use as() on Column to rename\n+-----------+--------------+\n|Customer ID|Total Discount|\n+-----------+--------------+\n|          1|           0.0|\n|          2|         500.0|\n|          3|         200.0|\n|          4|           0.0|\n|          5|           0.0|\n|          6|          10.0|\n+-----------+--------------+\n\n*** $ as shorthand to obtain Column\n+-----------+--------------+\n|Customer ID|Total Discount|\n+-----------+--------------+\n|          1|           0.0|\n|          2|         500.0|\n|          3|         200.0|\n|          4|           0.0|\n|          5|           0.0|\n|          6|          10.0|\n+-----------+--------------+\n\n*** use DSL to manipulate values\n+---------------+\n|Double Discount|\n+---------------+\n|            0.0|\n|         1000.0|\n|          400.0|\n|            0.0|\n|            0.0|\n|           20.0|\n+---------------+\n\n+--------------+\n|After Discount|\n+--------------+\n|      120000.0|\n|      410000.0|\n|      410300.0|\n|      410500.0|\n|         500.0|\n|       11990.0|\n+--------------+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 8:44:10 PM",
+      "dateStarted": "Feb 12, 2016 3:37:03 PM",
+      "dateFinished": "Feb 12, 2016 3:37:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    println(\"*** use * to select() all columns and add more\")\n\n    customerDF.select(customerDF(\"*\"), $\"id\".as(\"newID\")).show()\n\n    println(\"*** use lit() to add a literal column\")\n\n    customerDF.select($\"id\", $\"name\", lit(42).as(\"FortyTwo\")).show()\n\n\n    println(\"*** use array() to combine multiple results into a single array column\")\n\n    customerDF.select($\"id\", array($\"name\", $\"state\", lit(\"hello\")).as(\"Stuff\")).show()\n\n    println(\"*** use rand() to add random numbers between 0.0 and 1.0 inclusive \")\n\n    customerDF.select($\"id\", rand().as(\"r\")).show()",
+      "dateUpdated": "Feb 12, 2016 3:37:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453495571199_308726930",
+      "id": "20160122-204611_894244926",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "*** use * to select() all columns and add more\n+---+---------------+--------+--------+-----+-----+\n| id|           name|   sales|discount|state|newID|\n+---+---------------+--------+--------+-----+-----+\n|  1|      Widget Co|120000.0|     0.0|   AZ|    1|\n|  2|   Acme Widgets|410500.0|   500.0|   CA|    2|\n|  3|       Widgetry|410500.0|   200.0|   CA|    3|\n|  4|   Widgets R Us|410500.0|     0.0|   CA|    4|\n|  5|Ye Olde Widgete|   500.0|     0.0|   MA|    5|\n|  6|      Widget Co| 12000.0|    10.0|   AZ|    6|\n+---+---------------+--------+--------+-----+-----+\n\n*** use lit() to add a literal column\n+---+---------------+--------+\n| id|           name|FortyTwo|\n+---+---------------+--------+\n|  1|      Widget Co|      42|\n|  2|   Acme Widgets|      42|\n|  3|       Widgetry|      42|\n|  4|   Widgets R Us|      42|\n|  5|Ye Olde Widgete|      42|\n|  6|      Widget Co|      42|\n+---+---------------+--------+\n\n*** use array() to combine multiple results into a single array column\n+---+--------------------+\n| id|               Stuff|\n+---+--------------------+\n|  1|[Widget Co, AZ, h...|\n|  2|[Acme Widgets, CA...|\n|  3|[Widgetry, CA, he...|\n|  4|[Widgets R Us, CA...|\n|  5|[Ye Olde Widgete,...|\n|  6|[Widget Co, AZ, h...|\n+---+--------------------+\n\n*** use rand() to add random numbers between 0.0 and 1.0 inclusive \n+---+-------------------+\n| id|                  r|\n+---+-------------------+\n|  1| 0.9815690584816407|\n|  2| 0.9374488463375895|\n|  3| 0.7025307554940647|\n|  4|0.29705627492406883|\n|  5| 0.8427314316529949|\n|  6| 0.6768577620377862|\n+---+-------------------+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 8:46:11 PM",
+      "dateStarted": "Feb 12, 2016 3:37:15 PM",
+      "dateFinished": "Feb 12, 2016 3:37:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    // Example 1: nested StructType for nested rows\n    //\nimport org.apache.spark.sql.types._\n\n    val rows1 \u003d Seq(\n      Row(1, Row(\"a\", \"b\"), 8.00, Row(1,2)),\n      Row(2, Row(\"c\", \"d\"), 9.00, Row(3,4))\n\n    )\n    val rows1Rdd \u003d sc.parallelize(rows1, 4)\n    \n    val schema1 \u003d StructType(\n      Seq(\n        StructField(\"id\", IntegerType, true),\n        StructField(\"s1\", StructType(\n          Seq(\n            StructField(\"x\", StringType, true),\n            StructField(\"y\", StringType, true)\n          )\n        ), true),\n        StructField(\"d\", DoubleType, true),\n        StructField(\"s2\", StructType(\n          Seq(\n            StructField(\"u\", IntegerType, true),\n            StructField(\"v\", IntegerType, true)\n          )\n        ), true)\n      )\n    )\n    \n    println(\"Position of subfield \u0027d\u0027 is \" + schema1.fieldIndex(\"d\"))\n    \n    val df1 \u003d sqlContext.createDataFrame(rows1Rdd, schema1)\n\n    println(\"Schema with nested struct\")\n    df1.printSchema()\n    \n    println(\"DataFrame with nested Row\")\n    df1.show()\n\n    println(\"Select the column with nested Row at the top level\")\n    df1.select(\"s1\").show()\n\n    println(\"Select deep into the column with nested Row\")\n    df1.select(\"s1.x\").show()\n\n    println(\"The column function getField() seems to be the \u0027right\u0027 way\")\n    df1.select($\"s1\".getField(\"x\")).show()",
+      "dateUpdated": "Feb 12, 2016 3:37:26 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453489868212_-2050978287",
+      "id": "20160122-191108_628884114",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.types._\nrows1: Seq[org.apache.spark.sql.Row] \u003d List([1,[a,b],8.0,[1,2]], [2,[c,d],9.0,[3,4]])\nrows1Rdd: org.apache.spark.rdd.RDD[org.apache.spark.sql.Row] \u003d ParallelCollectionRDD[47] at parallelize at \u003cconsole\u003e:37\nschema1: org.apache.spark.sql.types.StructType \u003d StructType(StructField(id,IntegerType,true), StructField(s1,StructType(StructField(x,StringType,true), StructField(y,StringType,true)),true), StructField(d,DoubleType,true), StructField(s2,StructType(StructField(u,IntegerType,true), StructField(v,IntegerType,true)),true))\nPosition of subfield \u0027d\u0027 is 2\ndf1: org.apache.spark.sql.DataFrame \u003d [id: int, s1: struct\u003cx:string,y:string\u003e, d: double, s2: struct\u003cu:int,v:int\u003e]\nSchema with nested struct\nroot\n |-- id: integer (nullable \u003d true)\n |-- s1: struct (nullable \u003d true)\n |    |-- x: string (nullable \u003d true)\n |    |-- y: string (nullable \u003d true)\n |-- d: double (nullable \u003d true)\n |-- s2: struct (nullable \u003d true)\n |    |-- u: integer (nullable \u003d true)\n |    |-- v: integer (nullable \u003d true)\n\nDataFrame with nested Row\n+---+-----+---+-----+\n| id|   s1|  d|   s2|\n+---+-----+---+-----+\n|  1|[a,b]|8.0|[1,2]|\n|  2|[c,d]|9.0|[3,4]|\n+---+-----+---+-----+\n\nSelect the column with nested Row at the top level\n+-----+\n|   s1|\n+-----+\n|[a,b]|\n|[c,d]|\n+-----+\n\nSelect deep into the column with nested Row\n+---+\n|  x|\n+---+\n|  a|\n|  c|\n+---+\n\nThe column function getField() seems to be the \u0027right\u0027 way\n+-----+\n|s1[x]|\n+-----+\n|    a|\n|    c|\n+-----+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 7:11:08 PM",
+      "dateStarted": "Feb 12, 2016 3:37:26 PM",
+      "dateFinished": "Feb 12, 2016 3:37:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    // Example 2: ArrayType\n    //\n\n    val rows2 \u003d Seq(\n      Row(1, Row(\"a\", \"b\"), 8.00, Array(1,2)),\n      Row(2, Row(\"c\", \"d\"), 9.00, Array(3,4,5))\n\n    )\n    val rows2Rdd \u003d sc.parallelize(rows2, 4)\n\n    //\n    // This time, instead of just using the StructType constructor, see\n    // that you can use two different overloads of the add() method to add\n    // the fields \u0027d\u0027 and \u0027a\u0027\n    //\n    val schema2 \u003d StructType(\n      Seq(\n        StructField(\"id\", IntegerType, true),\n        StructField(\"s1\", StructType(\n          Seq(\n            StructField(\"x\", StringType, true),\n            StructField(\"y\", StringType, true)\n          )\n        ), true)\n      )\n    )\n      .add(StructField(\"d\", DoubleType, true))\n      .add(\"a\", ArrayType(IntegerType))\n\n    val df2 \u003d sqlContext.createDataFrame(rows2Rdd, schema2)\n\n    println(\"Schema with array\")\n    df2.printSchema()\n    \n    println(\"DataFrame with array\")\n    df2.show()\n\n\n    println(\"Count elements of each array in the column\")\n    df2.select($\"id\", size($\"a\").as(\"count\")).show()\n\n    println(\"Explode the array elements out into additional rows\")\n    df2.select($\"id\", explode($\"a\").as(\"element\")).show()\n\n    println(\"Apply a membership test to each array in a column\")\n    df2.select($\"id\", array_contains($\"a\", 2).as(\"has2\")).show()\n",
+      "dateUpdated": "Feb 12, 2016 3:37:36 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453491651866_-1678214087",
+      "id": "20160122-194051_857942087",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "rows2: Seq[org.apache.spark.sql.Row] \u003d List([1,[a,b],8.0,[I@56988fdd], [2,[c,d],9.0,[I@552e5fc7])\nrows2Rdd: org.apache.spark.rdd.RDD[org.apache.spark.sql.Row] \u003d ParallelCollectionRDD[59] at parallelize at \u003cconsole\u003e:37\nschema2: org.apache.spark.sql.types.StructType \u003d StructType(StructField(id,IntegerType,true), StructField(s1,StructType(StructField(x,StringType,true), StructField(y,StringType,true)),true), StructField(d,DoubleType,true), StructField(a,ArrayType(IntegerType,true),true))\ndf2: org.apache.spark.sql.DataFrame \u003d [id: int, s1: struct\u003cx:string,y:string\u003e, d: double, a: array\u003cint\u003e]\nSchema with array\nroot\n |-- id: integer (nullable \u003d true)\n |-- s1: struct (nullable \u003d true)\n |    |-- x: string (nullable \u003d true)\n |    |-- y: string (nullable \u003d true)\n |-- d: double (nullable \u003d true)\n |-- a: array (nullable \u003d true)\n |    |-- element: integer (containsNull \u003d true)\n\nDataFrame with array\n+---+-----+---+---------+\n| id|   s1|  d|        a|\n+---+-----+---+---------+\n|  1|[a,b]|8.0|   [1, 2]|\n|  2|[c,d]|9.0|[3, 4, 5]|\n+---+-----+---+---------+\n\nCount elements of each array in the column\n+---+-----+\n| id|count|\n+---+-----+\n|  1|    2|\n|  2|    3|\n+---+-----+\n\nExplode the array elements out into additional rows\n+---+-------+\n| id|element|\n+---+-------+\n|  1|      1|\n|  1|      2|\n|  2|      3|\n|  2|      4|\n|  2|      5|\n+---+-------+\n\nApply a membership test to each array in a column\n+---+-----+\n| id| has2|\n+---+-----+\n|  1| true|\n|  2|false|\n+---+-----+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 7:40:51 PM",
+      "dateStarted": "Feb 12, 2016 3:37:37 PM",
+      "dateFinished": "Feb 12, 2016 3:37:42 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    println(\"Use column function getItem() to index into array when selecting\")\n    df2.select($\"id\", $\"a\".getItem(2)).show()",
+      "dateUpdated": "Feb 12, 2016 3:37:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453491840343_-70288782",
+      "id": "20160122-194400_58787406",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Use column function getItem() to index into array when selecting\n+---+----+\n| id|a[2]|\n+---+----+\n|  1|null|\n|  2|   5|\n+---+----+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 7:44:00 PM",
+      "dateStarted": "Feb 12, 2016 3:37:48 PM",
+      "dateFinished": "Feb 12, 2016 3:37:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    // Example 3: MapType\n    //\n\n    val rows3 \u003d Seq(\n      Row(1, 8.00, Map(\"u\" -\u003e 1,\"v\" -\u003e 2)),\n      Row(2, 9.00, Map(\"x\" -\u003e 3, \"y\" -\u003e 4, \"z\" -\u003e 5))\n    )\n    val rows3Rdd \u003d sc.parallelize(rows3, 4)\n\n    val schema3 \u003d StructType(\n      Seq(\n        StructField(\"id\", IntegerType, true),\n        StructField(\"d\", DoubleType, true),\n        StructField(\"m\", MapType(StringType, IntegerType))\n      )\n    )\n    val df3 \u003d sqlContext.createDataFrame(rows3Rdd, schema3)\n\n    println(\"Schema with map\")\n    df3.printSchema()\n\n    println(\"DataFrame with map\")\n    df3.show()\n    \n    println(\"Count elements of each map in the column\")\n    df3.select($\"id\", size($\"m\").as(\"count\")).show()",
+      "dateUpdated": "Feb 12, 2016 3:37:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453491953687_1148781269",
+      "id": "20160122-194553_240856339",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "rows3: Seq[org.apache.spark.sql.Row] \u003d List([1,8.0,Map(u -\u003e 1, v -\u003e 2)], [2,9.0,Map(x -\u003e 3, y -\u003e 4, z -\u003e 5)])\nrows3Rdd: org.apache.spark.rdd.RDD[org.apache.spark.sql.Row] \u003d ParallelCollectionRDD[77] at parallelize at \u003cconsole\u003e:37\nschema3: org.apache.spark.sql.types.StructType \u003d StructType(StructField(id,IntegerType,true), StructField(d,DoubleType,true), StructField(m,MapType(StringType,IntegerType,true),true))\ndf3: org.apache.spark.sql.DataFrame \u003d [id: int, d: double, m: map\u003cstring,int\u003e]\nSchema with map\nroot\n |-- id: integer (nullable \u003d true)\n |-- d: double (nullable \u003d true)\n |-- m: map (nullable \u003d true)\n |    |-- key: string\n |    |-- value: integer (valueContainsNull \u003d true)\n\nDataFrame with map\n+---+---+--------------------+\n| id|  d|                   m|\n+---+---+--------------------+\n|  1|8.0| Map(u -\u003e 1, v -\u003e 2)|\n|  2|9.0|Map(x -\u003e 3, y -\u003e ...|\n+---+---+--------------------+\n\nCount elements of each map in the column\n+---+-----+\n| id|count|\n+---+-----+\n|  1|    2|\n|  2|    3|\n+---+-----+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 7:45:53 PM",
+      "dateStarted": "Feb 12, 2016 3:37:57 PM",
+      "dateFinished": "Feb 12, 2016 3:38:01 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    // notice you get one column from the keys and one from the values\n    println(\"Explode the map elements out into additional rows\")\n    df3.select($\"id\", explode($\"m\")).show()\n\n    // MapType is actually a more flexible version of StructType, since you\n    // can select down into fields within a column, and the rows where\n    // an element is missing just return a null\n    println(\"Select deep into the column with a Map\")\n    df3.select($\"id\", $\"m.u\").show()\n\n    println(\"The column function getItem() seems to be the \u0027right\u0027 way\")\n    df3.select($\"id\", $\"m\".getItem(\"u\")).show()",
+      "dateUpdated": "Feb 12, 2016 3:38:08 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453492050696_-1588260586",
+      "id": "20160122-194730_2123725573",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Explode the map elements out into additional rows\n+---+---+---+\n| id|_c0|_c1|\n+---+---+---+\n|  1|  u|  1|\n|  1|  v|  2|\n|  2|  x|  3|\n|  2|  y|  4|\n|  2|  z|  5|\n+---+---+---+\n\nSelect deep into the column with a Map\n+---+----+\n| id|   u|\n+---+----+\n|  1|   1|\n|  2|null|\n+---+----+\n\nThe column function getItem() seems to be the \u0027right\u0027 way\n+---+----+\n| id|m[u]|\n+---+----+\n|  1|   1|\n|  2|null|\n+---+----+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 7:47:30 PM",
+      "dateStarted": "Feb 12, 2016 3:38:08 PM",
+      "dateFinished": "Feb 12, 2016 3:38:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import java.sql.{Timestamp, Date}\n\n\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.functions._\n\n    val schema \u003d StructType(\n      Seq(\n        StructField(\"id\", IntegerType, true),\n        StructField(\"dt\", DateType, true),\n        StructField(\"ts\", TimestampType, true)\n      )\n    )\n    val rows \u003d sc.parallelize(\n      Seq(\n        Row(\n          1,\n          Date.valueOf(\"1999-01-11\"),\n          Timestamp.valueOf(\"2011-10-02 09:48:05.123456\")\n        ),\n        Row(\n          2,\n          Date.valueOf(\"2004-04-14\"),\n          Timestamp.valueOf(\"2011-10-02 12:30:00.123456\")\n        ),\n        Row(\n          3,\n          Date.valueOf(\"2008-12-31\"),\n          Timestamp.valueOf(\"2011-10-02 15:00:00.123456\")\n        )\n      ), 4)\n    val tdf \u003d sqlContext.createDataFrame(rows, schema)\n\n    println(\"DataFrame with both DateType and TimestampType\")\n    tdf.show()\n    \n    println(\"Pull a DateType apart when querying\")\n    tdf.select($\"dt\", year($\"dt\"), quarter($\"dt\"), month($\"dt\"),\n                weekofyear($\"dt\"), dayofyear($\"dt\"), dayofmonth($\"dt\")).show()\n",
+      "dateUpdated": "Feb 12, 2016 3:38:19 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453492092777_-1708809586",
+      "id": "20160122-194812_563253498",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import java.sql.{Timestamp, Date}\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.functions._\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(id,IntegerType,true), StructField(dt,DateType,true), StructField(ts,TimestampType,true))\nrows: org.apache.spark.rdd.RDD[org.apache.spark.sql.Row] \u003d ParallelCollectionRDD[95] at parallelize at \u003cconsole\u003e:45\ntdf: org.apache.spark.sql.DataFrame \u003d [id: int, dt: date, ts: timestamp]\nDataFrame with both DateType and TimestampType\n+---+----------+--------------------+\n| id|        dt|                  ts|\n+---+----------+--------------------+\n|  1|1999-01-11|2011-10-02 09:48:...|\n|  2|2004-04-14|2011-10-02 12:30:...|\n|  3|2008-12-31|2011-10-02 15:00:...|\n+---+----------+--------------------+\n\nPull a DateType apart when querying\n+----------+--------+-----------+---------+--------------+-------------+--------------+\n|        dt|year(dt)|quarter(dt)|month(dt)|weekofyear(dt)|dayofyear(dt)|dayofmonth(dt)|\n+----------+--------+-----------+---------+--------------+-------------+--------------+\n|1999-01-11|    1999|          1|        1|             2|           11|            11|\n|2004-04-14|    2004|          2|        4|            16|          105|            14|\n|2008-12-31|    2008|          4|       12|             1|          366|            31|\n+----------+--------+-----------+---------+--------------+-------------+--------------+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 7:48:12 PM",
+      "dateStarted": "Feb 12, 2016 3:38:19 PM",
+      "dateFinished": "Feb 12, 2016 3:38:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\n    println(\"Date arithmetic\")\n    tdf.select($\"dt\", datediff(current_date(), $\"dt\"),\n                      date_sub($\"dt\", 20),\n                      date_add($\"dt\", 10),\n                      add_months($\"dt\", 6)).show()\n                      \n    \n    println(\"Date truncation\")\n    tdf.select($\"dt\", trunc($\"dt\", \"YYYY\"), trunc($\"dt\", \"YY\"),\n                      trunc($\"dt\", \"MM\")).show()\n   println(\"Date formatting\")\n    tdf.select($\"dt\", date_format($\"dt\", \"MMM dd, YYYY\")).show()\n\n    println(\"Pull a Timestamp type apart when querying\")\n    tdf.select($\"ts\", year($\"ts\"), hour($\"ts\"), minute($\"ts\"), second($\"ts\")).show()\n    \n    println(\"Pull a Timestamp apart when querying\")\n    tdf.select($\"ts\", year($\"ts\"), quarter($\"ts\"), month($\"ts\"),\n                weekofyear($\"ts\"), dayofyear($\"ts\"), dayofmonth($\"ts\")).show()",
+      "dateUpdated": "Feb 12, 2016 3:38:32 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453492260199_1520280664",
+      "id": "20160122-195100_600470671",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Date arithmetic\n+----------+--------------------------+--------------+--------------+---------------+\n|        dt|datediff(currentdate(),dt)|datesub(dt,20)|dateadd(dt,10)|addmonths(dt,6)|\n+----------+--------------------------+--------------+--------------+---------------+\n|1999-01-11|                      6241|    1998-12-22|    1999-01-21|     1999-07-11|\n|2004-04-14|                      4321|    2004-03-25|    2004-04-24|     2004-10-14|\n|2008-12-31|                      2599|    2008-12-11|    2009-01-10|     2009-06-30|\n+----------+--------------------------+--------------+--------------+---------------+\n\nDate truncation\n+----------+--------------+------------+------------+\n|        dt|trunc(dt,YYYY)|trunc(dt,YY)|trunc(dt,MM)|\n+----------+--------------+------------+------------+\n|1999-01-11|    1999-01-01|  1999-01-01|  1999-01-01|\n|2004-04-14|    2004-01-01|  2004-01-01|  2004-04-01|\n|2008-12-31|    2008-01-01|  2008-01-01|  2008-12-01|\n+----------+--------------+------------+------------+\n\nDate formatting\n+----------+----------------------------+\n|        dt|date_format(dt,MMM dd, YYYY)|\n+----------+----------------------------+\n|1999-01-11|                Jan 11, 1999|\n|2004-04-14|                Apr 14, 2004|\n|2008-12-31|                Dec 31, 2009|\n+----------+----------------------------+\n\nPull a Timestamp type apart when querying\n+--------------------+--------+--------+----------+----------+\n|                  ts|year(ts)|hour(ts)|minute(ts)|second(ts)|\n+--------------------+--------+--------+----------+----------+\n|2011-10-02 09:48:...|    2011|       9|        48|         5|\n|2011-10-02 12:30:...|    2011|      12|        30|         0|\n|2011-10-02 15:00:...|    2011|      15|         0|         0|\n+--------------------+--------+--------+----------+----------+\n\nPull a Timestamp apart when querying\n+--------------------+--------+-----------+---------+--------------+-------------+--------------+\n|                  ts|year(ts)|quarter(ts)|month(ts)|weekofyear(ts)|dayofyear(ts)|dayofmonth(ts)|\n+--------------------+--------+-----------+---------+--------------+-------------+--------------+\n|2011-10-02 09:48:...|    2011|          4|       10|            39|          275|             2|\n|2011-10-02 12:30:...|    2011|          4|       10|            39|          275|             2|\n|2011-10-02 15:00:...|    2011|          4|       10|            39|          275|             2|\n+--------------------+--------+-----------+---------+--------------+-------------+--------------+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 7:51:00 PM",
+      "dateStarted": "Feb 12, 2016 3:38:32 PM",
+      "dateFinished": "Feb 12, 2016 3:38:36 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    val custs \u003d Seq(\n      (1, \"Widget Co\", 120000.00, 0.00, \"AZ\"),\n      (2, \"Acme Widgets\", 410500.00, 500.00, \"CA\"),\n      (3, \"Widgetry\", 410500.00, 200.00, \"CA\"),\n      (4, \"Widgets R Us\", 410500.00, 0.0, \"CA\"),\n      (3, \"Widgetry\", 410500.00, 200.00, \"CA\"),\n      (5, \"Ye Olde Widgete\", 500.00, 0.0, \"MA\"),\n      (6, \"Widget Co\", 12000.00, 10.00, \"AZ\")\n    )\n    val customerRows \u003d sc.parallelize(custs, 4)\n\n    // convert RDD of tuples to DataFrame by supplying column names\n    val customerDF \u003d customerRows.toDF(\"id\", \"name\", \"sales\", \"discount\", \"state\")\n\n    println(\"*** Here\u0027s the whole DataFrame with duplicates\")\n\n    customerDF.printSchema()\n\n    customerDF.show()\n\n    // drop fully identical rows\n    val withoutDuplicates \u003d customerDF.dropDuplicates()\n\n    println(\"*** Now without duplicates\")\n\n    withoutDuplicates.show()\n\n    // drop fully identical rows\n    val withoutPartials \u003d customerDF.dropDuplicates(Seq(\"name\", \"state\"))\n\n    println(\"*** Now without partial duplicates too\")\n\n    withoutPartials.show()",
+      "dateUpdated": "Feb 12, 2016 3:38:44 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453492454888_-740828970",
+      "id": "20160122-195414_718550033",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "custs: Seq[(Int, String, Double, Double, String)] \u003d List((1,Widget Co,120000.0,0.0,AZ), (2,Acme Widgets,410500.0,500.0,CA), (3,Widgetry,410500.0,200.0,CA), (4,Widgets R Us,410500.0,0.0,CA), (3,Widgetry,410500.0,200.0,CA), (5,Ye Olde Widgete,500.0,0.0,MA), (6,Widget Co,12000.0,10.0,AZ))\ncustomerRows: org.apache.spark.rdd.RDD[(Int, String, Double, Double, String)] \u003d ParallelCollectionRDD[116] at parallelize at \u003cconsole\u003e:47\ncustomerDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, sales: double, discount: double, state: string]\n*** Here\u0027s the whole DataFrame with duplicates\nroot\n |-- id: integer (nullable \u003d false)\n |-- name: string (nullable \u003d true)\n |-- sales: double (nullable \u003d false)\n |-- discount: double (nullable \u003d false)\n |-- state: string (nullable \u003d true)\n\n+---+---------------+--------+--------+-----+\n| id|           name|   sales|discount|state|\n+---+---------------+--------+--------+-----+\n|  1|      Widget Co|120000.0|     0.0|   AZ|\n|  2|   Acme Widgets|410500.0|   500.0|   CA|\n|  3|       Widgetry|410500.0|   200.0|   CA|\n|  4|   Widgets R Us|410500.0|     0.0|   CA|\n|  3|       Widgetry|410500.0|   200.0|   CA|\n|  5|Ye Olde Widgete|   500.0|     0.0|   MA|\n|  6|      Widget Co| 12000.0|    10.0|   AZ|\n+---+---------------+--------+--------+-----+\n\nwithoutDuplicates: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, sales: double, discount: double, state: string]\n*** Now without duplicates\n+---+---------------+--------+--------+-----+\n| id|           name|   sales|discount|state|\n+---+---------------+--------+--------+-----+\n|  1|      Widget Co|120000.0|     0.0|   AZ|\n|  5|Ye Olde Widgete|   500.0|     0.0|   MA|\n|  6|      Widget Co| 12000.0|    10.0|   AZ|\n|  3|       Widgetry|410500.0|   200.0|   CA|\n|  4|   Widgets R Us|410500.0|     0.0|   CA|\n|  2|   Acme Widgets|410500.0|   500.0|   CA|\n+---+---------------+--------+--------+-----+\n\nwithoutPartials: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, sales: double, discount: double, state: string]\n*** Now without partial duplicates too\n+---+---------------+--------+--------+-----+\n| id|           name|   sales|discount|state|\n+---+---------------+--------+--------+-----+\n|  5|Ye Olde Widgete|   500.0|     0.0|   MA|\n|  3|       Widgetry|410500.0|   200.0|   CA|\n|  1|      Widget Co|120000.0|     0.0|   AZ|\n|  4|   Widgets R Us|410500.0|     0.0|   CA|\n|  2|   Acme Widgets|410500.0|   500.0|   CA|\n+---+---------------+--------+--------+-----+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 7:54:14 PM",
+      "dateStarted": "Feb 12, 2016 3:38:44 PM",
+      "dateFinished": "Feb 12, 2016 3:38:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    // groupBy() produces a GroupedData, and you can\u0027t do much with\n    // one of those other than aggregate it -- you can\u0027t even print it\n\n    // basic form of aggregation assigns a function to\n    // each non-grouped column -- you map each column you want\n    // aggregated to the name of the aggregation function you want\n    // to use\n    //\n    // automatically includes grouping columns in the DataFrame\n\n    sqlContext.setConf(\"spark.sql.retainGroupColumns\", \"true\")\n    println(\"*** basic form of aggregation\")\n    customerDF.groupBy(\"state\").agg(\"discount\" -\u003e \"max\").show()\n\n    // you can turn of grouping columns using the SQL context\u0027s\n    // configuration properties\n\n    println(\"*** this time without grouping columns\")\n    sqlContext.setConf(\"spark.sql.retainGroupColumns\", \"false\")\n    customerDF.groupBy(\"state\").agg(\"discount\" -\u003e \"max\").show()\n    \n    \n    //\n    // When you use $\"somestring\" to refer to column names, you use the\n    // very flexible column-based version of aggregation, allowing you to make\n    // full use of the DSL defined in org.apache.spark.sql.functions --\n    // this version doesn\u0027t automatically include the grouping column\n    // in the resulting DataFrame, so you have to add it yourself.\n    //\n    sqlContext.setConf(\"spark.sql.retainGroupColumns\", \"false\")\n    println(\"*** Column based aggregation\")\n    // you can use the Column object to specify aggregation\n    customerDF.groupBy(\"state\").agg(max($\"discount\")).show\n    \n    println(\"*** Column based aggregation plus grouping columns\")\n    // but this approach will skip the grouped columns if you don\u0027t name them\n    customerDF.groupBy(\"state\").agg($\"state\", max($\"discount\")).show()",
+      "dateUpdated": "Feb 12, 2016 3:38:59 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453494522438_557560945",
+      "id": "20160122-202842_1750013878",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "*** basic form of aggregation\n+-----+-------------+\n|state|max(discount)|\n+-----+-------------+\n|   AZ|         10.0|\n|   CA|        500.0|\n|   MA|          0.0|\n+-----+-------------+\n\n*** this time without grouping columns\n+-------------+\n|max(discount)|\n+-------------+\n|         10.0|\n|        500.0|\n|          0.0|\n+-------------+\n\n*** Column based aggregation\n+-------------+\n|max(discount)|\n+-------------+\n|         10.0|\n|        500.0|\n|          0.0|\n+-------------+\n\n*** Column based aggregation plus grouping columns\n+-----+-------------+\n|state|max(discount)|\n+-----+-------------+\n|   AZ|         10.0|\n|   CA|        500.0|\n|   MA|          0.0|\n+-----+-------------+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 8:28:42 PM",
+      "dateStarted": "Feb 12, 2016 3:38:59 PM",
+      "dateFinished": "Feb 12, 2016 3:39:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    // Think of this as a user-defined aggregation function -- written in terms\n    // of more primitive aggregations\n    def stddevFunc(c: Column): Column \u003d\n      sqrt(avg(c * c) - (avg(c) * avg(c)))\n\n    println(\"*** Sort-of a user-defined aggregation function\")\n    customerDF.groupBy(\"state\").agg($\"state\", stddevFunc($\"discount\")).show()\n\n    // there are some special short cuts on GroupedData to aggregate\n    // all numeric columns\n    println(\"*** Aggregation short cuts\")\n    customerDF.groupBy(\"state\").count().show()",
+      "dateUpdated": "Feb 12, 2016 3:39:14 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453495018309_1198656593",
+      "id": "20160122-203658_762394171",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "stddevFunc: (c: org.apache.spark.sql.Column)org.apache.spark.sql.Column\n*** Sort-of a user-defined aggregation function\n+-----+--------------------------------------------------------------------+\n|state|SQRT((avg((discount * discount)) - (avg(discount) * avg(discount))))|\n+-----+--------------------------------------------------------------------+\n|   AZ|                                                                 5.0|\n|   CA|                                                  178.53571071357126|\n|   MA|                                                                 0.0|\n+-----+--------------------------------------------------------------------+\n\n*** Aggregation short cuts\n+-----+\n|count|\n+-----+\n|    2|\n|    4|\n|    1|\n+-----+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 8:36:58 PM",
+      "dateStarted": "Feb 12, 2016 3:39:14 PM",
+      "dateFinished": "Feb 12, 2016 3:39:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "println(java.time.LocalDate.now,java.time.LocalTime.now)\nimport java.util.Calendar\nCalendar.getInstance.getTime\n\n    customerDF.getClass\n    customerDF.columns\n    customerDF.dtypes\n    customerDF.schema\n\n    val myFunc \u003d udf {(x: Double) \u003d\u003e x + 1}\n\n    // get the columns, having applied the UDF to the \"discount\" column and leaving the others as they were\n    val colNames \u003d customerDF.columns\n    val cols \u003d colNames.map(cName \u003d\u003e customerDF.col(cName))\n    cols.getClass\n    val theColumn \u003d customerDF(\"discount\")\n    theColumn.getClass\n    // I\u0027d like to find a \"better\" way to match the column but this works.\n    // Use as() to give the column a new name just because we can!\n    val mappedCols \u003d cols.map(c \u003d\u003e if (c.toString() \u003d\u003d theColumn.toString()) myFunc(c).as(\"transformed\") else c)\n\n    // use select() to produce the new DataFrame\n    val newDF \u003d customerDF.select(mappedCols:_*)\n    newDF.show()\n\n    println(\"*** print in JSON format\")    \n    newDF.toJSON.first()\n\n    println(\"*** Describe the DF\")\n    newDF.explain(extended\u003dtrue)\n\n    println(\"*** Run a explain plan executed by Spark\")    \n    newDF.explain(extended\u003dtrue)\n    ",
+      "dateUpdated": "Feb 12, 2016 3:39:24 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453495392310_784232242",
+      "id": "20160122-204312_773742146",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "(2016-02-12,15:39:24.659)\nimport java.util.Calendar\nres266: java.util.Date \u003d Fri Feb 12 15:39:25 EST 2016\nres268: Class[_ \u003c: org.apache.spark.sql.DataFrame] \u003d class org.apache.spark.sql.DataFrame\nres269: Array[String] \u003d Array(id, name, sales, discount, state)\nres270: Array[(String, String)] \u003d Array((id,IntegerType), (name,StringType), (sales,DoubleType), (discount,DoubleType), (state,StringType))\nres271: org.apache.spark.sql.types.StructType \u003d StructType(StructField(id,IntegerType,false), StructField(name,StringType,true), StructField(sales,DoubleType,false), StructField(discount,DoubleType,false), StructField(state,StringType,true))\nmyFunc: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction1\u003e,DoubleType,List(DoubleType))\ncolNames: Array[String] \u003d Array(id, name, sales, discount, state)\ncols: Array[org.apache.spark.sql.Column] \u003d Array(id, name, sales, discount, state)\nres275: Class[_ \u003c: Array[org.apache.spark.sql.Column]] \u003d class [Lorg.apache.spark.sql.Column;\ntheColumn: org.apache.spark.sql.Column \u003d discount\nres276: Class[_ \u003c: org.apache.spark.sql.Column] \u003d class org.apache.spark.sql.Column\nmappedCols: Array[org.apache.spark.sql.Column] \u003d Array(id, name, sales, UDF(discount) AS transformed#151, state)\nnewDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, sales: double, transformed: double, state: string]\n+---+---------------+--------+-----------+-----+\n| id|           name|   sales|transformed|state|\n+---+---------------+--------+-----------+-----+\n|  1|      Widget Co|120000.0|        1.0|   AZ|\n|  2|   Acme Widgets|410500.0|      501.0|   CA|\n|  3|       Widgetry|410500.0|      201.0|   CA|\n|  4|   Widgets R Us|410500.0|        1.0|   CA|\n|  3|       Widgetry|410500.0|      201.0|   CA|\n|  5|Ye Olde Widgete|   500.0|        1.0|   MA|\n|  6|      Widget Co| 12000.0|       11.0|   AZ|\n+---+---------------+--------+-----------+-----+\n\n*** print in JSON format\nres284: String \u003d {\"id\":1,\"name\":\"Widget Co\",\"sales\":120000.0,\"transformed\":1.0,\"state\":\"AZ\"}\n*** Describe the DF\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nProject [id#85,name#86,sales#87,UDF(discount#88) AS transformed#151,state#89]\n Project [_1#80 AS id#85,_2#81 AS name#86,_3#82 AS sales#87,_4#83 AS discount#88,_5#84 AS state#89]\n  LogicalRDD [_1#80,_2#81,_3#82,_4#83,_5#84], MapPartitionsRDD[117] at rddToDataFrameHolder at \u003cconsole\u003e:51\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: int, name: string, sales: double, transformed: double, state: string\nProject [id#85,name#86,sales#87,UDF(discount#88) AS transformed#151,state#89]\n Project [_1#80 AS id#85,_2#81 AS name#86,_3#82 AS sales#87,_4#83 AS discount#88,_5#84 AS state#89]\n  LogicalRDD [_1#80,_2#81,_3#82,_4#83,_5#84], MapPartitionsRDD[117] at rddToDataFrameHolder at \u003cconsole\u003e:51\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [_1#80 AS id#85,_2#81 AS name#86,_3#82 AS sales#87,UDF(_4#83) AS transformed#151,_5#84 AS state#89]\n LogicalRDD [_1#80,_2#81,_3#82,_4#83,_5#84], MapPartitionsRDD[117] at rddToDataFrameHolder at \u003cconsole\u003e:51\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [_1#80 AS id#85,_2#81 AS name#86,_3#82 AS sales#87,UDF(_4#83) AS transformed#151,_5#84 AS state#89]\n Scan PhysicalRDD[_1#80,_2#81,_3#82,_4#83,_5#84]\n\nCode Generation: true\n*** Run a explain plan executed by Spark\n\u003d\u003d Parsed Logical Plan \u003d\u003d\nProject [id#85,name#86,sales#87,UDF(discount#88) AS transformed#151,state#89]\n Project [_1#80 AS id#85,_2#81 AS name#86,_3#82 AS sales#87,_4#83 AS discount#88,_5#84 AS state#89]\n  LogicalRDD [_1#80,_2#81,_3#82,_4#83,_5#84], MapPartitionsRDD[117] at rddToDataFrameHolder at \u003cconsole\u003e:51\n\n\u003d\u003d Analyzed Logical Plan \u003d\u003d\nid: int, name: string, sales: double, transformed: double, state: string\nProject [id#85,name#86,sales#87,UDF(discount#88) AS transformed#151,state#89]\n Project [_1#80 AS id#85,_2#81 AS name#86,_3#82 AS sales#87,_4#83 AS discount#88,_5#84 AS state#89]\n  LogicalRDD [_1#80,_2#81,_3#82,_4#83,_5#84], MapPartitionsRDD[117] at rddToDataFrameHolder at \u003cconsole\u003e:51\n\n\u003d\u003d Optimized Logical Plan \u003d\u003d\nProject [_1#80 AS id#85,_2#81 AS name#86,_3#82 AS sales#87,UDF(_4#83) AS transformed#151,_5#84 AS state#89]\n LogicalRDD [_1#80,_2#81,_3#82,_4#83,_5#84], MapPartitionsRDD[117] at rddToDataFrameHolder at \u003cconsole\u003e:51\n\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [_1#80 AS id#85,_2#81 AS name#86,_3#82 AS sales#87,UDF(_4#83) AS transformed#151,_5#84 AS state#89]\n Scan PhysicalRDD[_1#80,_2#81,_3#82,_4#83,_5#84]\n\nCode Generation: true\n"
+      },
+      "dateCreated": "Jan 22, 2016 8:43:12 PM",
+      "dateStarted": "Feb 12, 2016 3:39:24 PM",
+      "dateFinished": "Feb 12, 2016 3:39:32 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453687967205_-256597222",
+      "id": "20160125-021247_1210254442",
+      "dateCreated": "Jan 25, 2016 2:12:47 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_DFBasics",
+  "id": "2BACUPT3J",
+  "angularObjects": {
+    "2BCRC6M19": [],
+    "2BANG2RG8": [],
+    "2BACPWMUG": [],
+    "2BBBRWT9Q": [],
+    "2BE76JS7C": [],
+    "2BD2FRUTX": [],
+    "2BB4WQTX8": [],
+    "2BD4NNXC9": [],
+    "2BBHZKNQU": [],
+    "2BC7YE4AV": [],
+    "2BDP5QWCV": [],
+    "2BE1GD93Y": [],
+    "2BD1XTDGP": [],
+    "2BE9MUD1W": []
+  },
+  "config": {},
+  "info": {}
+}

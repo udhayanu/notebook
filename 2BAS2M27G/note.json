@@ -1,0 +1,729 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n### Examples for Learning Spark\n#### Examples for the Learning Spark book. These examples require a number of libraries and as such have long build files. We have also added a stand alone example with minimal dependencies and a small build file in the mini-complete-example directory.\n\n#### These examples have been updated to run against Spark 1.3 so they may be slightly different than the versions in your copy of \"Learning Spark\".\n### Requirements\n* JDK 1.7 or higher\n* Scala 2.10.3\n* scala-lang.org\n* Spark 1.3 or higher\n* Protobuf compiler\n* On debian you can install with sudo apt-get install protobuf-compiler\n* R \u0026 the CRAN package Imap are required for the ChapterSixExample\n* The Python examples require urllib3",
+      "dateUpdated": "Jan 22, 2016 1:34:09 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453469544248_-1506485867",
+      "id": "20160122-133224_2123293476",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eExamples for Learning Spark\u003c/h3\u003e\n\u003ch4\u003eExamples for the Learning Spark book. These examples require a number of libraries and as such have long build files. We have also added a stand alone example with minimal dependencies and a small build file in the mini-complete-example directory.\u003c/h4\u003e\n\u003ch4\u003eThese examples have been updated to run against Spark 1.3 so they may be slightly different than the versions in your copy of \u0026ldquo;Learning Spark\u0026rdquo;.\u003c/h4\u003e\n\u003ch3\u003eRequirements\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003eJDK 1.7 or higher\u003c/li\u003e\n\u003cli\u003eScala 2.10.3\u003c/li\u003e\n\u003cli\u003escala-lang.org\u003c/li\u003e\n\u003cli\u003eSpark 1.3 or higher\u003c/li\u003e\n\u003cli\u003eProtobuf compiler\u003c/li\u003e\n\u003cli\u003eOn debian you can install with sudo apt-get install protobuf-compiler\u003c/li\u003e\n\u003cli\u003eR \u0026amp; the CRAN package Imap are required for the ChapterSixExample\u003c/li\u003e\n\u003cli\u003eThe Python examples require urllib3\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Jan 22, 2016 1:32:24 PM",
+      "dateStarted": "Jan 22, 2016 1:34:08 PM",
+      "dateFinished": "Jan 22, 2016 1:34:08 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// put some data in an RDD\n    val numbers \u003d 1 to 10\n    val numbersRDD \u003d sc.parallelize(numbers, 4)\n    println(\"Print each element of the original RDD\")\n    numbersRDD.collect.foreach(println)\n    // trivially operate on the numbers\n    val stillAnRDD \u003d numbersRDD.map(n \u003d\u003e n.toDouble / 10)\n    // get the data back out\n    val nowAnArray \u003d stillAnRDD.collect()\n    // interesting how the array comes out sorted but the RDD didn\u0027t\n    println(\"Now print each element of the transformed array\")\n    nowAnArray.foreach(println)",
+      "dateUpdated": "Jan 22, 2016 2:38:20 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453469601456_1044307395",
+      "id": "20160122-133321_1561506083",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "numbers: scala.collection.immutable.Range.Inclusive \u003d Range(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nnumbersRDD: org.apache.spark.rdd.RDD[Int] \u003d ParallelCollectionRDD[16] at parallelize at \u003cconsole\u003e:25\nPrint each element of the original RDD\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\nstillAnRDD: org.apache.spark.rdd.RDD[Double] \u003d MapPartitionsRDD[17] at map at \u003cconsole\u003e:28\nnowAnArray: Array[Double] \u003d Array(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)\nNow print each element of the transformed array\n0.1\n0.2\n0.3\n0.4\n0.5\n0.6\n0.7\n0.8\n0.9\n1.0\n"
+      },
+      "dateCreated": "Jan 22, 2016 1:33:21 PM",
+      "dateStarted": "Jan 22, 2016 2:38:20 PM",
+      "dateFinished": "Jan 22, 2016 2:38:21 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// explore RDD properties\n    val partitions \u003d stillAnRDD.glom()\n    println(\"We _should_ have 4 partitions\")\n    println(partitions.count())\n    stillAnRDD.glom().collect()\n    \n    partitions.foreach(a \u003d\u003e {\n      println(\"Partition contents:\" +\n        a.foldLeft(\"\")((s, e) \u003d\u003e s + \" \" + e))\n    })\n",
+      "dateUpdated": "Jan 22, 2016 2:41:12 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453473400926_1613927283",
+      "id": "20160122-143640_657931257",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "partitions: org.apache.spark.rdd.RDD[Array[Double]] \u003d MapPartitionsRDD[25] at glom at \u003cconsole\u003e:30\nWe _should_ have 4 partitions\n4\nres82: Array[Array[Double]] \u003d Array(Array(0.1, 0.2), Array(0.3, 0.4, 0.5), Array(0.6, 0.7), Array(0.8, 0.9, 1.0))\n"
+      },
+      "dateCreated": "Jan 22, 2016 2:36:40 PM",
+      "dateStarted": "Jan 22, 2016 2:41:12 PM",
+      "dateFinished": "Jan 22, 2016 2:41:12 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val partitions \u003d stillAnRDD.glom()\npartitions.toDebugString\npartitions.collect().foreach(a \u003d\u003e {println(\"Partition contents:\" +  a.foldLeft(\"\")((s, e) \u003d\u003e s + \" \" + e))  })",
+      "dateUpdated": "Jan 22, 2016 2:45:45 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453473523215_-890033883",
+      "id": "20160122-143843_435065145",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "partitions: org.apache.spark.rdd.RDD[Array[Double]] \u003d MapPartitionsRDD[27] at glom at \u003cconsole\u003e:29\nres115: String \u003d \n(4) MapPartitionsRDD[27] at glom at \u003cconsole\u003e:29 []\n |  MapPartitionsRDD[17] at map at \u003cconsole\u003e:28 []\n |  ParallelCollectionRDD[16] at parallelize at \u003cconsole\u003e:25 []\nPartition contents: 0.1 0.2\nPartition contents: 0.3 0.4 0.5\nPartition contents: 0.6 0.7\nPartition contents: 0.8 0.9 1.0\n"
+      },
+      "dateCreated": "Jan 22, 2016 2:38:43 PM",
+      "dateStarted": "Jan 22, 2016 2:45:45 PM",
+      "dateFinished": "Jan 22, 2016 2:45:46 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//-------------------------RDD Computations-----------------\nval numbers \u003d sc.parallelize(1 to 10, 4)\nval bigger \u003d numbers.map(n \u003d\u003e n * 100)\nval biggerStill \u003d bigger.map(n \u003d\u003e n + 1)\n\nprintln(\"Debug string for the RDD \u0027biggerStill\u0027\")\nprintln(biggerStill.toDebugString)\n\nval s \u003d biggerStill.reduce(_ + _)\n\nnumbers.glom.collect()\nbigger.glom.collect()\nbiggerStill.glom.collect()\nprintln(\"sum \u003d \" + s)",
+      "dateUpdated": "Jan 22, 2016 2:48:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453473679653_1931343481",
+      "id": "20160122-144119_2123680892",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "numbers: org.apache.spark.rdd.RDD[Int] \u003d ParallelCollectionRDD[35] at parallelize at \u003cconsole\u003e:24\nbigger: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[36] at map at \u003cconsole\u003e:25\nbiggerStill: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[37] at map at \u003cconsole\u003e:27\nDebug string for the RDD \u0027biggerStill\u0027\n(4) MapPartitionsRDD[37] at map at \u003cconsole\u003e:27 []\n |  MapPartitionsRDD[36] at map at \u003cconsole\u003e:25 []\n |  ParallelCollectionRDD[35] at parallelize at \u003cconsole\u003e:24 []\ns: Int \u003d 5510\nres141: Array[Array[Int]] \u003d Array(Array(1, 2), Array(3, 4, 5), Array(6, 7), Array(8, 9, 10))\nres142: Array[Array[Int]] \u003d Array(Array(100, 200), Array(300, 400, 500), Array(600, 700), Array(800, 900, 1000))\nres143: Array[Array[Int]] \u003d Array(Array(101, 201), Array(301, 401, 501), Array(601, 701), Array(801, 901, 1001))\nsum \u003d 5510\n"
+      },
+      "dateCreated": "Jan 22, 2016 2:41:19 PM",
+      "dateStarted": "Jan 22, 2016 2:48:46 PM",
+      "dateFinished": "Jan 22, 2016 2:48:46 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "println(\"IDs of the various RDDs\")\nprintln(\"numbers: id\u003d\" + numbers.id)\nprintln(\"bigger: id\u003d\" + bigger.id)\nprintln(\"biggerStill: id\u003d\" + biggerStill.id)\nprintln(\"dependencies working back from RDD \u0027biggerStill\u0027\")\n\n def showDep1[T](r: RDD[T], depth: Int) : Unit \u003d {\n    println(\"\".padTo(depth, \u0027 \u0027) + \"RDD id\u003d\" + r.id + \" RDD name\u003d\" + r.toString())\n    r.dependencies.foreach(dep \u003d\u003e {\n      showDep1(dep.rdd, depth + 1)\n    })\n  }\n  def showDep[T](r: RDD[T]) : Unit \u003d {\n    showDep1(r, 0)\n  }\n\nshowDep(biggerStill)\n",
+      "dateUpdated": "Jan 22, 2016 4:45:10 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453474072628_-1345779084",
+      "id": "20160122-144752_402565669",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "IDs of the various RDDs\nnumbers: id\u003d585\nbigger: id\u003d36\nbiggerStill: id\u003d37\ndependencies working back from RDD \u0027biggerStill\u0027\nshowDep1: [T](r: org.apache.spark.rdd.RDD[T], depth: Int)Unit\nshowDep: [T](r: org.apache.spark.rdd.RDD[T])Unit\nRDD id\u003d37 RDD name\u003dMapPartitionsRDD[37] at map at \u003cconsole\u003e:27\n RDD id\u003d36 RDD name\u003dMapPartitionsRDD[36] at map at \u003cconsole\u003e:25\n  RDD id\u003d35 RDD name\u003dParallelCollectionRDD[35] at parallelize at \u003cconsole\u003e:24\n"
+      },
+      "dateCreated": "Jan 22, 2016 2:47:52 PM",
+      "dateStarted": "Jan 22, 2016 4:45:10 PM",
+      "dateFinished": "Jan 22, 2016 4:45:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val moreNumbers \u003d bigger ++ biggerStill\nmoreNumbers.glom.collect()\nprintln(\"The RDD \u0027moreNumbers\u0027 has more complex dependencies\")\nprintln(moreNumbers.toDebugString)\nprintln(\"moreNumbers: id\u003d\" + moreNumbers.id)\n\n  ",
+      "dateUpdated": "Jan 22, 2016 3:14:44 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453475085790_-629925014",
+      "id": "20160122-150445_1416964807",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "moreNumbers: org.apache.spark.rdd.RDD[Int] \u003d UnionRDD[44] at $plus$plus at \u003cconsole\u003e:42\nres219: Array[Array[Int]] \u003d Array(Array(100, 200), Array(300, 400, 500), Array(600, 700), Array(800, 900, 1000), Array(101, 201), Array(301, 401, 501), Array(601, 701), Array(801, 901, 1001))\nThe RDD \u0027moreNumbers\u0027 has more complex dependencies\n(8) UnionRDD[44] at $plus$plus at \u003cconsole\u003e:42 []\n |  MapPartitionsRDD[36] at map at \u003cconsole\u003e:25 []\n |  ParallelCollectionRDD[35] at parallelize at \u003cconsole\u003e:24 []\n |  MapPartitionsRDD[37] at map at \u003cconsole\u003e:27 []\n |  MapPartitionsRDD[36] at map at \u003cconsole\u003e:25 []\n |  ParallelCollectionRDD[35] at parallelize at \u003cconsole\u003e:24 []\nmoreNumbers: id\u003d44\n"
+      },
+      "dateCreated": "Jan 22, 2016 3:04:45 PM",
+      "dateStarted": "Jan 22, 2016 3:14:44 PM",
+      "dateFinished": "Jan 22, 2016 3:14:44 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "println(\"has RDD \u0027moreNumbers\u0027 been checkpointed? : \" + moreNumbers.isCheckpointed)\n// set moreNumbers up to be checkpointed\nsc.setCheckpointDir(\"/tmp/sparkcps\")\nmoreNumbers.checkpoint()\n// it will only happen after we force the values to be computed\nprintln(\"NOW has it been checkpointed? : \" + moreNumbers.isCheckpointed)\nmoreNumbers.count()\nprintln(\"NOW has it been checkpointed? : \" + moreNumbers.isCheckpointed)\nprintln(moreNumbers.toDebugString)\n\n// again, calculations are not done until strictly necessary\nprintln(\"this shouldn\u0027t throw an exception\")\nval thisWillBlowUp \u003d numbers map {\n  case (7) \u003d\u003e { throw new Exception }\n  case (n) \u003d\u003e n\n}\n// notice it didn\u0027t blow up yet even though there\u0027s a 7\nprintln(\"the exception should get thrown now\")\ntry {\n  println(thisWillBlowUp.count())\n} catch {\n  case (e: Exception) \u003d\u003e println(\"Yep, it blew up now\")\n}\n",
+      "dateUpdated": "Jan 22, 2016 3:20:53 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453475207515_1758027519",
+      "id": "20160122-150647_1530636308",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "has RDD \u0027moreNumbers\u0027 been checkpointed? : false\nNOW has it been checkpointed? : false\nres285: Long \u003d 20\nNOW has it been checkpointed? : false\n(8) UnionRDD[44] at $plus$plus at \u003cconsole\u003e:42 []\n |  MapPartitionsRDD[36] at map at \u003cconsole\u003e:25 []\n |  ParallelCollectionRDD[35] at parallelize at \u003cconsole\u003e:24 []\n |  MapPartitionsRDD[37] at map at \u003cconsole\u003e:27 []\n |  MapPartitionsRDD[36] at map at \u003cconsole\u003e:25 []\n |  ParallelCollectionRDD[35] at parallelize at \u003cconsole\u003e:24 []\nthis shouldn\u0027t throw an exception\nthisWillBlowUp: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[47] at map at \u003cconsole\u003e:38\nthe exception should get thrown now\nYep, it blew up now\n"
+      },
+      "dateCreated": "Jan 22, 2016 3:06:47 PM",
+      "dateStarted": "Jan 22, 2016 3:20:53 PM",
+      "dateFinished": "Jan 22, 2016 3:20:54 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\n\nls -al /tmp/sparkcps\nls -al /tmp/sparkcps/bd6a7518*\n",
+      "dateUpdated": "Jan 22, 2016 3:17:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453475715775_-42489540",
+      "id": "20160122-151515_1278895854",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "total 28\ndrwxr-xr-x  7 root root 4096 Jan 22 15:17 .\ndrwxrwxrwt 19 root root 4096 Jan 22 15:15 ..\ndrwxr-xr-x  2 root root 4096 Jan 22 15:15 224155d3-135c-4fab-8a9a-afc5929cc23a\ndrwxr-xr-x  2 root root 4096 Jan 22 15:16 3f70c69b-ff3f-465e-8367-a8520cbab1f9\ndrwxr-xr-x  2 root root 4096 Jan 22 15:15 59e9b44a-f49b-4292-a425-03a4d145afdd\ndrwxr-xr-x  2 root root 4096 Jan 22 15:17 ab81094b-ee8a-4811-b8fb-f1e78543a1e1\ndrwxr-xr-x  2 root root 4096 Jan 22 15:15 bd6a7518-6ae8-4894-9490-49335478ce7e\ntotal 8\ndrwxr-xr-x 2 root root 4096 Jan 22 15:15 .\ndrwxr-xr-x 7 root root 4096 Jan 22 15:17 ..\n"
+      },
+      "dateCreated": "Jan 22, 2016 3:15:15 PM",
+      "dateStarted": "Jan 22, 2016 3:17:56 PM",
+      "dateFinished": "Jan 22, 2016 3:17:56 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//-------------------------RDD-Combining RDDs-----------------\n// put some data in an RDD\nval letters \u003d sc.parallelize(\u0027a\u0027 to \u0027z\u0027, 8)\n\n// another RDD of the same type\nval vowels \u003d sc.parallelize(Seq(\u0027a\u0027, \u0027e\u0027, \u0027i\u0027, \u0027o\u0027, \u0027u\u0027), 4)\n\n// subtract one from another, getting yet another RDD of the same type\n    val consonants \u003d letters.subtract(vowels)         //  SUBTRACT\n    println(\"There are \" + letters.count() + \" letters\")\n    letters.glom.collect()\n    vowels.glom.collect()\n    consonants.glom.collect()\n    println(\"There are \" + consonants.count() + \" consonants\")\n    \n    val vowelsNotLetters \u003d vowels.subtract(letters)\n    println(\"There are \" + vowelsNotLetters.count() + \" vowels that aren\u0027t letters\")\n\n\n// union\n    val lettersAgain \u003d consonants ++ vowels\n    println(\"There really are \" + lettersAgain.count() + \" letters\")\n\n\n// union with duplicates, removed\n    val tooManyVowels \u003d vowels ++ vowels\n    println(\"There aren\u0027t really \" + tooManyVowels.count() + \" vowels\")\n    val justVowels \u003d tooManyVowels.distinct()\n    println(\"There are actually \" + justVowels.count() + \" vowels\")\n    \n// subtraction with duplicates\n    val what \u003d tooManyVowels.subtract(vowels)\n    println(\"There are actually \" + what.count() + \" whats\")\n    \n// intersection\n    val earlyLetters \u003d sc.parallelize(\u0027a\u0027 to \u0027l\u0027, 2)\n    val earlyVowels \u003d earlyLetters.intersection(vowels)\n    println(\"The early vowels:\")\n    earlyVowels.collect.foreach(println)\n    \n    ",
+      "dateUpdated": "Jan 22, 2016 3:46:50 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453475934245_1222285719",
+      "id": "20160122-151854_645227585",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "letters: org.apache.spark.rdd.RDD[Char] \u003d ParallelCollectionRDD[285] at parallelize at \u003cconsole\u003e:38\nvowels: org.apache.spark.rdd.RDD[Char] \u003d ParallelCollectionRDD[286] at parallelize at \u003cconsole\u003e:38\nconsonants: org.apache.spark.rdd.RDD[Char] \u003d MapPartitionsRDD[290] at subtract at \u003cconsole\u003e:42\nThere are 26 letters\nres652: Array[Array[Char]] \u003d Array(Array(a, b, c), Array(d, e, f), Array(g, h, i), Array(j, k, l, m), Array(n, o, p), Array(q, r, s), Array(t, u, v), Array(w, x, y, z))\nres653: Array[Array[Char]] \u003d Array(Array(a), Array(e), Array(i), Array(o, u))\nres654: Array[Array[Char]] \u003d Array(Array(p, h, x), Array(q, y), Array(b, r, j, z), Array(c, s, k), Array(d, t, l), Array(m), Array(f, v, n), Array(g, w))\nThere are 21 consonants\nvowelsNotLetters: org.apache.spark.rdd.RDD[Char] \u003d MapPartitionsRDD[297] at subtract at \u003cconsole\u003e:41\nThere are 0 vowels that aren\u0027t letters\nlettersAgain: org.apache.spark.rdd.RDD[Char] \u003d UnionRDD[298] at $plus$plus at \u003cconsole\u003e:45\nThere really are 26 letters\ntooManyVowels: org.apache.spark.rdd.RDD[Char] \u003d UnionRDD[299] at $plus$plus at \u003cconsole\u003e:41\nThere aren\u0027t really 10 vowels\njustVowels: org.apache.spark.rdd.RDD[Char] \u003d MapPartitionsRDD[302] at distinct at \u003cconsole\u003e:40\nThere are actually 5 vowels\nwhat: org.apache.spark.rdd.RDD[Char] \u003d MapPartitionsRDD[306] at subtract at \u003cconsole\u003e:42\nThere are actually 0 whats\nearlyLetters: org.apache.spark.rdd.RDD[Char] \u003d ParallelCollectionRDD[307] at parallelize at \u003cconsole\u003e:38\nearlyVowels: org.apache.spark.rdd.RDD[Char] \u003d MapPartitionsRDD[313] at intersection at \u003cconsole\u003e:40\nThe early vowels:\ne\na\ni\n"
+      },
+      "dateCreated": "Jan 22, 2016 3:18:54 PM",
+      "dateStarted": "Jan 22, 2016 3:46:50 PM",
+      "dateFinished": "Jan 22, 2016 3:46:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// RDD of a different type\n    val numbers \u003d sc.parallelize(1 to 2, 2)\n\n// cartesian product\n    val cp \u003d vowels.cartesian(numbers)\n    println(\"Product has \" + cp.count() + \" elements\")\n    cp.glom.collect()\n    \n// index the letters\n    val indexed \u003d letters.zipWithIndex()\n    println(\"indexed letters\")\n    indexed.collect.foreach {\n      case (c, i) \u003d\u003e println(i + \":  \" + c)\n    }\n    indexed.glom.collect()\n    \n// another RDD, same size and partitioning as letters\n    val twentySix \u003d sc.parallelize(101 to 126, 8)  // same 8 partitions\n\n    // zip the letters and numbers\n    val differentlyIndexed \u003d letters.zip(twentySix)\n    differentlyIndexed.collect.foreach {\n      case (c, i) \u003d\u003e println(i + \":  \" + c)\n    }\n\n// we can\u0027t do this if the two RDDs don\u0027t have the same partitioning --        \n    val twentySixBadPart \u003d sc.parallelize(101 to 126, 3)\n    val cantGet \u003d letters.zip(twentySixBadPart)\n    try {\n      cantGet.collect. foreach {\n        case (c, i) \u003d\u003e println(i + \":  \" + c)\n      }\n    } catch {\n      case iae: IllegalArgumentException \u003d\u003e\n        println(\"Exception caught: \" + iae.getMessage)\n    }\n    \n",
+      "dateUpdated": "Jan 22, 2016 3:48:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453476250791_-176016022",
+      "id": "20160122-152410_537633432",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "numbers: org.apache.spark.rdd.RDD[Int] \u003d ParallelCollectionRDD[343] at parallelize at \u003cconsole\u003e:37\ncp: org.apache.spark.rdd.RDD[(Char, Int)] \u003d CartesianRDD[344] at cartesian at \u003cconsole\u003e:42\nProduct has 10 elements\nres743: Array[Array[(Char, Int)]] \u003d Array(Array((a,1)), Array((a,2)), Array((e,1)), Array((e,2)), Array((i,1)), Array((i,2)), Array((o,1), (u,1)), Array((o,2), (u,2)))\nindexed: org.apache.spark.rdd.RDD[(Char, Long)] \u003d ZippedWithIndexRDD[346] at zipWithIndex at \u003cconsole\u003e:40\nindexed letters\n0:  a\n1:  b\n2:  c\n3:  d\n4:  e\n5:  f\n6:  g\n7:  h\n8:  i\n9:  j\n10:  k\n11:  l\n12:  m\n13:  n\n14:  o\n15:  p\n16:  q\n17:  r\n18:  s\n19:  t\n20:  u\n21:  v\n22:  w\n23:  x\n24:  y\n25:  z\nres748: Array[Array[(Char, Long)]] \u003d Array(Array((a,0), (b,1), (c,2)), Array((d,3), (e,4), (f,5)), Array((g,6), (h,7), (i,8)), Array((j,9), (k,10), (l,11), (m,12)), Array((n,13), (o,14), (p,15)), Array((q,16), (r,17), (s,18)), Array((t,19), (u,20), (v,21)), Array((w,22), (x,23), (y,24), (z,25)))\ntwentySix: org.apache.spark.rdd.RDD[Int] \u003d ParallelCollectionRDD[348] at parallelize at \u003cconsole\u003e:38\ndifferentlyIndexed: org.apache.spark.rdd.RDD[(Char, Int)] \u003d ZippedPartitionsRDD2[349] at zip at \u003cconsole\u003e:42\n101:  a\n102:  b\n103:  c\n104:  d\n105:  e\n106:  f\n107:  g\n108:  h\n109:  i\n110:  j\n111:  k\n112:  l\n113:  m\n114:  n\n115:  o\n116:  p\n117:  q\n118:  r\n119:  s\n120:  t\n121:  u\n122:  v\n123:  w\n124:  x\n125:  y\n126:  z\ntwentySixBadPart: org.apache.spark.rdd.RDD[Int] \u003d ParallelCollectionRDD[350] at parallelize at \u003cconsole\u003e:38\ncantGet: org.apache.spark.rdd.RDD[(Char, Int)] \u003d ZippedPartitionsRDD2[351] at zip at \u003cconsole\u003e:40\nException caught: Can\u0027t zip RDDs with unequal numbers of partitions\n"
+      },
+      "dateCreated": "Jan 22, 2016 3:24:10 PM",
+      "dateStarted": "Jan 22, 2016 3:48:15 PM",
+      "dateFinished": "Jan 22, 2016 3:48:17 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val vowels \u003d Seq(\u0027a\u0027, \u0027e\u0027, \u0027i\u0027, \u0027o\u0027, \u0027u\u0027)\nval consonants \u003d letters.filter(c \u003d\u003e !vowels.contains(c))\nprintln(\"There are \" + consonants.count() + \" consonants\")\nconsonants.glom.collect()\n\nval consonantsAsDigits \u003d letters collect {\n      case c:Char if !vowels.contains(c) \u003d\u003e c.asDigit\n    }\nconsonantsAsDigits.collect.foreach(println)",
+      "dateUpdated": "Jan 22, 2016 3:54:01 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453476586047_-1945052594",
+      "id": "20160122-152946_851304997",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "vowels: Seq[Char] \u003d List(a, e, i, o, u)\nconsonants: org.apache.spark.rdd.RDD[Char] \u003d MapPartitionsRDD[362] at filter at \u003cconsole\u003e:40\nThere are 21 consonants\nres773: Array[Array[Char]] \u003d Array(Array(b, c), Array(d, f), Array(g, h), Array(j, k, l, m), Array(n, p), Array(q, r, s), Array(t, v), Array(w, x, y, z))\nconsonantsAsDigits: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[365] at collect at \u003cconsole\u003e:41\n11\n12\n13\n15\n16\n17\n19\n20\n21\n22\n23\n25\n26\n27\n28\n29\n31\n32\n33\n34\n35\n"
+      },
+      "dateCreated": "Jan 22, 2016 3:29:46 PM",
+      "dateStarted": "Jan 22, 2016 3:54:01 PM",
+      "dateFinished": "Jan 22, 2016 3:54:02 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\n// TODO: pay more attention to flatMap\n// flatMap: pay attention here -- the words don\u0027t always come\n// out in the right order, but the characters within a word do\nval words \u003d sc.parallelize(Seq(\"Hello\", \"World\"), 2)\nval chars \u003d words.flatMap(w \u003d\u003e w.iterator)\nchars.glom.collect()\nprintln(chars.map(c \u003d\u003e c.toString).reduce((s1, s2) \u003d\u003e s1 + \" \" + s2))\n\n// groupBy\n    val numbers \u003d sc.parallelize(1 to 10, 4)\n    val modThreeGroups \u003d numbers.groupBy(_ % 3)\n    // Note: pair RDDs are special in Spark\n    numbers.glom.collect()\n    modThreeGroups.glom.collect()\n    modThreeGroups.collect foreach {\n      case (m, vals) \u003d\u003e println(\"mod 3 \u003d \" + m + \", count \u003d \" + vals.count(_ \u003d\u003e true))\n    }",
+      "dateUpdated": "Jan 22, 2016 4:14:12 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453477895843_-1639625800",
+      "id": "20160122-155135_1049894973",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "words: org.apache.spark.rdd.RDD[String] \u003d ParallelCollectionRDD[497] at parallelize at \u003cconsole\u003e:40\nchars: org.apache.spark.rdd.RDD[Char] \u003d MapPartitionsRDD[498] at flatMap at \u003cconsole\u003e:38\nres949: Array[Array[Char]] \u003d Array(Array(H, e, l, l, o), Array(W, o, r, l, d))\nH e l l o W o r l d\nnumbers: org.apache.spark.rdd.RDD[Int] \u003d ParallelCollectionRDD[501] at parallelize at \u003cconsole\u003e:38\nmodThreeGroups: org.apache.spark.rdd.RDD[(Int, Iterable[Int])] \u003d ShuffledRDD[503] at groupBy at \u003cconsole\u003e:38\nres954: Array[Array[Int]] \u003d Array(Array(1, 2), Array(3, 4, 5), Array(6, 7), Array(8, 9, 10))\nres955: Array[Array[(Int, Iterable[Int])]] \u003d Array(Array((0,CompactBuffer(3, 6, 9))), Array((1,CompactBuffer(1, 4, 7, 10))), Array((2,CompactBuffer(2, 5, 8))), Array())\nmod 3 \u003d 0, count \u003d 3\nmod 3 \u003d 1, count \u003d 4\nmod 3 \u003d 2, count \u003d 3\n"
+      },
+      "dateCreated": "Jan 22, 2016 3:51:35 PM",
+      "dateStarted": "Jan 22, 2016 4:14:12 PM",
+      "dateFinished": "Jan 22, 2016 4:14:13 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// countByValue: how many of the mod results are three\n// notice use of Option type\n// TODO: what point was I trying to make?\n    val mods \u003d modThreeGroups.collect({\n      case (m, vals) \u003d\u003e vals.count(_ \u003d\u003e true) }).countByValue\n    mods.foreach(println)\n    println(\"results found 3 times: \" + mods.get(3))\n    println(\"results found 4 times: \" + mods.get(4))\n    println(\"results found 7 times: \" + mods.get(7))\n    \n// max, min\n    println(\"maximum element \u003d \" + letters.max())\n\n// first\n    println(\"first element \u003d \" + letters.first())\n    \n// sortBy\n// TODO: this deserves a clearer example of how spiffy it is\n    println(\"first element when reversed \u003d \" + letters.sortBy(v \u003d\u003e v, false).first())",
+      "dateUpdated": "Jan 22, 2016 4:19:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453478224906_-1038356859",
+      "id": "20160122-155704_343264488",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "mods: scala.collection.Map[Int,Long] \u003d Map(4 -\u003e 1, 3 -\u003e 2)\n(4,1)\n(3,2)\nresults found 3 times: Some(2)\nresults found 4 times: Some(1)\nresults found 7 times: None\nmaximum element \u003d z\nfirst element \u003d a\nfirst element when reversed \u003d z\n"
+      },
+      "dateCreated": "Jan 22, 2016 3:57:04 PM",
+      "dateStarted": "Jan 22, 2016 4:19:13 PM",
+      "dateFinished": "Jan 22, 2016 4:19:13 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": " // sample: notice this returns an RDD\n    println(\"random [fractional] sample without replacement: \")\n    val samp \u003d letters.sample(false, 0.25, 42)\n    samp.collect.foreach(println)\n    \n    // take, takeSample: these just return arrays\n    println(\"first five letters:\")\n    letters.take(5).foreach(println)\n    \n    println(\"random five letters without replacement:\")\n    val random5 \u003d letters.takeSample(false, 5)\n    random5.foreach(println)\n    \n",
+      "dateUpdated": "Jan 22, 2016 4:27:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453479295760_-667729821",
+      "id": "20160122-161455_2038427654",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "random [fractional] sample without replacement: \nsamp: org.apache.spark.rdd.RDD[Char] \u003d PartitionwiseSampledRDD[551] at sample at \u003cconsole\u003e:38\na\nd\ne\ng\nl\no\np\nr\nv\nw\ny\nfirst five letters:\na\nb\nc\nd\ne\nrandom five letters without replacement:\nrandom5: Array[Char] \u003d Array(n, w, l, e, b)\nn\nw\nl\ne\nb\n"
+      },
+      "dateCreated": "Jan 22, 2016 4:14:55 PM",
+      "dateStarted": "Jan 22, 2016 4:27:03 PM",
+      "dateFinished": "Jan 22, 2016 4:27:04 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//------------------------------RDD Partition methods----------------------\n\n\n  def analyze[T](r: RDD[T]) : Unit \u003d {\n    val partitions \u003d r.glom()\n    println(partitions.count() + \" partitions\")\n\n    // use zipWithIndex() to see the index of each partition\n    // we need to loop sequentially so we can see them in order: use collect()\n    partitions.zipWithIndex().collect().foreach {\n      case (a, i) \u003d\u003e {\n        println(\"Partition \" + i + \" contents:\" +\n          a.foldLeft(\"\")((e, s) \u003d\u003e e + \" \" + s))\n      }\n    }\n  }\n  \n  // look at the distribution of numbers across partitions\n    val numbers \u003d  sc.parallelize(1 to 100, 4)\n    numbers.glom.collect()\n    println(\"original RDD:\")\n    analyze(numbers)\n    \n    val some \u003d numbers.filter(_ \u003c 34)\n    println(\"filtered RDD\")\n    analyze(some)\n\n\n    // subtract doesn\u0027t do what you might hope\n    val diff \u003d numbers.subtract(some)\n    println(\"the complement:\")\n    analyze(diff)\n    println(\"it is a \" + diff.getClass.getCanonicalName)\n    \n// setting the number of partitions doesn\u0027t help (it was right anyway)\n    val diffSamePart \u003d numbers.subtract(some, 4)\n    println(\"the complement (explicit but same number of partitions):\")\n    analyze(diffSamePart)\n    \n\n// we can change the number but it also doesn\u0027t help\n// other methods such as intersection and groupBy allow this\n    val diffMorePart \u003d numbers.subtract(some, 6)\n    println(\"the complement (different number of partitions):\")\n    analyze(diffMorePart)\n    println(\"it is a \" + diffMorePart.getClass.getCanonicalName)\n    \nimport scala.collection.{mutable, Iterator}\n// but there IS a way to calculate the difference without\n// introducing communications\n    def subtractFunc(wholeIter: Iterator[Int], partIter: Iterator[Int]) :\n    Iterator[Int] \u003d {\n      val partSet \u003d new mutable.HashSet[Int]()\n      partSet ++\u003d partIter\n      wholeIter.filterNot(partSet.contains(_))\n    }\n    \n    val diffOriginalPart \u003d numbers.zipPartitions(some)(subtractFunc)\n    println(\"complement with original partitioning\")\n    analyze(diffOriginalPart)\n    println(\"it is a \" + diffOriginalPart.getClass.getCanonicalName)\n",
+      "dateUpdated": "Jan 22, 2016 5:58:38 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453479469843_-1966025328",
+      "id": "20160122-161749_558900345",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "analyze: [T](r: org.apache.spark.rdd.RDD[T])Unit\nnumbers: org.apache.spark.rdd.RDD[Int] \u003d ParallelCollectionRDD[1056] at parallelize at \u003cconsole\u003e:63\nres1776: Array[Array[Int]] \u003d Array(Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25), Array(26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50), Array(51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75), Array(76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100))\noriginal RDD:\n4 partitions\nPartition 0 contents: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25\nPartition 1 contents: 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50\nPartition 2 contents: 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75\nPartition 3 contents: 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100\nsome: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[1060] at filter at \u003cconsole\u003e:64\nfiltered RDD\n4 partitions\nPartition 0 contents: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25\nPartition 1 contents: 26 27 28 29 30 31 32 33\nPartition 2 contents:\nPartition 3 contents:\ndiff: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[1066] at subtract at \u003cconsole\u003e:68\nthe complement:\n4 partitions\nPartition 0 contents: 64 68 72 76 80 84 88 92 96 36 100 40 44 48 52 56 60\nPartition 1 contents: 65 69 73 77 81 85 89 93 97 37 41 45 49 53 57 61\nPartition 2 contents: 66 70 74 78 82 86 90 94 34 98 38 42 46 50 54 58 62\nPartition 3 contents: 67 71 75 79 83 87 91 95 35 99 39 43 47 51 55 59 63\nit is a org.apache.spark.rdd.MapPartitionsRDD\ndiffSamePart: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[1072] at subtract at \u003cconsole\u003e:67\nthe complement (explicit but same number of partitions):\n4 partitions\nPartition 0 contents: 64 68 72 76 80 84 88 92 96 36 100 40 44 48 52 56 60\nPartition 1 contents: 65 69 73 77 81 85 89 93 97 37 41 45 49 53 57 61\nPartition 2 contents: 66 70 74 78 82 86 90 94 34 98 38 42 46 50 54 58 62\nPartition 3 contents: 67 71 75 79 83 87 91 95 35 99 39 43 47 51 55 59 63\ndiffMorePart: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[1078] at subtract at \u003cconsole\u003e:69\nthe complement (different number of partitions):\n6 partitions\nPartition 0 contents: 96 66 36 72 42 78 48 84 54 90 60\nPartition 1 contents: 97 67 37 73 43 79 49 85 55 91 61\nPartition 2 contents: 98 68 38 74 44 80 50 86 56 92 62\nPartition 3 contents: 99 69 39 75 45 81 51 87 57 93 63\nPartition 4 contents: 64 34 100 70 40 76 46 82 52 88 58 94\nPartition 5 contents: 65 35 71 41 77 47 83 53 89 59 95\nit is a org.apache.spark.rdd.MapPartitionsRDD\nimport scala.collection.{mutable, Iterator}\nsubtractFunc: (wholeIter: Iterator[Int], partIter: Iterator[Int])Iterator[Int]\ndiffOriginalPart: org.apache.spark.rdd.RDD[Int] \u003d ZippedPartitionsRDD2[1081] at zipPartitions at \u003cconsole\u003e:70\ncomplement with original partitioning\n4 partitions\nPartition 0 contents:\nPartition 1 contents: 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50\nPartition 2 contents: 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75\nPartition 3 contents: 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100\nit is a org.apache.spark.rdd.ZippedPartitionsRDD2\n"
+      },
+      "dateCreated": "Jan 22, 2016 4:17:49 PM",
+      "dateStarted": "Jan 22, 2016 5:14:53 PM",
+      "dateFinished": "Jan 22, 2016 5:14:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\n    // TODO: coalesce\n\n    // repartition\n    val threePart \u003d numbers.repartition(3)\n    println(\"numbers in three partitions\")\n    analyze(threePart)\n    println(\"it is a \" + threePart.getClass.getCanonicalName)\n\n    some.glom.collect()\n    val twoPart \u003d some.coalesce(2, true)\n    println(\"subset in two partitions after a shuffle\")\n    analyze(twoPart)\n    println(\"it is a \" + twoPart.getClass.getCanonicalName)\n\n    val twoPartNoShuffle \u003d some.coalesce(2, false)\n    println(\"subset in two partitions without a shuffle\")\n    analyze(twoPartNoShuffle)\n    println(\"it is a \" + twoPartNoShuffle.getClass.getCanonicalName)\n    \n\n    // a ShuffledRDD with interesting characteristics\n    val groupedNumbers \u003d numbers.groupBy(n \u003d\u003e if (n % 2 \u003d\u003d 0) \"even\" else \"odd\")\n    println(\"numbers grouped into \u0027odd\u0027 and \u0027even\u0027\")\n    analyze(groupedNumbers)\n    println(\"it is a \" + groupedNumbers.getClass.getCanonicalName)\n    \n    \n    val grpthreePart \u003d groupedNumbers.repartition(6)\n    println(\"numbers in three partitions\")\n    analyze(grpthreePart)\n    println(\"it is a \" + grpthreePart.getClass.getCanonicalName)\n    \n    // preferredLocations  Didnt work !!\n    numbers.glom.collect()\n    numbers.partitions.foreach(p \u003d\u003e {\n      println(\"Partition: \" + p.index)\n      numbers.preferredLocations(p).foreach(s \u003d\u003e println(\"  Location: \" + s))\n    })\n",
+      "dateUpdated": "Jan 22, 2016 5:52:21 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453480105271_-700849995",
+      "id": "20160122-162825_1555189161",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "threePart: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[1427] at repartition at \u003cconsole\u003e:69\nnumbers in three partitions\n3 partitions\nPartition 0 contents: 3 6 9 12 15 18 21 24 28 31 34 37 40 43 46 49 52 55 58 61 64 67 70 73 76 79 82 85 88 91 94 97 100\nPartition 1 contents: 1 4 7 10 13 16 19 22 25 26 29 32 35 38 41 44 47 50 53 56 59 62 65 68 71 74 77 80 83 86 89 92 95 98\nPartition 2 contents: 2 5 8 11 14 17 20 23 27 30 33 36 39 42 45 48 51 54 57 60 63 66 69 72 75 78 81 84 87 90 93 96 99\nit is a org.apache.spark.rdd.MapPartitionsRDD\nres2205: Array[Array[Int]] \u003d Array(Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25), Array(26, 27, 28, 29, 30, 31, 32, 33), Array(), Array())\ntwoPart: org.apache.spark.rdd.RDD[Int] \u003d MapPartitionsRDD[1434] at coalesce at \u003cconsole\u003e:67\nsubset in two partitions after a shuffle\n2 partitions\nPartition 0 contents: 1 3 5 7 9 11 13 15 17 19 21 23 25 26 28 30 32\nPartition 1 contents: 2 4 6 8 10 12 14 16 18 20 22 24 27 29 31 33\nit is a org.apache.spark.rdd.MapPartitionsRDD\ntwoPartNoShuffle: org.apache.spark.rdd.RDD[Int] \u003d CoalescedRDD[1437] at coalesce at \u003cconsole\u003e:68\nsubset in two partitions without a shuffle\n2 partitions\nPartition 0 contents: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33\nPartition 1 contents:\nit is a org.apache.spark.rdd.CoalescedRDD\ngroupedNumbers: org.apache.spark.rdd.RDD[(String, Iterable[Int])] \u003d ShuffledRDD[1441] at groupBy at \u003cconsole\u003e:68\nnumbers grouped into \u0027odd\u0027 and \u0027even\u0027\n4 partitions\nPartition 0 contents:\nPartition 1 contents:\nPartition 2 contents: (even,CompactBuffer(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100))\nPartition 3 contents: (odd,CompactBuffer(1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99))\nit is a org.apache.spark.rdd.ShuffledRDD\ngrpthreePart: org.apache.spark.rdd.RDD[(String, Iterable[Int])] \u003d MapPartitionsRDD[1447] at repartition at \u003cconsole\u003e:69\nnumbers in three partitions\n6 partitions\nPartition 0 contents:\nPartition 1 contents:\nPartition 2 contents:\nPartition 3 contents: (odd,CompactBuffer(1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99))\nPartition 4 contents:\nPartition 5 contents: (even,CompactBuffer(2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100))\nit is a org.apache.spark.rdd.MapPartitionsRDD\nres2226: Array[Array[Int]] \u003d Array(Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25), Array(26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50), Array(51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75), Array(76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100))\nPartition: 0\nPartition: 1\nPartition: 2\nPartition: 3\n"
+      },
+      "dateCreated": "Jan 22, 2016 4:28:25 PM",
+      "dateStarted": "Jan 22, 2016 5:52:21 PM",
+      "dateFinished": "Jan 22, 2016 5:52:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    // mapPartitions to achieve in-place grouping\n    // TODO: fix this example ot make it a bit more natural\n\n    val pairs \u003d sc.parallelize(for (x \u003c- 1 to 6; y \u003c- 1 to x) yield (\"S\" + x, y), 4)\n    analyze(pairs)\n    \n    val rollup \u003d pairs.foldByKey(0, 4)(_ + _)\n    println(\"just rolling it up\")\n    analyze(rollup)\n    \n    \n\n    def rollupFunc(i: Iterator[(String, Int)]) : Iterator[(String, Int)] \u003d {\n      val m \u003d new mutable.HashMap[String, Int]()\n      i.foreach {\n        case (k, v) \u003d\u003e if (m.contains(k)) m(k) \u003d m(k) + v else m(k) \u003d v\n      }\n      m.iterator\n    }\n\n    val inPlaceRollup \u003d pairs.mapPartitions(rollupFunc, true)\n    println(\"rolling it up really carefully\")\n    analyze(inPlaceRollup)",
+      "dateUpdated": "Jan 22, 2016 5:55:23 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453482936689_-208715113",
+      "id": "20160122-171536_1713035355",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "pairs: org.apache.spark.rdd.RDD[(String, Int)] \u003d ParallelCollectionRDD[1472] at parallelize at \u003cconsole\u003e:66\n4 partitions\nPartition 0 contents: (S1,1) (S2,1) (S2,2) (S3,1) (S3,2)\nPartition 1 contents: (S3,3) (S4,1) (S4,2) (S4,3) (S4,4)\nPartition 2 contents: (S5,1) (S5,2) (S5,3) (S5,4) (S5,5)\nPartition 3 contents: (S6,1) (S6,2) (S6,3) (S6,4) (S6,5) (S6,6)\nrollup: org.apache.spark.rdd.RDD[(String, Int)] \u003d ShuffledRDD[1475] at foldByKey at \u003cconsole\u003e:66\njust rolling it up\n4 partitions\nPartition 0 contents: (S3,6)\nPartition 1 contents: (S4,10)\nPartition 2 contents: (S5,15) (S1,1)\nPartition 3 contents: (S6,21) (S2,3)\nrollupFunc: (i: Iterator[(String, Int)])Iterator[(String, Int)]\ninPlaceRollup: org.apache.spark.rdd.RDD[(String, Int)] \u003d MapPartitionsRDD[1478] at mapPartitions at \u003cconsole\u003e:68\nrolling it up really carefully\n4 partitions\nPartition 0 contents: (S1,1) (S3,3) (S2,3)\nPartition 1 contents: (S4,10) (S3,3)\nPartition 2 contents: (S5,15)\nPartition 3 contents: (S6,21)\n"
+      },
+      "dateCreated": "Jan 22, 2016 5:15:36 PM",
+      "dateStarted": "Jan 22, 2016 5:55:23 PM",
+      "dateFinished": "Jan 22, 2016 5:55:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//------------------------------Accumulator methods----------------------\nimport org.apache.spark.{AccumulableParam, AccumulatorParam}\n\nval words \u003d sc.parallelize(Seq(\"Fred\", \"Bob\", \"Francis\",\n      \"James\", \"Frederick\", \"Frank\", \"Joseph\"), 4)\n\n// efficiently accumulate a counter\nimplicit def intAccum \u003d new AccumulatorParam[Int] {\n  def zero(initialValue: Int): Int \u003d {\n    0\n  }\n\n  def addInPlace(i1: Int, i2: Int): Int \u003d {\n    i1 + i2\n  }\n} \nval count \u003d sc.accumulator[Int](0)\n\nwords.filter(_.startsWith(\"F\")).foreach(n \u003d\u003e count +\u003d 1)\nprintln(\"total count of names starting with F \u003d \" + count.value)\n\n// efficiently accumulate a set -- notice not just any Set will do\n    val names \u003d  sc.accumulableCollection[mutable.HashSet[String],String](mutable.HashSet[String]())\n    words.filter(_.startsWith(\"F\")).foreach(names.add(_))\n    println(\"All the names starting with \u0027F\u0027 are a set\")\n    names.value.foreach(println)\n",
+      "dateUpdated": "Jan 22, 2016 6:04:36 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453485163631_-2032036338",
+      "id": "20160122-175243_1960217561",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.{AccumulableParam, AccumulatorParam}\nwords: org.apache.spark.rdd.RDD[String] \u003d ParallelCollectionRDD[1485] at parallelize at \u003cconsole\u003e:65\nintAccum: org.apache.spark.AccumulatorParam[Int]\ncount: org.apache.spark.Accumulator[Int] \u003d 0\ntotal count of names starting with F \u003d 4\nnames: org.apache.spark.Accumulable[scala.collection.mutable.HashSet[String],String] \u003d Set()\nAll the names starting with \u0027F\u0027 are a set\nFrank\nFrancis\nFred\nFrederick\n"
+      },
+      "dateCreated": "Jan 22, 2016 5:52:43 PM",
+      "dateStarted": "Jan 22, 2016 6:03:14 PM",
+      "dateFinished": "Jan 22, 2016 6:03:15 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\nimport org.apache.spark.Partitioner\nclass SpecialPartitioner extends Partitioner {\n  def numPartitions \u003d 10\n\n  def getPartition(key: Any) : Int \u003d {\n    key match {\n      case (x, y:Int, z) \u003d\u003e y % numPartitions\n      case _ \u003d\u003e throw new ClassCastException\n    }\n  }\n}\n\n   val triplets \u003d\n      for (x \u003c- 1 to 3; y \u003c- 1 to 20; z \u003c- \u0027a\u0027 to \u0027d\u0027)\n      yield ((x, y, z), x * y)\n      \n    // Spark has the good sense to use the first tuple element\n    // for range partitioning, but for this data-set it makes a mess\n    val defaultRDD \u003d sc.parallelize(triplets, 10)\n    println(\"with default partitioning\")\n    analyze(defaultRDD)\n    \n    \n    // out custom partitioner uses the second tuple element\n    val deliberateRDD \u003d defaultRDD.partitionBy(new SpecialPartitioner())\n    println(\"with deliberate partitioning\")\n    analyze(deliberateRDD)\n    ",
+      "dateUpdated": "Jan 22, 2016 6:16:10 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453485663694_-861710094",
+      "id": "20160122-180103_387980684",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.Partitioner\ndefined class SpecialPartitioner\ntriplets: scala.collection.immutable.IndexedSeq[((Int, Int, Char), Int)] \u003d Vector(((1,1,a),1), ((1,1,b),1), ((1,1,c),1), ((1,1,d),1), ((1,2,a),2), ((1,2,b),2), ((1,2,c),2), ((1,2,d),2), ((1,3,a),3), ((1,3,b),3), ((1,3,c),3), ((1,3,d),3), ((1,4,a),4), ((1,4,b),4), ((1,4,c),4), ((1,4,d),4), ((1,5,a),5), ((1,5,b),5), ((1,5,c),5), ((1,5,d),5), ((1,6,a),6), ((1,6,b),6), ((1,6,c),6), ((1,6,d),6), ((1,7,a),7), ((1,7,b),7), ((1,7,c),7), ((1,7,d),7), ((1,8,a),8), ((1,8,b),8), ((1,8,c),8), ((1,8,d),8), ((1,9,a),9), ((1,9,b),9), ((1,9,c),9), ((1,9,d),9), ((1,10,a),10), ((1,10,b),10), ((1,10,c),10), ((1,10,d),10), ((1,11,a),11), ((1,11,b),11), ((1,11,c),11), ((1,11,d),11), ((1,12,a),12), ((1,12,b),12), ((1,12,c),12), ((1,12,d),12), ((1,13,a),13), ((1,13,b),13), ((1,13,c),13), ((1,13,d),13), ((1,14,...defaultRDD: org.apache.spark.rdd.RDD[((Int, Int, Char), Int)] \u003d ParallelCollectionRDD[1488] at parallelize at \u003cconsole\u003e:74\nwith default partitioning\n10 partitions\nPartition 0 contents: ((1,1,a),1) ((1,1,b),1) ((1,1,c),1) ((1,1,d),1) ((1,2,a),2) ((1,2,b),2) ((1,2,c),2) ((1,2,d),2) ((1,3,a),3) ((1,3,b),3) ((1,3,c),3) ((1,3,d),3) ((1,4,a),4) ((1,4,b),4) ((1,4,c),4) ((1,4,d),4) ((1,5,a),5) ((1,5,b),5) ((1,5,c),5) ((1,5,d),5) ((1,6,a),6) ((1,6,b),6) ((1,6,c),6) ((1,6,d),6)\nPartition 1 contents: ((1,7,a),7) ((1,7,b),7) ((1,7,c),7) ((1,7,d),7) ((1,8,a),8) ((1,8,b),8) ((1,8,c),8) ((1,8,d),8) ((1,9,a),9) ((1,9,b),9) ((1,9,c),9) ((1,9,d),9) ((1,10,a),10) ((1,10,b),10) ((1,10,c),10) ((1,10,d),10) ((1,11,a),11) ((1,11,b),11) ((1,11,c),11) ((1,11,d),11) ((1,12,a),12) ((1,12,b),12) ((1,12,c),12) ((1,12,d),12)\nPartition 2 contents: ((1,13,a),13) ((1,13,b),13) ((1,13,c),13) ((1,13,d),13) ((1,14,a),14) ((1,14,b),14) ((1,14,c),14) ((1,14,d),14) ((1,15,a),15) ((1,15,b),15) ((1,15,c),15) ((1,15,d),15) ((1,16,a),16) ((1,16,b),16) ((1,16,c),16) ((1,16,d),16) ((1,17,a),17) ((1,17,b),17) ((1,17,c),17) ((1,17,d),17) ((1,18,a),18) ((1,18,b),18) ((1,18,c),18) ((1,18,d),18)\nPartition 3 contents: ((1,19,a),19) ((1,19,b),19) ((1,19,c),19) ((1,19,d),19) ((1,20,a),20) ((1,20,b),20) ((1,20,c),20) ((1,20,d),20) ((2,1,a),2) ((2,1,b),2) ((2,1,c),2) ((2,1,d),2) ((2,2,a),4) ((2,2,b),4) ((2,2,c),4) ((2,2,d),4) ((2,3,a),6) ((2,3,b),6) ((2,3,c),6) ((2,3,d),6) ((2,4,a),8) ((2,4,b),8) ((2,4,c),8) ((2,4,d),8)\nPartition 4 contents: ((2,5,a),10) ((2,5,b),10) ((2,5,c),10) ((2,5,d),10) ((2,6,a),12) ((2,6,b),12) ((2,6,c),12) ((2,6,d),12) ((2,7,a),14) ((2,7,b),14) ((2,7,c),14) ((2,7,d),14) ((2,8,a),16) ((2,8,b),16) ((2,8,c),16) ((2,8,d),16) ((2,9,a),18) ((2,9,b),18) ((2,9,c),18) ((2,9,d),18) ((2,10,a),20) ((2,10,b),20) ((2,10,c),20) ((2,10,d),20)\nPartition 5 contents: ((2,11,a),22) ((2,11,b),22) ((2,11,c),22) ((2,11,d),22) ((2,12,a),24) ((2,12,b),24) ((2,12,c),24) ((2,12,d),24) ((2,13,a),26) ((2,13,b),26) ((2,13,c),26) ((2,13,d),26) ((2,14,a),28) ((2,14,b),28) ((2,14,c),28) ((2,14,d),28) ((2,15,a),30) ((2,15,b),30) ((2,15,c),30) ((2,15,d),30) ((2,16,a),32) ((2,16,b),32) ((2,16,c),32) ((2,16,d),32)\nPartition 6 contents: ((2,17,a),34) ((2,17,b),34) ((2,17,c),34) ((2,17,d),34) ((2,18,a),36) ((2,18,b),36) ((2,18,c),36) ((2,18,d),36) ((2,19,a),38) ((2,19,b),38) ((2,19,c),38) ((2,19,d),38) ((2,20,a),40) ((2,20,b),40) ((2,20,c),40) ((2,20,d),40) ((3,1,a),3) ((3,1,b),3) ((3,1,c),3) ((3,1,d),3) ((3,2,a),6) ((3,2,b),6) ((3,2,c),6) ((3,2,d),6)\nPartition 7 contents: ((3,3,a),9) ((3,3,b),9) ((3,3,c),9) ((3,3,d),9) ((3,4,a),12) ((3,4,b),12) ((3,4,c),12) ((3,4,d),12) ((3,5,a),15) ((3,5,b),15) ((3,5,c),15) ((3,5,d),15) ((3,6,a),18) ((3,6,b),18) ((3,6,c),18) ((3,6,d),18) ((3,7,a),21) ((3,7,b),21) ((3,7,c),21) ((3,7,d),21) ((3,8,a),24) ((3,8,b),24) ((3,8,c),24) ((3,8,d),24)\nPartition 8 contents: ((3,9,a),27) ((3,9,b),27) ((3,9,c),27) ((3,9,d),27) ((3,10,a),30) ((3,10,b),30) ((3,10,c),30) ((3,10,d),30) ((3,11,a),33) ((3,11,b),33) ((3,11,c),33) ((3,11,d),33) ((3,12,a),36) ((3,12,b),36) ((3,12,c),36) ((3,12,d),36) ((3,13,a),39) ((3,13,b),39) ((3,13,c),39) ((3,13,d),39) ((3,14,a),42) ((3,14,b),42) ((3,14,c),42) ((3,14,d),42)\nPartition 9 contents: ((3,15,a),45) ((3,15,b),45) ((3,15,c),45) ((3,15,d),45) ((3,16,a),48) ((3,16,b),48) ((3,16,c),48) ((3,16,d),48) ((3,17,a),51) ((3,17,b),51) ((3,17,c),51) ((3,17,d),51) ((3,18,a),54) ((3,18,b),54) ((3,18,c),54) ((3,18,d),54) ((3,19,a),57) ((3,19,b),57) ((3,19,c),57) ((3,19,d),57) ((3,20,a),60) ((3,20,b),60) ((3,20,c),60) ((3,20,d),60)\ndeliberateRDD: org.apache.spark.rdd.RDD[((Int, Int, Char), Int)] \u003d ShuffledRDD[1491] at partitionBy at \u003cconsole\u003e:77\nwith deliberate partitioning\n10 partitions\nPartition 0 contents: ((1,10,a),10) ((1,10,b),10) ((1,10,c),10) ((1,10,d),10) ((1,20,a),20) ((1,20,b),20) ((1,20,c),20) ((1,20,d),20) ((2,10,a),20) ((2,10,b),20) ((2,10,c),20) ((2,10,d),20) ((2,20,a),40) ((2,20,b),40) ((2,20,c),40) ((2,20,d),40) ((3,10,a),30) ((3,10,b),30) ((3,10,c),30) ((3,10,d),30) ((3,20,a),60) ((3,20,b),60) ((3,20,c),60) ((3,20,d),60)\nPartition 1 contents: ((1,1,a),1) ((1,1,b),1) ((1,1,c),1) ((1,1,d),1) ((1,11,a),11) ((1,11,b),11) ((1,11,c),11) ((1,11,d),11) ((2,1,a),2) ((2,1,b),2) ((2,1,c),2) ((2,1,d),2) ((2,11,a),22) ((2,11,b),22) ((2,11,c),22) ((2,11,d),22) ((3,1,a),3) ((3,1,b),3) ((3,1,c),3) ((3,1,d),3) ((3,11,a),33) ((3,11,b),33) ((3,11,c),33) ((3,11,d),33)\nPartition 2 contents: ((1,2,a),2) ((1,2,b),2) ((1,2,c),2) ((1,2,d),2) ((1,12,a),12) ((1,12,b),12) ((1,12,c),12) ((1,12,d),12) ((2,2,a),4) ((2,2,b),4) ((2,2,c),4) ((2,2,d),4) ((2,12,a),24) ((2,12,b),24) ((2,12,c),24) ((2,12,d),24) ((3,2,a),6) ((3,2,b),6) ((3,2,c),6) ((3,2,d),6) ((3,12,a),36) ((3,12,b),36) ((3,12,c),36) ((3,12,d),36)\nPartition 3 contents: ((1,3,a),3) ((1,3,b),3) ((1,3,c),3) ((1,3,d),3) ((1,13,a),13) ((1,13,b),13) ((1,13,c),13) ((1,13,d),13) ((2,3,a),6) ((2,3,b),6) ((2,3,c),6) ((2,3,d),6) ((2,13,a),26) ((2,13,b),26) ((2,13,c),26) ((2,13,d),26) ((3,3,a),9) ((3,3,b),9) ((3,3,c),9) ((3,3,d),9) ((3,13,a),39) ((3,13,b),39) ((3,13,c),39) ((3,13,d),39)\nPartition 4 contents: ((1,4,a),4) ((1,4,b),4) ((1,4,c),4) ((1,4,d),4) ((1,14,a),14) ((1,14,b),14) ((1,14,c),14) ((1,14,d),14) ((2,4,a),8) ((2,4,b),8) ((2,4,c),8) ((2,4,d),8) ((2,14,a),28) ((2,14,b),28) ((2,14,c),28) ((2,14,d),28) ((3,4,a),12) ((3,4,b),12) ((3,4,c),12) ((3,4,d),12) ((3,14,a),42) ((3,14,b),42) ((3,14,c),42) ((3,14,d),42)\nPartition 5 contents: ((1,5,a),5) ((1,5,b),5) ((1,5,c),5) ((1,5,d),5) ((1,15,a),15) ((1,15,b),15) ((1,15,c),15) ((1,15,d),15) ((2,5,a),10) ((2,5,b),10) ((2,5,c),10) ((2,5,d),10) ((2,15,a),30) ((2,15,b),30) ((2,15,c),30) ((2,15,d),30) ((3,5,a),15) ((3,5,b),15) ((3,5,c),15) ((3,5,d),15) ((3,15,a),45) ((3,15,b),45) ((3,15,c),45) ((3,15,d),45)\nPartition 6 contents: ((1,6,a),6) ((1,6,b),6) ((1,6,c),6) ((1,6,d),6) ((1,16,a),16) ((1,16,b),16) ((1,16,c),16) ((1,16,d),16) ((2,6,a),12) ((2,6,b),12) ((2,6,c),12) ((2,6,d),12) ((2,16,a),32) ((2,16,b),32) ((2,16,c),32) ((2,16,d),32) ((3,6,a),18) ((3,6,b),18) ((3,6,c),18) ((3,6,d),18) ((3,16,a),48) ((3,16,b),48) ((3,16,c),48) ((3,16,d),48)\nPartition 7 contents: ((1,7,a),7) ((1,7,b),7) ((1,7,c),7) ((1,7,d),7) ((1,17,a),17) ((1,17,b),17) ((1,17,c),17) ((1,17,d),17) ((2,7,a),14) ((2,7,b),14) ((2,7,c),14) ((2,7,d),14) ((2,17,a),34) ((2,17,b),34) ((2,17,c),34) ((2,17,d),34) ((3,7,a),21) ((3,7,b),21) ((3,7,c),21) ((3,7,d),21) ((3,17,a),51) ((3,17,b),51) ((3,17,c),51) ((3,17,d),51)\nPartition 8 contents: ((1,8,a),8) ((1,8,b),8) ((1,8,c),8) ((1,8,d),8) ((1,18,a),18) ((1,18,b),18) ((1,18,c),18) ((1,18,d),18) ((2,8,a),16) ((2,8,b),16) ((2,8,c),16) ((2,8,d),16) ((2,18,a),36) ((2,18,b),36) ((2,18,c),36) ((2,18,d),36) ((3,8,a),24) ((3,8,b),24) ((3,8,c),24) ((3,8,d),24) ((3,18,a),54) ((3,18,b),54) ((3,18,c),54) ((3,18,d),54)\nPartition 9 contents: ((1,9,a),9) ((1,9,b),9) ((1,9,c),9) ((1,9,d),9) ((1,19,a),19) ((1,19,b),19) ((1,19,c),19) ((1,19,d),19) ((2,9,a),18) ((2,9,b),18) ((2,9,c),18) ((2,9,d),18) ((2,19,a),38) ((2,19,b),38) ((2,19,c),38) ((2,19,d),38) ((3,9,a),27) ((3,9,b),27) ((3,9,c),27) ((3,9,d),27) ((3,19,a),57) ((3,19,b),57) ((3,19,c),57) ((3,19,d),57)\n"
+      },
+      "dateCreated": "Jan 22, 2016 6:01:03 PM",
+      "dateStarted": "Jan 22, 2016 6:16:10 PM",
+      "dateFinished": "Jan 22, 2016 6:16:14 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    val pairs \u003d Seq((1,9), (1,2), (1,1), (2,3), (2,4), (3,1), (3,5), (6,2), (6,1), (6,4), (8,1))\n\n    // a randomly partitioned pair RDD\n    val pairsRDD \u003d sc.parallelize(pairs, 4)\n    // let\u0027s say we just want the pair with minimum value for each key\n    // we can use one of the handy methods in PairRDDFunctions\n    val reducedRDD \u003d pairsRDD.reduceByKey(Math.min(_,_))\n\n    // look at the partitioning of the two RDDs: it involved communication\n    analyze(pairsRDD)\n    analyze(reducedRDD)\n    \n    \n// Partition a pair RDD with an integer key witht he given\n// partition count\nclass KeyPartitioner(np: Int) extends Partitioner {\n  def numPartitions \u003d np\n\n  def getPartition(key: Any) : Int \u003d {\n    key match {\n      case k:Int \u003d\u003e k % numPartitions\n      case _ \u003d\u003e throw new ClassCastException\n    }\n  }\n}\n\n    // if the original RDD was partitioned by key there\u0027s another approach:\n    // it\u0027s not worth-while to repartition just for\n    // this, be let\u0027s look at what we can do if it WAS partitioned by key\n    val keyPartitionedPairs \u003d pairsRDD.partitionBy(new KeyPartitioner(4))\n    analyze(keyPartitionedPairs)\n    val reducedRDD \u003d keyPartitionedPairs.reduceByKey(Math.min(_,_))\n    analyze(reducedRDD)\n    \n    \n    // we can choose the min pair in each partition independently, so\n    // no communication is required\n    def minValFunc(i: Iterator[(Int, Int)]) : Iterator[(Int, Int)] \u003d {\n      val m \u003d new mutable.HashMap[Int, Int]()\n      i.foreach {\n        case (k, v) \u003d\u003e if (m.contains(k)) m(k) \u003d Math.min(m(k), v) else m(k) \u003d v\n      }\n      m.iterator\n    }\n    val reducedInPlace \u003d keyPartitionedPairs.mapPartitions(minValFunc)\n    analyze(reducedInPlace)\n    \n    \n    // another \"out of the box\" approach to the reduction is to use\n    // \"aggregateByKey\", which guarantees that all of the partitions\n    // can be reduced separately AND IN PARALLEL, and then the partial\n    // results can be combined combined -- essentially this relaxes\n    // the strict condition imposed on \"reduceByKey\" that the supplied\n    // function must be associative\n    val reducedRDD2 \u003d pairsRDD.aggregateByKey(Int.MaxValue)(Math.min(_,_), Math.min(_,_))\n    analyze(reducedRDD2)",
+      "dateUpdated": "Jan 22, 2016 6:35:40 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453486570583_-2132894221",
+      "id": "20160122-181610_1302458114",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "pairs: Seq[(Int, Int)] \u003d List((1,9), (1,2), (1,1), (2,3), (2,4), (3,1), (3,5), (6,2), (6,1), (6,4), (8,1))\npairsRDD: org.apache.spark.rdd.RDD[(Int, Int)] \u003d ParallelCollectionRDD[1539] at parallelize at \u003cconsole\u003e:71\nreducedRDD: org.apache.spark.rdd.RDD[(Int, Int)] \u003d ShuffledRDD[1540] at reduceByKey at \u003cconsole\u003e:73\n4 partitions\nPartition 0 contents: (1,9) (1,2)\nPartition 1 contents: (1,1) (2,3) (2,4)\nPartition 2 contents: (3,1) (3,5) (6,2)\nPartition 3 contents: (6,1) (6,4) (8,1)\n4 partitions\nPartition 0 contents: (8,1)\nPartition 1 contents: (1,1)\nPartition 2 contents: (6,1) (2,3)\nPartition 3 contents: (3,1)\ndefined class KeyPartitioner\nkeyPartitionedPairs: org.apache.spark.rdd.RDD[(Int, Int)] \u003d ShuffledRDD[1545] at partitionBy at \u003cconsole\u003e:76\n4 partitions\nPartition 0 contents: (8,1)\nPartition 1 contents: (1,9) (1,2) (1,1)\nPartition 2 contents: (2,3) (2,4) (6,2) (6,1) (6,4)\nPartition 3 contents: (3,1) (3,5)\nreducedRDD: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MapPartitionsRDD[1548] at reduceByKey at \u003cconsole\u003e:74\n4 partitions\nPartition 0 contents: (8,1)\nPartition 1 contents: (1,1)\nPartition 2 contents: (6,1) (2,3)\nPartition 3 contents: (3,1)\nminValFunc: (i: Iterator[(Int, Int)])Iterator[(Int, Int)]\nreducedInPlace: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MapPartitionsRDD[1551] at mapPartitions at \u003cconsole\u003e:76\n4 partitions\nPartition 0 contents: (8,1)\nPartition 1 contents: (1,1)\nPartition 2 contents: (2,3) (6,1)\nPartition 3 contents: (3,1)\nreducedRDD2: org.apache.spark.rdd.RDD[(Int, Int)] \u003d ShuffledRDD[1554] at aggregateByKey at \u003cconsole\u003e:79\n4 partitions\nPartition 0 contents: (8,1)\nPartition 1 contents: (1,1)\nPartition 2 contents: (6,1) (2,3)\nPartition 3 contents: (3,1)\n"
+      },
+      "dateCreated": "Jan 22, 2016 6:16:10 PM",
+      "dateStarted": "Jan 22, 2016 6:35:40 PM",
+      "dateFinished": "Jan 22, 2016 6:35:43 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453486847634_-222973845",
+      "id": "20160122-182047_1915483743",
+      "dateCreated": "Jan 22, 2016 6:20:47 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_RDDBasics",
+  "id": "2BAS2M27G",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

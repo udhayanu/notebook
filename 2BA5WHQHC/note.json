@@ -1,0 +1,363 @@
+{
+  "paragraphs": [
+    {
+      "text": "/*_________________________________________________________________________*/\n/************Lab 4.1.2 - Load Data into Apache Spark **********/\n//Map input variables\nval IncidntNum \u003d 0\nval Category \u003d 1\nval Descript \u003d 2\nval DayOfWeek \u003d 3\nval Date \u003d 4\nval Time \u003d 5\nval PdDistrict \u003d 6\nval Resolution \u003d 7\nval Address \u003d 8\nval X \u003d 9\nval Y \u003d 10\nval PdId \u003d 11\n\n//Load SFPD data into RDD\nval sfpdRDD \u003d sc.textFile(\"/resources/Datasets/Dev361/data/sfpd.csv\").map(line\u003d\u003eline.split(\",\"))",
+      "dateUpdated": "Jan 28, 2016 10:17:51 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454019441821_-676650574",
+      "id": "20160128-221721_1258221434",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "IncidntNum: Int \u003d 0\nCategory: Int \u003d 1\nDescript: Int \u003d 2\nDayOfWeek: Int \u003d 3\nDate: Int \u003d 4\nTime: Int \u003d 5\nPdDistrict: Int \u003d 6\nResolution: Int \u003d 7\nAddress: Int \u003d 8\nX: Int \u003d 9\nY: Int \u003d 10\nPdId: Int \u003d 11\nsfpdRDD: org.apache.spark.rdd.RDD[Array[String]] \u003d MapPartitionsRDD[56] at map at \u003cconsole\u003e:31\n"
+      },
+      "dateCreated": "Jan 28, 2016 10:17:21 PM",
+      "dateStarted": "Jan 28, 2016 10:17:51 PM",
+      "dateFinished": "Jan 28, 2016 10:17:52 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/*_________________________________________________________________________*/\n/**************LAB 4.2.1 Explore Data Using RDD Operations******************/\n//1. How do you see the first element of the inputRDD?\nsfpdRDD.first()\n\n//2.What do you use to see the first 5 elements of the RDD?\nsfpdRDD.take(5)\n\n//3. What is the total number of incidents?\nval totincs \u003d sfpdRDD.count()\n\n//4. What is the total number of distinct resolutionss?\nval totres \u003d sfpdRDD.map(inc\u003d\u003einc(Resolution)).distinct.count\n\n//4. List all the Districts.\nval dists \u003d sfpdRDD.map(inc\u003d\u003einc(PdDistrict)).distinct\ndists.collect",
+      "dateUpdated": "Jan 28, 2016 10:18:55 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454019463942_666517703",
+      "id": "20160128-221743_35653040",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res50: Array[String] \u003d Array(150599321, OTHER_OFFENSES, POSSESSION_OF_BURGLARY_TOOLS, Thursday, 7/9/15, 23:45, CENTRAL, ARREST/BOOKED, JACKSON_ST/POWELL_ST, -122.4099006, 37.79561712, 15059900000000)\nres53: Array[Array[String]] \u003d Array(Array(150599321, OTHER_OFFENSES, POSSESSION_OF_BURGLARY_TOOLS, Thursday, 7/9/15, 23:45, CENTRAL, ARREST/BOOKED, JACKSON_ST/POWELL_ST, -122.4099006, 37.79561712, 15059900000000), Array(156168837, LARCENY/THEFT, PETTY_THEFT_OF_PROPERTY, Thursday, 7/9/15, 23:45, CENTRAL, NONE, 300_Block_of_POWELL_ST, -122.4083843, 37.78782711, 15616900000000), Array(150599321, OTHER_OFFENSES, DRIVERS_LICENSE/SUSPENDED_OR_REVOKED, Thursday, 7/9/15, 23:45, CENTRAL, ARREST/BOOKED, JACKSON_ST/POWELL_ST, -122.4099006, 37.79561712, 15059900000000), Array(150599224, OTHER_OFFENSES, DRIVERS_LICENSE/SUSPENDED_OR_REVOKED, Thursday, 7/9/15, 23:36, PARK, ARREST/BOOKED, MASONIC_AV/GOLDEN_GATE_AV, -122.4468469, 37.77766882, 15059900000000), Array(156169067, LARCENY/THEFT, GRAND_THEFT_...totincs: Long \u003d 383775\ntotres: Long \u003d 17\ndists: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[64] at distinct at \u003cconsole\u003e:35\nres60: Array[String] \u003d Array(INGLESIDE, SOUTHERN, PARK, NORTHERN, MISSION, RICHMOND, TENDERLOIN, BAYVIEW, TARAVAL, CENTRAL)\n"
+      },
+      "dateCreated": "Jan 28, 2016 10:17:43 PM",
+      "dateStarted": "Jan 28, 2016 10:18:55 PM",
+      "dateFinished": "Jan 28, 2016 10:18:58 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/*_________________________________________________________________________*/\n/*************LAB 4.3.1 - Create PAIR RDDs \u0026 apply pairRDD operations**************/\n//1. Which five districts have the highest incidents?\nval top5Dists \u003d sfpdRDD.map(incident\u003d\u003e(incident(PdDistrict),1)).reduceByKey((x,y)\u003d\u003ex+y).map(x\u003d\u003e(x._2,x._1)).sortByKey(false).take(5)\n\n//2. Which five addresses have the highest number of incidents?\nval top5Adds \u003d sfpdRDD.map(incident\u003d\u003e(incident(Address),1)).reduceByKey((x,y)\u003d\u003ex+y).map(x\u003d\u003e(x._2,x._1)).sortByKey(false).take(5)\n\n//3. What are the top three catefories of incidents?\nval top3Cat \u003d sfpdRDD.map(incident\u003d\u003e(incident(Category),1)).reduceByKey((x,y)\u003d\u003ex+y).map(x\u003d\u003e(x._2,x._1)).sortByKey(false).take(3)\n\n//4. What is the count of incidents by district?\nval num_inc_dist \u003d sfpdRDD.map(incident\u003d\u003e(incident(PdDistrict),1)).countByKey()",
+      "dateUpdated": "Jan 28, 2016 10:31:44 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454019535013_601033770",
+      "id": "20160128-221855_1304172231",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "top5Dists: Array[(Int, String)] \u003d Array((73308,SOUTHERN), (50164,MISSION), (46877,NORTHERN), (41914,CENTRAL), (36111,BAYVIEW))\ntop5Adds: Array[(Int, String)] \u003d Array((10852,800_Block_of_BRYANT_ST), (3671,800_Block_of_MARKET_ST), (2027,1000_Block_of_POTRERO_AV), (1585,2000_Block_of_MISSION_ST), (1512,16TH_ST/MISSION_ST))\ntop3Cat: Array[(Int, String)] \u003d Array((96955,LARCENY/THEFT), (50611,OTHER_OFFENSES), (50269,NON-CRIMINAL))\nnum_inc_dist: scala.collection.Map[String,Long] \u003d Map(SOUTHERN -\u003e 73308, INGLESIDE -\u003e 33159, TENDERLOIN -\u003e 30174, MISSION -\u003e 50164, TARAVAL -\u003e 27470, RICHMOND -\u003e 21221, NORTHERN -\u003e 46877, PARK -\u003e 23377, CENTRAL -\u003e 41914, BAYVIEW -\u003e 36111)\n"
+      },
+      "dateCreated": "Jan 28, 2016 10:18:55 PM",
+      "dateStarted": "Jan 28, 2016 10:31:44 PM",
+      "dateFinished": "Jan 28, 2016 10:31:49 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/*_________________________________________________________________________*/\n/**************************Lab 4.3.2. Join PairRDD**************************/\n//5. Load each dataset into separate pairRDDs with “address” being the key? \nval catAdd \u003d sc.textFile(\"/resources/Datasets/Dev361/data/J_AddCat.csv\").map(x\u003d\u003ex.split(\",\")).map(x\u003d\u003e(x(1),x(0)))\nval distAdd \u003d sc.textFile(\"/resources/Datasets/Dev361/data/J_AddDist.csv\").map(x\u003d\u003ex.split(\",\")).map(x\u003d\u003e(x(1),x(0)))\nprintln(\"catAdd...........\")\ncatAdd.collect.foreach(println)\nprintln(\"distAdd...........\")\ndistAdd.collect.foreach(println)\n",
+      "dateUpdated": "Jan 29, 2016 8:43:01 PM",
+      "config": {
+        "colWidth": 4.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454020304589_1293084838",
+      "id": "20160128-223144_96655148",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "catAdd: org.apache.spark.rdd.RDD[(String, String)] \u003d MapPartitionsRDD[403] at map at \u003cconsole\u003e:32\ndistAdd: org.apache.spark.rdd.RDD[(String, String)] \u003d MapPartitionsRDD[407] at map at \u003cconsole\u003e:29\ncatAdd...........\n(100_Block_of_JEFFERSON_ST,EMBEZZLEMENT)\n(SUTTER_ST/MASON_ST,EMBEZZLEMENT)\n(0_Block_of_SOUTHPARK_AV,BRIBERY)\n(1500_Block_of_15TH_ST,EMBEZZLEMENT)\n(200_Block_of_BUSH_ST,EMBEZZLEMENT)\n(1900_Block_of_MISSION_ST,BRIBERY)\n(800_Block_of_MARKET_ST,EMBEZZLEMENT)\n(2000_Block_of_MARKET_ST,EMBEZZLEMENT)\n(1400_Block_of_CLEMENT_ST,BRIBERY)\n(1600_Block_of_FILLMORE_ST,EMBEZZLEMENT)\n(1400_Block_of_VANDYKE_AV,EMBEZZLEMENT)\n(100_Block_of_BLUXOME_ST,BAD CHECKS)\n(1400_Block_of_VANDYKE_AV,BRIBERY)\n(1100_Block_of_SELBY_ST,BAD CHECKS)\ndistAdd...........\n(100_Block_of_ROME_ST,INGLESIDE)\n(0_Block_of_SOUTHPARK_AV,SOUTHERN)\n(1900_Block_of_MISSION_ST,MISSION)\n(1400_Block_of_CLEMENT_ST,RICHMOND)\n(100_Block_of_BLUXOME_ST,SOUTHERN)\n(300_Block_of_BERRY_ST,SOUTHERN)\n(1400_Block_of_VANDYKE_AV,BAYVIEW)\n(1100_Block_of_MISSION_ST,SOUTHERN)\n(0_Block_of_CHUMASERO_DR,TARAVAL)\n"
+      },
+      "dateCreated": "Jan 28, 2016 10:31:44 PM",
+      "dateStarted": "Jan 29, 2016 8:43:01 PM",
+      "dateFinished": "Jan 29, 2016 8:43:02 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//6. List the incident category and district for for those addresses that have both category and district information. Verify that the size estimated earlier is correct.\nval catJdist \u003d catAdd.join(distAdd)\nprintln(\"----------------Join-----------------\")\ncatJdist.collect.foreach(println)\ncatJdist.count\ncatJdist.take(10)\n\n//7.\tList the incident category and district for all addresses irrespective of whether each address has category and district information. Verify that the size estimated earlier is correct.\nval catJdist1 \u003d catAdd.leftOuterJoin(distAdd)\nprintln(\"----------------leftOuterJoin-----------------\")\ncatJdist1.collect.foreach(println)\ncatJdist.count\n",
+      "dateUpdated": "Jan 29, 2016 8:43:02 PM",
+      "config": {
+        "colWidth": 4.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454099985054_705208335",
+      "id": "20160129-203945_841335133",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "catJdist: org.apache.spark.rdd.RDD[(String, (String, String))] \u003d MapPartitionsRDD[410] at join at \u003cconsole\u003e:34\n----------------Join-----------------\n(1400_Block_of_CLEMENT_ST,(BRIBERY,RICHMOND))\n(100_Block_of_BLUXOME_ST,(BAD CHECKS,SOUTHERN))\n(1400_Block_of_VANDYKE_AV,(EMBEZZLEMENT,BAYVIEW))\n(1400_Block_of_VANDYKE_AV,(BRIBERY,BAYVIEW))\n(0_Block_of_SOUTHPARK_AV,(BRIBERY,SOUTHERN))\n(1900_Block_of_MISSION_ST,(BRIBERY,MISSION))\nres515: Long \u003d 6\nres516: Array[(String, (String, String))] \u003d Array((1400_Block_of_CLEMENT_ST,(BRIBERY,RICHMOND)), (100_Block_of_BLUXOME_ST,(BAD CHECKS,SOUTHERN)), (1400_Block_of_VANDYKE_AV,(EMBEZZLEMENT,BAYVIEW)), (1400_Block_of_VANDYKE_AV,(BRIBERY,BAYVIEW)), (0_Block_of_SOUTHPARK_AV,(BRIBERY,SOUTHERN)), (1900_Block_of_MISSION_ST,(BRIBERY,MISSION)))\ncatJdist1: org.apache.spark.rdd.RDD[(String, (String, Option[String]))] \u003d MapPartitionsRDD[413] at leftOuterJoin at \u003cconsole\u003e:35\n----------------leftOuterJoin-----------------\n(1600_Block_of_FILLMORE_ST,(EMBEZZLEMENT,None))\n(1400_Block_of_CLEMENT_ST,(BRIBERY,Some(RICHMOND)))\n(100_Block_of_BLUXOME_ST,(BAD CHECKS,Some(SOUTHERN)))\n(1100_Block_of_SELBY_ST,(BAD CHECKS,None))\n(1400_Block_of_VANDYKE_AV,(EMBEZZLEMENT,Some(BAYVIEW)))\n(1400_Block_of_VANDYKE_AV,(BRIBERY,Some(BAYVIEW)))\n(100_Block_of_JEFFERSON_ST,(EMBEZZLEMENT,None))\n(SUTTER_ST/MASON_ST,(EMBEZZLEMENT,None))\n(0_Block_of_SOUTHPARK_AV,(BRIBERY,Some(SOUTHERN)))\n(800_Block_of_MARKET_ST,(EMBEZZLEMENT,None))\n(2000_Block_of_MARKET_ST,(EMBEZZLEMENT,None))\n(1500_Block_of_15TH_ST,(EMBEZZLEMENT,None))\n(200_Block_of_BUSH_ST,(EMBEZZLEMENT,None))\n(1900_Block_of_MISSION_ST,(BRIBERY,Some(MISSION)))\nres521: Long \u003d 6\n"
+      },
+      "dateCreated": "Jan 29, 2016 8:39:45 PM",
+      "dateStarted": "Jan 29, 2016 8:43:02 PM",
+      "dateFinished": "Jan 29, 2016 8:43:03 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\n//8.\tList the incident district and category for all addresses irrespective of whether each address has category and district information. Verify that the size estimated earlier is correct.\nval catJdist2 \u003d catAdd.rightOuterJoin(distAdd)\nprintln(\"----------------rightOuterJoin-----------------\")\ncatJdist2.collect.foreach(println)\ncatJdist2.count",
+      "dateUpdated": "Jan 29, 2016 8:43:05 PM",
+      "config": {
+        "colWidth": 4.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454100059965_-174588162",
+      "id": "20160129-204059_1545254618",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "catJdist2: org.apache.spark.rdd.RDD[(String, (Option[String], String))] \u003d MapPartitionsRDD[416] at rightOuterJoin at \u003cconsole\u003e:35\n----------------rightOuterJoin-----------------\n(300_Block_of_BERRY_ST,(None,SOUTHERN))\n(1400_Block_of_CLEMENT_ST,(Some(BRIBERY),RICHMOND))\n(100_Block_of_BLUXOME_ST,(Some(BAD CHECKS),SOUTHERN))\n(1400_Block_of_VANDYKE_AV,(Some(EMBEZZLEMENT),BAYVIEW))\n(1400_Block_of_VANDYKE_AV,(Some(BRIBERY),BAYVIEW))\n(0_Block_of_SOUTHPARK_AV,(Some(BRIBERY),SOUTHERN))\n(0_Block_of_CHUMASERO_DR,(None,TARAVAL))\n(1100_Block_of_MISSION_ST,(None,SOUTHERN))\n(100_Block_of_ROME_ST,(None,INGLESIDE))\n(1900_Block_of_MISSION_ST,(Some(BRIBERY),MISSION))\nres527: Long \u003d 10\n"
+      },
+      "dateCreated": "Jan 29, 2016 8:40:59 PM",
+      "dateStarted": "Jan 29, 2016 8:43:05 PM",
+      "dateFinished": "Jan 29, 2016 8:43:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\n/*_________________________________________________________________________*/\n/**************************Lab 4.4.1. Join PairRDD**************************/\n//1. How many partitions are there in the sfpdRDD?\nsfpdRDD.partitions.size\n\n//2. How do you find the type of partitioner?\nsfpdRDD.partitioner\n\n//3. Create a pair RDD - INcidents by district\nval incByDists \u003d sfpdRDD.map(incident\u003d\u003e(incident(PdDistrict),1)).reduceByKey((x,y)\u003d\u003ex+y)\n//How many partitions does this have?\nincByDists.partitions.size\n//What is the type of partitioner?\nincByDists.partitioner\n\n//4. Now add a map transformation\nval inc_map \u003d incByDists.map(x\u003d\u003e(x._2,x._1))\n//Is there a change in the size?\ninc_map.partitions.size\n//What about the type of partitioner?\ninc_map.partitioner\n\n\n//5.Add sortByKey()\nval inc_sort\u003dincByDists.map(x\u003d\u003e(x._2,x._1)).sortByKey(false)\n//type of partitioner\ninc_sort.partitioner\n\n//6. Add groupByKey\nval inc_group \u003d sfpdRDD.map(incident\u003d\u003e(incident(PdDistrict),1)).groupByKey()\n//type of partitioner\n//Is there a change in the size?\ninc_group.partitions.size\n//What about the type of partitioner?\ninc_group.partitioner\n\n//7. specify partition size in the transformation\nval incByDists \u003d sfpdRDD.map(incident\u003d\u003e(incident(PdDistrict),1)).reduceByKey((x,y)\u003d\u003ex+y,10)\n//number of partitions\nincByDists.partitions.size\n//What about the type of partitioner?\nincByDists.partitioner\n\n//8. Create 2 pairRDD\nval catAdd \u003d sc.textFile(\"/resources/Datasets/Dev361/data/J_AddCat.csv\").map(x\u003d\u003ex.split(\",\")).map(x\u003d\u003e(x(1),x(0)))\nval distAdd \u003d sc.textFile(\"/resources/Datasets/Dev361/data/J_AddDist.csv\").map(x\u003d\u003ex.split(\",\")).map(x\u003d\u003e(x(1),x(0)))\n\n//9. join and specify partitions- then check the number of partitions and the partitioner\nval catJdist\u003dcatAdd.join(distAdd,8)\ncatJdist.partitions.size\ncatJdist.partitioner",
+      "dateUpdated": "Jan 29, 2016 8:49:58 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454020325443_186577650",
+      "id": "20160128-223205_187802893",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res615: Int \u003d 2\nres618: Option[org.apache.spark.Partitioner] \u003d None\nincByDists: org.apache.spark.rdd.RDD[(String, Int)] \u003d ShuffledRDD[462] at reduceByKey at \u003cconsole\u003e:35\nres622: Int \u003d 2\nres624: Option[org.apache.spark.Partitioner] \u003d Some(org.apache.spark.HashPartitioner@2)\ninc_map: org.apache.spark.rdd.RDD[(Int, String)] \u003d MapPartitionsRDD[463] at map at \u003cconsole\u003e:37\nres628: Int \u003d 2\nres630: Option[org.apache.spark.Partitioner] \u003d None\ninc_sort: org.apache.spark.rdd.RDD[(Int, String)] \u003d ShuffledRDD[467] at sortByKey at \u003cconsole\u003e:38\nres635: Option[org.apache.spark.Partitioner] \u003d Some(org.apache.spark.RangePartitioner@111d67)\ninc_group: org.apache.spark.rdd.RDD[(String, Iterable[Int])] \u003d ShuffledRDD[469] at groupByKey at \u003cconsole\u003e:35\nres640: Int \u003d 2\nres642: Option[org.apache.spark.Partitioner] \u003d Some(org.apache.spark.HashPartitioner@2)\nincByDists: org.apache.spark.rdd.RDD[(String, Int)] \u003d ShuffledRDD[471] at reduceByKey at \u003cconsole\u003e:35\nres646: Int \u003d 10\nres648: Option[org.apache.spark.Partitioner] \u003d Some(org.apache.spark.HashPartitioner@a)\ncatAdd: org.apache.spark.rdd.RDD[(String, String)] \u003d MapPartitionsRDD[475] at map at \u003cconsole\u003e:31\ndistAdd: org.apache.spark.rdd.RDD[(String, String)] \u003d MapPartitionsRDD[479] at map at \u003cconsole\u003e:29\ncatJdist: org.apache.spark.rdd.RDD[(String, (String, String))] \u003d MapPartitionsRDD[482] at join at \u003cconsole\u003e:35\nres653: Int \u003d 8\nres654: Option[org.apache.spark.Partitioner] \u003d Some(org.apache.spark.HashPartitioner@8)\n"
+      },
+      "dateCreated": "Jan 28, 2016 10:32:05 PM",
+      "dateStarted": "Jan 29, 2016 8:49:58 PM",
+      "dateFinished": "Jan 29, 2016 8:50:00 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/*_________________________________________________________________________*/\n//*************************Lab 5.1 **************************\nimport sqlContext._\nimport sqlContext.implicits._\n\nval sfpdRDD \u003d sc.textFile(\"/resources/Datasets/Dev361/data/sfpd.csv\").map(inc\u003d\u003einc.split(\",\"))\n\ncase class Incidents(incidentnum:String, category:String, description:String, dayofweek:String, date:String, time:String, pddistrict:String, resolution:String, address:String, X:Float, Y:Float, pdid:String)\n\nval sfpdCase\u003dsfpdRDD.map(inc\u003d\u003eIncidents(inc(0),inc(1), inc(2),inc(3),inc(4),inc(5),inc(6),inc(7),inc(8),inc(9).toFloat,inc(10).toFloat, inc(11)))\n\nval sfpdDF\u003dsfpdCase.toDF()\n \nsfpdDF.registerTempTable(\"sfpd\")\n\n/*_________________________________________________________________________*/",
+      "dateUpdated": "Jan 29, 2016 8:52:25 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454099767229_-724624203",
+      "id": "20160129-203607_1175397738",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import sqlContext._\nimport sqlContext.implicits._\nsfpdRDD: org.apache.spark.rdd.RDD[Array[String]] \u003d MapPartitionsRDD[498] at map at \u003cconsole\u003e:42\ndefined class Incidents\nsfpdCase: org.apache.spark.rdd.RDD[Incidents] \u003d MapPartitionsRDD[499] at map at \u003cconsole\u003e:46\nsfpdDF: org.apache.spark.sql.DataFrame \u003d [incidentnum: string, category: string, description: string, dayofweek: string, date: string, time: string, pddistrict: string, resolution: string, address: string, X: float, Y: float, pdid: string]\n"
+      },
+      "dateCreated": "Jan 29, 2016 8:36:07 PM",
+      "dateStarted": "Jan 29, 2016 8:52:25 PM",
+      "dateFinished": "Jan 29, 2016 8:52:27 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/*_________________________________________________________________________*/\n/*********************Lab 5.2 Explore data in DataFrames **************************/\n//1. Top 5 Districts\nval incByDist \u003d sfpdDF.groupBy(\"pddistrict\").count.sort($\"count\".desc).show(5)\n                     \nval topByDistSQL \u003d sqlContext.sql(\"SELECT pddistrict, count(incidentnum) AS inccount FROM sfpd GROUP BY pddistrict ORDER BY inccount DESC LIMIT 5\")\n// topByDistSQL.show() same output using SQL\n//2. What are the top ten resolutions?\nval top10Res \u003d sfpdDF.groupBy(\"resolution\").count.sort($\"count\".desc)\ntop10Res.show(10)\nval top10ResSQL \u003d sqlContext.sql(\"SELECT resolution, count(incidentnum) AS inccount FROM sfpd GROUP BY resolution ORDER BY inccount DESC LIMIT 10\")\n//3. Top 3 categories\nval top3Cat \u003d sfpdDF.groupBy(\"category\").count.sort($\"count\".desc).show(3)\nval top3CatSQL\u003dsqlContext.sql(\"SELECT category, count(incidentnum) AS inccount FROM sfpd GROUP BY category ORDER BY inccount DESC LIMIT 3\")\n//4. Save the top 10 resolutions to a JSON file.\n//top10ResSQL.toJSON.saveAsTextFile(\"/\u003cuserhome\u003e/output\")\n/*_________________________________________________________________________*/",
+      "dateUpdated": "Jan 29, 2016 8:55:06 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454100710374_-1578246860",
+      "id": "20160129-205150_475425580",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+----------+-----+\n|pddistrict|count|\n+----------+-----+\n|  SOUTHERN|73308|\n|   MISSION|50164|\n|  NORTHERN|46877|\n|   CENTRAL|41914|\n|   BAYVIEW|36111|\n+----------+-----+\nonly showing top 5 rows\n\nincByDist: Unit \u003d ()\ntopByDistSQL: org.apache.spark.sql.DataFrame \u003d [pddistrict: string, inccount: bigint]\ntop10Res: org.apache.spark.sql.DataFrame \u003d [resolution: string, count: bigint]\n+--------------------+------+\n|          resolution| count|\n+--------------------+------+\n|                NONE|243538|\n|       ARREST/BOOKED| 86766|\n|        ARREST/CITED| 22925|\n|   PSYCHOPATHIC_CASE|  8344|\n|             LOCATED|  6878|\n|           UNFOUNDED|  4551|\n|COMPLAINANT_REFUS...|  4215|\n|     JUVENILE_BOOKED|  2381|\n|EXCEPTIONAL_CLEAR...|  1134|\n|      JUVENILE_CITED|  1039|\n+--------------------+------+\nonly showing top 10 rows\n\ntop10ResSQL: org.apache.spark.sql.DataFrame \u003d [resolution: string, inccount: bigint]\n+--------------+-----+\n|      category|count|\n+--------------+-----+\n| LARCENY/THEFT|96955|\n|OTHER_OFFENSES|50611|\n|  NON-CRIMINAL|50269|\n+--------------+-----+\nonly showing top 3 rows\n\ntop3Cat: Unit \u003d ()\ntop3CatSQL: org.apache.spark.sql.DataFrame \u003d [category: string, inccount: bigint]\n"
+      },
+      "dateCreated": "Jan 29, 2016 8:51:50 PM",
+      "dateStarted": "Jan 29, 2016 8:55:06 PM",
+      "dateFinished": "Jan 29, 2016 8:55:12 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/*********************Lab 5.3 User Defined Functions ***********************/\n//5.3.1 - UDF with DataFrame operations (Scala DSL)\n//1. Function definition inline\n//\n/*\nval getyy\u003d  udf((s:String)\u003d\u003e{val yy \u003d s.substring(s.lastIndexOf(\u0027/\u0027)+1)\nyy\n})\n//2. Count of incidents by year\nval incbyyear \u003d sfpdDF.groupBy(getyy(sfpdDF(\"date\"))).count.show\n\nmy changes\n//2. Count of incidents by year\nsfpdDF.select(\"pddistrict\",getyear($\"date\")).show()\nsfpdDF.select(\"pddistrict\",getyear(sfpdDF(\"date\"))).show()\n\nval incbyyear \u003d sfpdDF.select(\"pddistrict\",getyear(\"date\").as(\"year\")).groupBy($\"date\").count.show\n\n*/\nsqlContext.udf.register(\"getyyy\",(s:String)\u003d\u003e{val yy \u003d s.substring(s.lastIndexOf(\u0027/\u0027)+1)\nyy\n})\n\nsfpdDF.printSchema\n\n//5.3.2 - UDF with SQL\n//1. define funciton \ndef getyear(s:String):String \u003d {\nval year \u003d s.substring(s.lastIndexOf(\u0027/\u0027)+1)\nyear\n}\n//2. register the function as a udf \nsqlContext.udf.register(\"getyear\",getyear _)\n\n//3. count inc by year\nval incyearSQL\u003dsqlContext.sql(\"SELECT getyear(date), count(incidentnum) AS countbyyear FROM sfpd GROUP BY getyear(date) ORDER BY countbyyear DESC\")\nincyearSQL.show()\n\n//4. Category, resolution and address of reported incidents in 2014 \nval inc2014 \u003d sqlContext.sql(\"SELECT category,address,resolution, date FROM sfpd WHERE getyyy(date)\u003d\u002713\u0027\")\ninc2014.show()\n\n//5. Vandalism only in 2014 with address, resolution and category\nval van2015 \u003d sqlContext.sql(\"SELECT category,address,resolution, date FROM sfpd WHERE getyear(date)\u003d\u002715\u0027 AND category\u003d\u0027VANDALISM\u0027\")\nvan2015.show()\nvan2015.count\n\nvan2015.toJSON.first()",
+      "dateUpdated": "Jan 29, 2016 9:35:51 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454100726518_615622017",
+      "id": "20160129-205206_706089252",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res1112: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction1\u003e,StringType,List())\nroot\n |-- incidentnum: string (nullable \u003d true)\n |-- category: string (nullable \u003d true)\n |-- description: string (nullable \u003d true)\n |-- dayofweek: string (nullable \u003d true)\n |-- date: string (nullable \u003d true)\n |-- time: string (nullable \u003d true)\n |-- pddistrict: string (nullable \u003d true)\n |-- resolution: string (nullable \u003d true)\n |-- address: string (nullable \u003d true)\n |-- X: float (nullable \u003d false)\n |-- Y: float (nullable \u003d false)\n |-- pdid: string (nullable \u003d true)\n\ngetyear: (s: String)String\nres1119: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction1\u003e,StringType,List())\nincyearSQL: org.apache.spark.sql.DataFrame \u003d [_c0: string, countbyyear: bigint]\n+---+-----------+\n|_c0|countbyyear|\n+---+-----------+\n| 13|     152830|\n| 14|     150185|\n| 15|      80760|\n+---+-----------+\n\ninc2014: org.apache.spark.sql.DataFrame \u003d [category: string, address: string, resolution: string, date: string]\n+------------------+--------------------+-------------+--------+\n|          category|             address|   resolution|    date|\n+------------------+--------------------+-------------+--------+\n|    OTHER_OFFENSES|100_Block_of_FUNS...|    UNFOUNDED|12/31/13|\n|    MISSING_PERSON|500_Block_of_DOLO...|      LOCATED|12/31/13|\n|           ASSAULT|200_Block_of_GOLD...|ARREST/BOOKED|12/31/13|\n|       DRUNKENNESS|500_Block_of_DOLO...|      LOCATED|12/31/13|\n|           ASSAULT|200_Block_of_GOLD...|ARREST/BOOKED|12/31/13|\n|DISORDERLY_CONDUCT|900_Block_of_MARK...|ARREST/BOOKED|12/31/13|\n|       DRUNKENNESS|900_Block_of_MARK...|ARREST/BOOKED|12/31/13|\n|    SUSPICIOUS_OCC|300_Block_of_BROA...|         NONE|12/31/13|\n|           ASSAULT|300_Block_of_BROA...|         NONE|12/31/13|\n|           ASSAULT|200_Block_of_COLU...|         NONE|12/31/13|\n|           ASSAULT|100_Block_of_ERIE_ST|         NONE|12/31/13|\n|     LARCENY/THEFT|0_Block_of_CERVAN...|         NONE|12/31/13|\n|           ASSAULT|300_Block_of_ARBA...|         NONE|12/31/13|\n|         VANDALISM| 200_Block_of_LEE_AV|         NONE|12/31/13|\n|         VANDALISM|2700_Block_of_MIS...|         NONE|12/31/13|\n|           ASSAULT|1600_Block_of_MIS...|         NONE|12/31/13|\n|     DRUG/NARCOTIC|0_Block_of_DICHIE...| ARREST/CITED|12/31/13|\n|      NON-CRIMINAL|800_Block_of_BRYA...|         NONE|12/31/13|\n|           ASSAULT|300_Block_of_GROV...|         NONE|12/31/13|\n|     LARCENY/THEFT|500_Block_of_GREE...|         NONE|12/31/13|\n+------------------+--------------------+-------------+--------+\nonly showing top 20 rows\n\nvan2015: org.apache.spark.sql.DataFrame \u003d [category: string, address: string, resolution: string, date: string]\n+---------+--------------------+-------------+------+\n| category|             address|   resolution|  date|\n+---------+--------------------+-------------+------+\n|VANDALISM|1000_Block_of_POL...|ARREST/BOOKED|7/9/15|\n|VANDALISM|0_Block_of_VICENT...|         NONE|7/9/15|\n|VANDALISM|500_Block_of_CAST...|         NONE|7/9/15|\n|VANDALISM|3400_Block_of_19T...|         NONE|7/9/15|\n|VANDALISM|700_Block_of_COLU...|         NONE|7/9/15|\n|VANDALISM|  LINCOLN_WY/22ND_AV|         NONE|7/9/15|\n|VANDALISM|1700_Block_of_SIL...|         NONE|7/9/15|\n|VANDALISM|300_Block_of_POST_ST|         NONE|7/9/15|\n|VANDALISM|GREENWICH_ST/JONE...|         NONE|7/9/15|\n|VANDALISM|3400_Block_of_25T...|         NONE|7/9/15|\n|VANDALISM|900_Block_of_ELLS...|         NONE|7/9/15|\n|VANDALISM|800_Block_of_HAYE...|         NONE|7/9/15|\n|VANDALISM|900_Block_of_GEAR...|ARREST/BOOKED|7/9/15|\n|VANDALISM|0_Block_of_WALLER_ST|         NONE|7/9/15|\n|VANDALISM|1700_Block_of_SUN...|         NONE|7/9/15|\n|VANDALISM|  BUSH_ST/WEBSTER_ST|ARREST/BOOKED|7/9/15|\n|VANDALISM|2000_Block_of_PIE...|         NONE|7/9/15|\n|VANDALISM| QUINTARA_ST/23RD_AV|         NONE|7/9/15|\n|VANDALISM|1900_Block_of_FIL...|         NONE|7/8/15|\n|VANDALISM|  0_Block_of_SALA_TR|         NONE|7/8/15|\n+---------+--------------------+-------------+------+\nonly showing top 20 rows\n\nres1129: Long \u003d 3898\nres1131: String \u003d {\"category\":\"VANDALISM\",\"address\":\"1000_Block_of_POLK_ST\",\"resolution\":\"ARREST/BOOKED\",\"date\":\"7/9/15\"}\n"
+      },
+      "dateCreated": "Jan 29, 2016 8:52:06 PM",
+      "dateStarted": "Jan 29, 2016 9:35:51 PM",
+      "dateFinished": "Jan 29, 2016 9:35:56 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454100937385_-1821268603",
+      "id": "20160129-205537_978732766",
+      "dateCreated": "Jan 29, 2016 8:55:37 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_MapR_361",
+  "id": "2BA5WHQHC",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

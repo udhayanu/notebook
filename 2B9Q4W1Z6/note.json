@@ -1,0 +1,162 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n## Big Data University Spark Fundamentals II course - Exercises\n- http://bigdatauniversity.com/moodle/course/view.php?id\u003d624\n- https://dzone.com/refcardz/apache-spark   Spark Reference Card\n- https://dzone.com/articles/spark-corner-cases\n\n- (BD097EN) Version #1: Updated: June 2015\n\n### RDD and SparkContext\n#### In this notebook, you\u0027ll see:\n\n- what is SparkContext\n- what is an RDD in Scala\n- the lazy definition of computation\n- the data/spark partitions\n- some spark functions for transformations\n- some spark functions for actions",
+      "dateUpdated": "Jan 19, 2016 6:12:53 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453216238547_787768209",
+      "id": "20160119-151038_51288034",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch2\u003eBig Data University Spark Fundamentals II course - Exercises\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003e\u003cp\u003ehttp://bigdatauniversity.com/moodle/course/view.php?id\u003d624\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003cp\u003ehttps://dzone.com/refcardz/apache-spark   Spark Reference Card\u003c/p\u003e\n\u003c/li\u003e\n\u003cli\u003e\u003cp\u003e(BD097EN) Version #1: Updated: June 2015\u003c/p\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n\u003ch3\u003eRDD and SparkContext\u003c/h3\u003e\n\u003ch4\u003eIn this notebook, you\u0027ll see:\u003c/h4\u003e\n\u003cul\u003e\n\u003cli\u003ewhat is SparkContext\u003c/li\u003e\n\u003cli\u003ewhat is an RDD in Scala\u003c/li\u003e\n\u003cli\u003ethe lazy definition of computation\u003c/li\u003e\n\u003cli\u003ethe data/spark partitions\u003c/li\u003e\n\u003cli\u003esome spark functions for transformations\u003c/li\u003e\n\u003cli\u003esome spark functions for actions\u003c/li\u003e\n\u003c/ul\u003e\n"
+      },
+      "dateCreated": "Jan 19, 2016 3:10:38 PM",
+      "dateStarted": "Jan 19, 2016 6:11:33 PM",
+      "dateFinished": "Jan 19, 2016 6:11:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\n\n#wget https://s3-eu-west-1.amazonaws.com/spark-notebook-data/parleys/data/spark-mails-2015.json -O \"/resources/Datasets/mails-parsed.json\"\n",
+      "dateUpdated": "Jan 19, 2016 4:02:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453218283951_-245904898",
+      "id": "20160119-154443_2108748616",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "--2016-01-19 15:49:37--  https://s3-eu-west-1.amazonaws.com/spark-notebook-data/parleys/data/spark-mails-2015.json\nResolving s3-eu-west-1.amazonaws.com (s3-eu-west-1.amazonaws.com)... 54.231.142.91\nConnecting to s3-eu-west-1.amazonaws.com (s3-eu-west-1.amazonaws.com)|54.231.142.91|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 7236293 (6.9M) [text/plain]\nSaving to: \u0027/resources/Datasets/mails-parsed.json\u0027\n\n     0K .......... .......... .......... .......... ..........  0%  178K 39s\n    50K .......... .......... .......... .......... ..........  1%  267K 33s\n   100K .......... .......... .......... .......... ..........  2%  527K 26s\n   150K .......... .......... .......... .......... ..........  2%  532K 23s\n   200K .......... .......... .......... .......... ..........  3%  529K 20s\n   250K .......... .......... .......... .......... ..........  4%  535K 19s\n   300K .......... .......... .......... .......... ..........  4%  539K 18s\n   350K .......... .......... .......... .......... ..........  5%  535K 17s\n   400K .......... .......... .......... .......... ..........  6% 33.5M 15s\n   450K .......... .......... .......... .......... ..........  7%  541K 15s\n   500K .......... .......... .......... .......... ..........  7% 32.2M 13s\n   550K .......... .......... .......... .......... ..........  8%  542K 13s\n   600K .......... .......... .......... .......... ..........  9% 43.2M 12s\n   650K .......... .......... .......... .......... ..........  9%  542K 12s\n   700K .......... .......... .......... .......... .......... 10% 44.4M 11s\n   750K .......... .......... .......... .......... .......... 11%  542K 11s\n   800K .......... .......... .......... .......... .......... 12% 45.9M 10s\n   850K .......... .......... .......... .......... .......... 12% 58.6M 10s\n   900K .......... .......... .......... .......... .......... 13% 81.5M 9s\n   950K .......... .......... .......... .......... .......... 14%  546K 9s\n  1000K .......... .......... .......... .......... .......... 14% 49.2M 9s\n  1050K .......... .......... .......... .......... .......... 15% 61.4M 8s\n  1100K .......... .......... .......... .......... .......... 16% 73.6M 8s\n  1150K .......... .......... .......... .......... .......... 16%  546K 8s\n  1200K .......... .......... .......... .......... .......... 17% 51.9M 7s\n  1250K .......... .......... .......... .......... .......... 18% 64.9M 7s\n  1300K .......... .......... .......... .......... .......... 19% 85.1M 7s\n  1350K .......... .......... .......... .......... .......... 19%  548K 7s\n  1400K .......... .......... .......... .......... .......... 20% 54.7M 7s\n  1450K .......... .......... .......... .......... .......... 21% 59.8M 6s\n  1500K .......... .......... .......... .......... .......... 21% 50.7M 6s\n  1550K .......... .......... .......... .......... .......... 22%  554K 6s\n  1600K .......... .......... .......... .......... .......... 23% 57.6M 6s\n  1650K .......... .......... .......... .......... .......... 24% 63.2M 6s\n  1700K .......... .......... .......... .......... .......... 24% 83.7M 5s\n  1750K .......... .......... .......... .......... .......... 25%  101M 5s\n  1800K .......... .......... .......... .......... .......... 26% 75.8M 5s\n  1850K .......... .......... .......... .......... .......... 26%  553K 5s\n  1900K .......... .......... .......... .......... .......... 27% 79.3M 5s\n  1950K .......... .......... .......... .......... .......... 28% 91.6M 5s\n  2000K .......... .......... .......... .......... .......... 29% 92.1M 5s\n  2050K .......... .......... .......... .......... .......... 29% 85.2M 4s\n  2100K .......... .......... .......... .......... .......... 30% 88.5M 4s\n  2150K .......... .......... .......... .......... .......... 31% 97.4M 4s\n  2200K .......... .......... .......... .......... .......... 31%  552K 4s\n  2250K .......... .......... .......... .......... .......... 32% 84.4M 4s\n  2300K .......... .......... .......... .......... .......... 33% 85.4M 4s\n  2350K .......... .......... .......... .......... .......... 33% 86.7M 4s\n  2400K .......... .......... .......... .......... .......... 34% 84.6M 4s\n  2450K .......... .......... .......... .......... .......... 35% 87.2M 4s\n  2500K .......... .......... .......... .......... .......... 36% 91.4M 3s\n  2550K .......... .......... .......... .......... .......... 36%  108M 3s\n  2600K .......... .......... .......... .......... .......... 37%  555K 3s\n  2650K .......... .......... .......... .......... .......... 38% 83.5M 3s\n  2700K .......... .......... .......... .......... .......... 38% 81.5M 3s\n  2750K .......... .......... .......... .......... .......... 39% 86.2M 3s\n  2800K .......... .......... .......... .......... .......... 40% 87.2M 3s\n  2850K .......... .......... .......... .......... .......... 41% 89.4M 3s\n  2900K .......... .......... .......... .......... .......... 41% 90.0M 3s\n  2950K .......... .......... .......... .......... .......... 42% 86.8M 3s\n  3000K .......... .......... .......... .......... .......... 43%  561K 3s\n  3050K .......... .......... .......... .......... .......... 43% 75.4M 3s\n  3100K .......... .......... .......... .......... .......... 44% 86.3M 3s\n  3150K .......... .......... .......... .......... .......... 45% 77.4M 3s\n  3200K .......... .......... .......... .......... .......... 45% 86.8M 3s\n  3250K .......... .......... .......... .......... .......... 46% 87.7M 2s\n  3300K .......... .......... .......... .......... .......... 47% 87.4M 2s\n  3350K .......... .......... .......... .......... .......... 48% 88.3M 2s\n  3400K .......... .......... .......... .......... .......... 48% 86.9M 2s\n  3450K .......... .......... .......... .......... .......... 49% 96.7M 2s\n  3500K .......... .......... .......... .......... .......... 50% 88.2M 2s\n  3550K .......... .......... .......... .......... .......... 50%  565K 2s\n  3600K .......... .......... .......... .......... .......... 51% 68.0M 2s\n  3650K .......... .......... .......... .......... .......... 52% 78.7M 2s\n  3700K .......... .......... .......... .......... .......... 53% 85.0M 2s\n  3750K .......... .......... .......... .......... .......... 53% 85.5M 2s\n  3800K .......... .......... .......... .......... .......... 54%  103M 2s\n  3850K .......... .......... .......... .......... .......... 55% 97.0M 2s\n  3900K .......... .......... .......... .......... .......... 55%  104M 2s\n  3950K .......... .......... .......... .......... .......... 56% 75.4M 2s\n  4000K .......... .......... .......... .......... .......... 57% 97.5M 2s\n  4050K .......... .......... .......... .......... .......... 58% 91.9M 2s\n  4100K .......... .......... .......... .......... .......... 58% 1.26M 2s\n  4150K .......... .......... .......... .......... .......... 59% 1015K 2s\n  4200K .......... .......... .......... .......... .......... 60%  103M 2s\n  4250K .......... .......... .......... .......... .......... 60%  104M 2s\n  4300K .......... .......... .......... .......... .......... 61% 89.8M 1s\n  4350K .......... .......... .......... .......... .......... 62% 81.1M 1s\n  4400K .......... .......... .......... .......... .......... 62%  106M 1s\n  4450K .......... .......... .......... .......... .......... 63% 99.3M 1s\n  4500K .......... .......... .......... .......... .......... 64%  103M 1s\n  4550K .......... .......... .......... .......... .......... 65% 94.8M 1s\n  4600K .......... .......... .......... .......... .......... 65%  105M 1s\n  4650K .......... .......... .......... .......... .......... 66%  105M 1s\n  4700K .......... .......... .......... .......... .......... 67%  104M 1s\n  4750K .......... .......... .......... .......... .......... 67%  564K 1s\n  4800K .......... .......... .......... .......... .......... 68% 36.0M 1s\n  4850K .......... .......... .......... .......... .......... 69% 41.1M 1s\n  4900K .......... .......... .......... .......... .......... 70% 36.0M 1s\n  4950K .......... .......... .......... .......... .......... 70% 94.3M 1s\n  5000K .......... .......... .......... .......... .......... 71% 99.3M 1s\n  5050K .......... .......... .......... .......... .......... 72%  104M 1s\n  5100K .......... .......... .......... .......... .......... 72%  102M 1s\n  5150K .......... .......... .......... .......... .......... 73% 77.2M 1s\n  5200K .......... .......... .......... .......... .......... 74%  103M 1s\n  5250K .......... .......... .......... .......... .......... 74%  106M 1s\n  5300K .......... .......... .......... .......... .......... 75%  105M 1s\n  5350K .......... .......... .......... .......... .......... 76% 95.8M 1s\n  5400K .......... .......... .......... .......... .......... 77%  102M 1s\n  5450K .......... .......... .......... .......... .......... 77%  105M 1s\n  5500K .......... .......... .......... .......... .......... 78%  597K 1s\n  5550K .......... .......... .......... .......... .......... 79% 71.7M 1s\n  5600K .......... .......... .......... .......... .......... 79% 98.6M 1s\n  5650K .......... .......... .......... .......... .......... 80%  114M 1s\n  5700K .......... .......... .......... .......... .......... 81%  102M 1s\n  5750K .......... .......... .......... .......... .......... 82%  104M 1s\n  5800K .......... .......... .......... .......... .......... 82%  114M 1s\n  5850K .......... .......... .......... .......... .......... 83%  114M 1s\n  5900K .......... .......... .......... .......... .......... 84% 87.7M 0s\n  5950K .......... .......... .......... .......... .......... 84% 80.4M 0s\n  6000K .......... .......... .......... .......... .......... 85% 77.3M 0s\n  6050K .......... .......... .......... .......... .......... 86% 94.8M 0s\n  6100K .......... .......... .......... .......... .......... 87% 96.5M 0s\n  6150K .......... .......... .......... .......... .......... 87% 88.9M 0s\n  6200K .......... .......... .......... .......... .......... 88% 96.7M 0s\n  6250K .......... .......... .......... .......... .......... 89% 93.4M 0s\n  6300K .......... .......... .......... .......... .......... 89% 1.32M 0s\n  6350K .......... .......... .......... .......... .......... 90% 1006K 0s\n  6400K .......... .......... .......... .......... .......... 91%  103M 0s\n  6450K .......... .......... .......... .......... .......... 91% 92.4M 0s\n  6500K .......... .......... .......... .......... .......... 92% 81.2M 0s\n  6550K .......... .......... .......... .......... .......... 93% 91.3M 0s\n  6600K .......... .......... .......... .......... .......... 94%  101M 0s\n  6650K .......... .......... .......... .......... .......... 94%  103M 0s\n  6700K .......... .......... .......... .......... .......... 95% 89.1M 0s\n  6750K .......... .......... .......... .......... .......... 96% 78.8M 0s\n  6800K .......... .......... .......... .......... .......... 96%  102M 0s\n  6850K .......... .......... .......... .......... .......... 97%  102M 0s\n  6900K .......... .......... .......... .......... .......... 98% 99.3M 0s\n  6950K .......... .......... .......... .......... .......... 99% 93.6M 0s\n  7000K .......... .......... .......... .......... .......... 99%  104M 0s\n  7050K .......... ......                                     100%  107M\u003d2.6s\n\n2016-01-19 15:49:40 (2.62 MB/s) - \u0027/resources/Datasets/mails-parsed.json\u0027 saved [7236293/7236293]\n\n"
+      },
+      "dateCreated": "Jan 19, 2016 3:44:43 PM",
+      "dateStarted": "Jan 19, 2016 3:49:37 PM",
+      "dateFinished": "Jan 19, 2016 3:49:40 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val dataFile \u003d \"/resources/Datasets/mails-parsed.json\"\nval asText \u003d sc.textFile(dataFile)\nasText.toDebugString\nasText.partitions.size\nasText.take(3)",
+      "dateUpdated": "Jan 19, 2016 3:51:43 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453218577317_-1594639140",
+      "id": "20160119-154937_1532920214",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "dataFile: String \u003d /resources/Datasets/mails-parsed.json\nasText: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[3] at textFile at \u003cconsole\u003e:25\nres4: String \u003d \n(2) MapPartitionsRDD[3] at textFile at \u003cconsole\u003e:25 []\n |  /resources/Datasets/mails-parsed.json HadoopRDD[2] at textFile at \u003cconsole\u003e:25 []\nres5: Int \u003d 2\nres6: Array[String] \u003d Array({\"date\": \"2015-01-01T00:21:39+00:00\", \"id\": \"CAMwrk0krN\u003dWipDh7z571v7z_1\u003daRCKAoGBxQgFp3oQQxXYX4AQ\", \"next_thread\": \"CAE50\u003ddr1rN9okHix8e0egRkv5iU5uLEx_KSg_z2WhTi8yPi-zA\", \"next_url\": \"http://mail-archives.apache.org/mod_mbox/spark-user/201501.mbox/%3cCAAZU44\u003dJeXurnL3E0vY+2B86zGMtBcijdPvWZ4_6GY+pf4ey2w@mail.gmail.com%3e\", \"prev_thread\": \"\", \"sender\": \"Tathagata Das \u003ctathagata.das1...@gmail.com\u003e\", \"subject\": \"Re: Big performance difference between \\\"client\\\" and \\\"cluster\\\" deployment mode; is this expected?\", \"text\": \"\\nWhats your spark-submit commands in both cases? Is it Spark Standalone or\\nYARN (both support client and cluster)? Accordingly what is the number of\\nexecutors/cores requested?\\n\\nTD\\n\\nOn Wed, Dec 31, 2014 at 10:36 AM, Enno Shioji \u003ceshioji@gmail..."
+      },
+      "dateCreated": "Jan 19, 2016 3:49:37 PM",
+      "dateStarted": "Jan 19, 2016 3:51:43 PM",
+      "dateFinished": "Jan 19, 2016 3:51:44 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "println(sc.getConf.toDebugString)",
+      "dateUpdated": "Jan 19, 2016 4:04:08 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453218685723_1346148301",
+      "id": "20160119-155125_2005904472",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "args\u003d\nmaster\u003dlocal[*]\nspark.app.id\u003dlocal-1453219362647\nspark.app.name\u003dZeppelin\nspark.driver.extraClassPath\u003d::/opt/zeppelin/interpreter/spark/zeppelin-spark-0.6.0-incubating-SNAPSHOT.jar\nspark.driver.extraJavaOptions\u003d  -Dfile.encoding\u003dUTF-8  -Dfile.encoding\u003dUTF-8 -Dzeppelin.log.file\u003d/opt/zeppelin/logs/zeppelin-interpreter-spark--3c7fc44f854c.log\nspark.driver.host\u003d172.17.0.7\nspark.driver.port\u003d55615\nspark.executor.id\u003ddriver\nspark.executor.memory\u003d512m\nspark.externalBlockStore.folderName\u003dspark-d5c2c1ec-faa5-43d4-956d-d13603cd4fea\nspark.fileserver.uri\u003dhttp://172.17.0.7:44471\nspark.home\u003d/opt/spark\nspark.jars\u003dfile:/root/.ivy2/jars/com.databricks_spark-csv_2.10-1.2.0.jar,file:/root/.ivy2/jars/org.apache.commons_commons-csv-1.1.jar,file:/root/.ivy2/jars/com.univocity_univocity-parsers-1.5.1.jar,file:/opt/zeppelin/interpreter/spark/zeppelin-spark-0.6.0-incubating-SNAPSHOT.jar\nspark.localProperties.clone\u003dtrue\nspark.master\u003dlocal[*]\nspark.repl.class.uri\u003dhttp://172.17.0.7:45115\nspark.scheduler.mode\u003dFAIR\nspark.submit.deployMode\u003dclient\nspark.submit.pyArchives\u003dpyspark.zip:py4j-0.8.2.1-src.zip\nspark.yarn.dist.files\u003dfile:/opt/spark/python/lib/pyspark.zip,file:/opt/spark/python/lib/py4j-0.8.2.1-src.zip\nzeppelin.dep.additionalRemoteRepository\u003dspark-packages,http://dl.bintray.com/spark-packages/maven,false;\nzeppelin.dep.localrepo\u003dlocal-repo\nzeppelin.pyspark.python\u003dpython\nzeppelin.spark.concurrentSQL\u003dfalse\nzeppelin.spark.maxResult\u003d1000\nzeppelin.spark.useHiveContext\u003dtrue\n"
+      },
+      "dateCreated": "Jan 19, 2016 3:51:25 PM",
+      "dateStarted": "Jan 19, 2016 4:04:08 PM",
+      "dateFinished": "Jan 19, 2016 4:04:09 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453218733384_-500399588",
+      "id": "20160119-155213_1600196133",
+      "dateCreated": "Jan 19, 2016 3:52:13 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "SparkII_lessons",
+  "id": "2B9Q4W1Z6",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

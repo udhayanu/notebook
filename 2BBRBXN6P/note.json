@@ -1,0 +1,598 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n### Links to refer for all the file formats examples in Spark\n\n* https://spark.apache.org/docs/latest/sql-programming-guide.html#interoperating-with-rdds\n* http://www.tutorialspoint.com/spark_sql/spark_sql_parquet_files.htm\n- http://stackoverflow.com/questions/34657432/avro-parquet-and-sequencefileformat-position-in-hadoop-ecosystem-and-their-utili\n- The choice depends on the use case that you are facing according to the type of data you have, the compatibility with processing tools, schema evolution, the file size, the type of query and read performances.\n\nIn general :\n\nAvro is more suitable for event data that can change over time\nSequence is for datasets sharded between MR jobs\nParquet is more suitable for analytics due to it\u0027s columnar format\nHere is some keys that can help you\n\nWriting performance ( the more + have the faster is )\n\nSequence : +++\nAvro : ++\nParquet : +\nReading performance ( the more + have the faster is )\n\nSequence : +\nAvro : + + +\nParquet : + + + + +\nFile sizes ( the more + have the smaller file is )\n\nSequence : +\nAvro : ++\nParquet : + + +\nand here is some facts about each file type\n\nAvro :\n\nbetter in schema evolution\nIs row oriented binary format\nHas a schema\nthe file contain the schema in addition to the data.\nSupports schema evolution\nCan be compressed\nCompact and fast binary format\nParquet :\n\nSlow in writing but fast in reading\nIs column oriented binary format\nsupports compression\nOptimized and efficient in terms of disk I/O when specific columns need to be queried\nSequenceFile :\n\nIs row oriented format\nSupports splitting even if the data is compressed\nCan be used to pack small files in hadoop",
+      "dateUpdated": "Jan 19, 2016 5:59:26 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453223451891_745743494",
+      "id": "20160119-171051_2051831010",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eLinks to refer for all the file formats examples in Spark\u003c/h3\u003e\n\u003cul\u003e\n\u003cli\u003ehttps://spark.apache.org/docs/latest/sql-programming-guide.html#interoperating-with-rdds\u003c/li\u003e\n\u003cli\u003ehttp://www.tutorialspoint.com/spark_sql/spark_sql_parquet_files.htm\u003c/li\u003e\n\u003cli\u003ehttp\u003c/li\u003e\n\u003cli\u003e\u003cul\u003e\n\u003cli\u003eThe choice depends on the use case that you are facing according to the type of data you have, the compatibility with processing tools, schema evolution, the file size, the type of query and read performances.\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003eIn general :\u003c/p\u003e\n\u003cp\u003eAvro is more suitable for event data that can change over time\n\u003cbr  /\u003eSequence is for datasets sharded between MR jobs\n\u003cbr  /\u003eParquet is more suitable for analytics due to it\u0027s columnar format\n\u003cbr  /\u003eHere is some keys that can help you\u003c/p\u003e\n\u003cp\u003eWriting performance ( the more + have the faster is )\u003c/p\u003e\n\u003cp\u003eSequence : +++\n\u003cbr  /\u003eAvro : ++\n\u003cbr  /\u003eParquet : +\n\u003cbr  /\u003eReading performance ( the more + have the faster is )\u003c/p\u003e\n\u003cp\u003eSequence : +\n\u003cbr  /\u003eAvro : + + +\n\u003cbr  /\u003eParquet : + + + + +\n\u003cbr  /\u003eFile sizes ( the more + have the smaller file is )\u003c/p\u003e\n\u003cp\u003eSequence : +\n\u003cbr  /\u003eAvro : ++\n\u003cbr  /\u003eParquet : + + +\n\u003cbr  /\u003eand here is some facts about each file type\u003c/p\u003e\n\u003cp\u003eAvro :\u003c/p\u003e\n\u003cp\u003ebetter in schema evolution\n\u003cbr  /\u003eIs row oriented binary format\n\u003cbr  /\u003eHas a schema\n\u003cbr  /\u003ethe file contain the schema in addition to the data.\n\u003cbr  /\u003eSupports schema evolution\n\u003cbr  /\u003eCan be compressed\n\u003cbr  /\u003eCompact and fast binary format\n\u003cbr  /\u003eParquet :\u003c/p\u003e\n\u003cp\u003eSlow in writing but fast in reading\n\u003cbr  /\u003eIs column oriented binary format\n\u003cbr  /\u003esupports compression\n\u003cbr  /\u003eOptimized and efficient in terms of disk I/O when specific columns need to be queried\n\u003cbr  /\u003eSequenceFile :\u003c/p\u003e\n\u003cp\u003eIs row oriented format\n\u003cbr  /\u003eSupports splitting even if the data is compressed\n\u003cbr  /\u003eCan be used to pack small files in hadoop\u003c/p\u003e\n"
+      },
+      "dateCreated": "Jan 19, 2016 5:10:51 PM",
+      "dateStarted": "Jan 19, 2016 5:58:48 PM",
+      "dateFinished": "Jan 19, 2016 5:58:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%dep\n/*\n\ncd /Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all\n\nthis step must be executed as first command, if you already executed other commands, please click in \"Interpreter\" and restart spark interpreter \nz.addRepo(\"Spark Packages Repo\").url(\"http://dl.bintray.com/spark-packages/maven\")\nhttps://github.com/databricks/spark-xml\nSpark compiled with Scala 2.10\n    $SPARK_HOME/bin/spark-shell --packages com.databricks:spark-xml_2.10:0.3.1\nSpark compiled with Scala 2.11\n    $SPARK_HOME/bin/spark-shell --packages com.databricks:spark-xml_2.11:0.3.1\nfrom pyspark.sql import SQLContext\nsqlContext \u003d SQLContext(sc)\n\ndf \u003d sqlContext.read.format(\u0027com.databricks.spark.xml\u0027).options(rowTag\u003d\u0027book\u0027).load(\u0027books.xml\u0027)\ndf.select(\"author\", \"@id\").write \\\n    .format(\u0027com.databricks.spark.xml\u0027) \\\n    .options(rowTag\u003d\u0027book\u0027, rootTag\u003d\u0027books\u0027) \\\n    .save(\u0027newbooks.xml\u0027)\n*/\nz.load(\"com.databricks:spark-csv_2.10:1.3.0\")\nz.load(\"com.databricks:spark-xml_2.10:0.3.1\")\nz.load(\"com.databricks:spark-avro_2.10:2.0.1\")",
+      "dateUpdated": "Feb 15, 2016 2:36:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453763092666_254456742",
+      "id": "20160125-230452_986271595",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res0: org.apache.zeppelin.spark.dep.Dependency \u003d org.apache.zeppelin.spark.dep.Dependency@583819ec\n"
+      },
+      "dateCreated": "Jan 25, 2016 11:04:52 PM",
+      "dateStarted": "Feb 15, 2016 2:36:13 PM",
+      "dateFinished": "Feb 15, 2016 2:36:49 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// INPUT Format - CSV/TSV\n//http://sparktutorials.net/Opening+CSV+Files+in+Apache+Spark+-+The+Spark+Data+Sources+API+and+Spark-CSV\n//https://github.com/databricks/spark-csv\n///Users/mridhusri/Documents/iPython/ampcamp6/data\nval foldername \u003d\"/Users/mridhusri/Documents/iPython/ampcamp6/data\"\nval df \u003d sqlContext.read\n            .format(\"com.databricks.spark.csv\")\n            .option(\"header\", \"true\")\n            .load(foldername + \"/resources/Datasets/2008.csv\")\ndf.take(5)\ndf.printSchema()\n\ndef convertColumn(df: org.apache.spark.sql.DataFrame, name:String, newType:String)\u003d {\n  val df_1\u003d df.withColumnRenamed(name, \"swap\")\n  df_1.withColumn(name, df_1.col(\"swap\").cast(newType)).drop(\"swap\")\n}\n\nval df_3 \u003d convertColumn(df, \"ArrDelay\", \"int\")\nval flights \u003d convertColumn(df_3, \"DepDelay\", \"int\")\n\nval averageDelays \u003d flights\n                    .groupBy(flights.col(\"FlightNum\"))\n                    .agg(avg(flights.col(\"ArrDelay\")), avg(flights.col(\"DepDelay\")))\n                    .withColumnRenamed(\"avg(ArrDelay)\", \"avgArrDelay\")\n                    .withColumnRenamed(\"avg(DepDelay)\", \"avgDepDelay\")\n                    \naverageDelays.cache()\n\n//[FlightNum: string, avg(ArrDelay): double, avg(DepDelay): double]\naverageDelays.show()\naverageDelays.printSchema()\n\n    \n//df.toPandas()",
+      "dateUpdated": "Feb 15, 2016 2:57:17 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453223126820_2024018902",
+      "id": "20160119-170526_1379964307",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "foldername: String \u003d /Users/mridhusri/Documents/iPython/ampcamp6/data\ndf: org.apache.spark.sql.DataFrame \u003d [Year: string, Month: string, DayofMonth: string, DayOfWeek: string, DepTime: string, CRSDepTime: string, ArrTime: string, CRSArrTime: string, UniqueCarrier: string, FlightNum: string, TailNum: string, ActualElapsedTime: string, CRSElapsedTime: string, AirTime: string, ArrDelay: string, DepDelay: string, Origin: string, Dest: string, Distance: string, TaxiIn: string, TaxiOut: string, Cancelled: string, CancellationCode: string, Diverted: string, CarrierDelay: string, WeatherDelay: string, NASDelay: string, SecurityDelay: string, LateAircraftDelay: string]\nres96: Array[org.apache.spark.sql.Row] \u003d Array([2008,1,3,4,2003,1955,2211,2225,WN,335,N712SW,128,150,116,-14,8,IAD,TPA,810,4,8,0,,0,NA,NA,NA,NA,NA], [2008,1,3,4,754,735,1002,1000,WN,3231,N772SW,128,145,113,2,19,IAD,TPA,810,5,10,0,,0,NA,NA,NA,NA,NA], [2008,1,3,4,628,620,804,750,WN,448,N428WN,96,90,76,14,8,IND,BWI,515,3,17,0,,0,NA,NA,NA,NA,NA], [2008,1,3,4,926,930,1054,1100,WN,1746,N612SW,88,90,78,-6,-4,IND,BWI,515,3,7,0,,0,NA,NA,NA,NA,NA], [2008,1,3,4,1829,1755,1959,1925,WN,3920,N464WN,90,90,77,34,34,IND,BWI,515,3,10,0,,0,2,0,0,0,32])\nroot\n |-- Year: string (nullable \u003d true)\n |-- Month: string (nullable \u003d true)\n |-- DayofMonth: string (nullable \u003d true)\n |-- DayOfWeek: string (nullable \u003d true)\n |-- DepTime: string (nullable \u003d true)\n |-- CRSDepTime: string (nullable \u003d true)\n |-- ArrTime: string (nullable \u003d true)\n |-- CRSArrTime: string (nullable \u003d true)\n |-- UniqueCarrier: string (nullable \u003d true)\n |-- FlightNum: string (nullable \u003d true)\n |-- TailNum: string (nullable \u003d true)\n |-- ActualElapsedTime: string (nullable \u003d true)\n |-- CRSElapsedTime: string (nullable \u003d true)\n |-- AirTime: string (nullable \u003d true)\n |-- ArrDelay: string (nullable \u003d true)\n |-- DepDelay: string (nullable \u003d true)\n |-- Origin: string (nullable \u003d true)\n |-- Dest: string (nullable \u003d true)\n |-- Distance: string (nullable \u003d true)\n |-- TaxiIn: string (nullable \u003d true)\n |-- TaxiOut: string (nullable \u003d true)\n |-- Cancelled: string (nullable \u003d true)\n |-- CancellationCode: string (nullable \u003d true)\n |-- Diverted: string (nullable \u003d true)\n |-- CarrierDelay: string (nullable \u003d true)\n |-- WeatherDelay: string (nullable \u003d true)\n |-- NASDelay: string (nullable \u003d true)\n |-- SecurityDelay: string (nullable \u003d true)\n |-- LateAircraftDelay: string (nullable \u003d true)\n\nconvertColumn: (df: org.apache.spark.sql.DataFrame, name: String, newType: String)org.apache.spark.sql.DataFrame\ndf_3: org.apache.spark.sql.DataFrame \u003d [Year: string, Month: string, DayofMonth: string, DayOfWeek: string, DepTime: string, CRSDepTime: string, ArrTime: string, CRSArrTime: string, UniqueCarrier: string, FlightNum: string, TailNum: string, ActualElapsedTime: string, CRSElapsedTime: string, AirTime: string, DepDelay: string, Origin: string, Dest: string, Distance: string, TaxiIn: string, TaxiOut: string, Cancelled: string, CancellationCode: string, Diverted: string, CarrierDelay: string, WeatherDelay: string, NASDelay: string, SecurityDelay: string, LateAircraftDelay: string, ArrDelay: int]\nflights: org.apache.spark.sql.DataFrame \u003d [Year: string, Month: string, DayofMonth: string, DayOfWeek: string, DepTime: string, CRSDepTime: string, ArrTime: string, CRSArrTime: string, UniqueCarrier: string, FlightNum: string, TailNum: string, ActualElapsedTime: string, CRSElapsedTime: string, AirTime: string, Origin: string, Dest: string, Distance: string, TaxiIn: string, TaxiOut: string, Cancelled: string, CancellationCode: string, Diverted: string, CarrierDelay: string, WeatherDelay: string, NASDelay: string, SecurityDelay: string, LateAircraftDelay: string, ArrDelay: int, DepDelay: int]\naverageDelays: org.apache.spark.sql.DataFrame \u003d [FlightNum: string, avgArrDelay: double, avgDepDelay: double]\nres102: averageDelays.type \u003d [FlightNum: string, avgArrDelay: double, avgDepDelay: double]\n+---------+------------------+------------------+\n|FlightNum|       avgArrDelay|       avgDepDelay|\n+---------+------------------+------------------+\n|      448| 8.580577269993986|11.522052205220522|\n|      781| 7.066720911310008|  8.77425903369874|\n|      330| 9.941410129096326| 12.46607231302625|\n|     2808| 6.133726647000984| 6.930460333006856|\n|      286| 10.06308777429467| 11.40923317683881|\n|      899|3.0306748466257667| 7.061115355233002|\n|     2646| 11.17584541062802|11.111969111969112|\n|      943| 6.711705202312139|10.321299638989169|\n|     1593|14.081146548243844|15.435114503816793|\n|     1304|7.4036433365292424|11.586998087954111|\n|     1098| 6.702280912364946| 8.425925925925926|\n|     2033|  9.72945638432364|10.582965299684542|\n|     1917| 9.845046570702793|10.114213197969542|\n|     1142| 9.490689481630598| 10.75652610441767|\n|     2484| 8.923620933521924| 9.280898876404494|\n|     7272| 11.52212389380531| 16.00438596491228|\n|     5201|3.6174863387978142| 3.223433242506812|\n|     5490|15.001834862385321|12.497267759562842|\n|     5157|10.470833333333333|           7.19375|\n|     5652| 6.024590163934426| 5.644897959183673|\n+---------+------------------+------------------+\nonly showing top 20 rows\n\nroot\n |-- FlightNum: string (nullable \u003d true)\n |-- avgArrDelay: double (nullable \u003d true)\n |-- avgDepDelay: double (nullable \u003d true)\n\n"
+      },
+      "dateCreated": "Jan 19, 2016 5:05:26 PM",
+      "dateStarted": "Feb 15, 2016 2:57:17 PM",
+      "dateFinished": "Feb 15, 2016 2:58:03 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//[FlightNum: string, avgArrDelay: double, avgDepDelay: double]\naverageDelays.show() // ascending \n\naverageDelays.sort($\"FlightNum\".desc).show() // descending\n    \naverageDelays\n    .sort($\"avgArrDelay\".desc, $\"avgDepDelay\".desc)\n    .show()",
+      "dateUpdated": "Feb 15, 2016 3:05:35 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455565336410_279663853",
+      "id": "20160215-144216_393987987",
+      "dateCreated": "Feb 15, 2016 2:42:16 PM",
+      "dateStarted": "Feb 15, 2016 3:05:36 PM",
+      "dateFinished": "Feb 15, 2016 3:05:36 PM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d INPUT Format - AVRO\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d \n\n// import needed for the .avro method to be added\n//https://github.com/databricks/spark-avro\n/*\n# Creates a DataFrame from a specified directory\ndf \u003d sqlContext.read.format(\"com.databricks.spark.avro\").load(\"src/test/resources/episodes.avro\")\n\n#  Saves the subset of the Avro records read in\nsubset \u003d df.where(\"age \u003e 5\")\nsubset.write.format(\"com.databricks.spark.avro\").save(\"output\")\nCREATE TEMPORARY TABLE episodes\nUSING com.databricks.spark.avro\nOPTIONS (path \"src/test/resources/episodes.avro\")\n*/\nimport com.databricks.spark.avro._\n\n// configuration to use deflate compression\nsqlContext.setConf(\"spark.sql.avro.compression.codec\", \"deflate\")\nsqlContext.setConf(\"spark.sql.avro.deflate.level\", \"5\")\n\nval foldername \u003d\"/Users/mridhusri/Documents/iPython/ampcamp6/data\"\nval df \u003d sqlContext.read\n    .format(\"com.databricks.spark.avro\")\n    .load(foldername+\"/resources/Datasets/episodes.avro\")\n\ndf.printSchema()\ndf.show()\ndf.filter(\"doctor \u003e 5\").show()\n//    .write\n//    .format(\"com.databricks.spark.avro\")\n//    .save(\"/tmp/output\")\n    \n\nimport sqlContext.implicits._\n\nval df1 \u003d Seq((2012, 8, \"Batman\", 9.8),\n    (2012, 8, \"Hero\", 8.7),\n    (2012, 7, \"Robot\", 5.5),\n    (2011, 7, \"Git\", 2.0))\n    .toDF(\"year\", \"month\", \"title\", \"rating\")\ndf1.printSchema()\ndf1.show()\n//df.write.partitionBy(\"year\", \"month\").avro(\"/tmp/output\")\nval episodesFile \u003d foldername+\"/resources/Datasets/episodes.avro\"\nsqlContext.sql(\n  s\"\"\"\n     |CREATE TEMPORARY TABLE avroTable\n     |USING com.databricks.spark.avro\n     |OPTIONS (path \"$episodesFile\")\n  \"\"\".stripMargin.replaceAll(\"\\n\", \" \"))\n\nsqlContext.sql(\"SELECT * FROM avroTable\").show()\n\nval tempEmptyDir \u003d foldername+\"/resources/Datasets/empty\"\nsqlContext.sql(s\"\"\"\n     |CREATE TEMPORARY TABLE episodesEmpty\n     |(name string, air_date string, doctor int)\n     |USING com.databricks.spark.avro\n     |OPTIONS (path \"$tempEmptyDir\")\n\"\"\".stripMargin.replaceAll(\"\\n\", \" \"))\n\nsqlContext.sql(\"SELECT * FROM episodesEmpty\").show()\n\n//assert(sqlContext.sql(\"SELECT * FROM avroTable\").collect().length \u003d\u003d 8)\n//assert(sqlContext.sql(\"SELECT * FROM episodesEmpty\").collect().isEmpty)\nprintln(\"Populate the episodesEmpty !!!!!!!!!!!!!!!!!!\")      \nsqlContext.sql(\ns\"\"\"\n   |INSERT OVERWRITE TABLE episodesEmpty\n   |SELECT * FROM avroTable\n\"\"\".stripMargin.replaceAll(\"\\n\", \" \"))\n//assert(sqlContext.sql(\"SELECT * FROM episodesEmpty\").collect().length \u003d\u003d 8)\n\nsqlContext.sql(\"SELECT * FROM episodesEmpty\").show()\n\nval name \u003d \"AvroTest\"\nval namespace \u003d \"com.databricks.spark.avro\"\nval parameters \u003d Map(\"recordName\" -\u003e name, \"recordNamespace\" -\u003e namespace)\n//df.write.options(parameters).avro(\"/tmp/output\")",
+      "dateUpdated": "Feb 15, 2016 3:17:40 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453223146072_1878983891",
+      "id": "20160119-170546_1948875336",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import com.databricks.spark.avro._\nfoldername: String \u003d /Users/mridhusri/Documents/iPython/ampcamp6/data\ndf: org.apache.spark.sql.DataFrame \u003d [title: string, air_date: string, doctor: int]\nroot\n |-- title: string (nullable \u003d false)\n |-- air_date: string (nullable \u003d false)\n |-- doctor: integer (nullable \u003d false)\n\n+--------------------+----------------+------+\n|               title|        air_date|doctor|\n+--------------------+----------------+------+\n|   The Eleventh Hour|    3 April 2010|    11|\n|   The Doctor\u0027s Wife|     14 May 2011|    11|\n| Horror of Fang Rock|3 September 1977|     4|\n|  An Unearthly Child|23 November 1963|     1|\n|The Mysterious Pl...|6 September 1986|     6|\n|                Rose|   26 March 2005|     9|\n|The Power of the ...| 5 November 1966|     2|\n|          Castrolava|  4 January 1982|     5|\n+--------------------+----------------+------+\n\n+--------------------+----------------+------+\n|               title|        air_date|doctor|\n+--------------------+----------------+------+\n|   The Eleventh Hour|    3 April 2010|    11|\n|   The Doctor\u0027s Wife|     14 May 2011|    11|\n|The Mysterious Pl...|6 September 1986|     6|\n|                Rose|   26 March 2005|     9|\n+--------------------+----------------+------+\n\nimport sqlContext.implicits._\ndf1: org.apache.spark.sql.DataFrame \u003d [year: int, month: int, title: string, rating: double]\nroot\n |-- year: integer (nullable \u003d false)\n |-- month: integer (nullable \u003d false)\n |-- title: string (nullable \u003d true)\n |-- rating: double (nullable \u003d false)\n\n+----+-----+------+------+\n|year|month| title|rating|\n+----+-----+------+------+\n|2012|    8|Batman|   9.8|\n|2012|    8|  Hero|   8.7|\n|2012|    7| Robot|   5.5|\n|2011|    7|   Git|   2.0|\n+----+-----+------+------+\n\nepisodesFile: String \u003d /Users/mridhusri/Documents/iPython/ampcamp6/data/resources/Datasets/episodes.avro\nres218: org.apache.spark.sql.DataFrame \u003d []\n+--------------------+----------------+------+\n|               title|        air_date|doctor|\n+--------------------+----------------+------+\n|   The Eleventh Hour|    3 April 2010|    11|\n|   The Doctor\u0027s Wife|     14 May 2011|    11|\n| Horror of Fang Rock|3 September 1977|     4|\n|  An Unearthly Child|23 November 1963|     1|\n|The Mysterious Pl...|6 September 1986|     6|\n|                Rose|   26 March 2005|     9|\n|The Power of the ...| 5 November 1966|     2|\n|          Castrolava|  4 January 1982|     5|\n+--------------------+----------------+------+\n\ntempEmptyDir: String \u003d /Users/mridhusri/Documents/iPython/ampcamp6/data/resources/Datasets/empty\nres222: org.apache.spark.sql.DataFrame \u003d []\n+--------------------+----------------+------+\n|                name|        air_date|doctor|\n+--------------------+----------------+------+\n|   The Eleventh Hour|    3 April 2010|    11|\n|   The Doctor\u0027s Wife|     14 May 2011|    11|\n| Horror of Fang Rock|3 September 1977|     4|\n|  An Unearthly Child|23 November 1963|     1|\n|The Mysterious Pl...|6 September 1986|     6|\n|                Rose|   26 March 2005|     9|\n|The Power of the ...| 5 November 1966|     2|\n|          Castrolava|  4 January 1982|     5|\n+--------------------+----------------+------+\n\nPopulate the episodesEmpty !!!!!!!!!!!!!!!!!!\nres229: org.apache.spark.sql.DataFrame \u003d []\n+--------------------+----------------+------+\n|                name|        air_date|doctor|\n+--------------------+----------------+------+\n|   The Eleventh Hour|    3 April 2010|    11|\n|   The Doctor\u0027s Wife|     14 May 2011|    11|\n| Horror of Fang Rock|3 September 1977|     4|\n|  An Unearthly Child|23 November 1963|     1|\n|The Mysterious Pl...|6 September 1986|     6|\n|                Rose|   26 March 2005|     9|\n|The Power of the ...| 5 November 1966|     2|\n|          Castrolava|  4 January 1982|     5|\n+--------------------+----------------+------+\n\nname: String \u003d AvroTest\nnamespace: String \u003d com.databricks.spark.avro\nparameters: scala.collection.immutable.Map[String,String] \u003d Map(recordName -\u003e AvroTest, recordNamespace -\u003e com.databricks.spark.avro)\n"
+      },
+      "dateCreated": "Jan 19, 2016 5:05:46 PM",
+      "dateStarted": "Feb 15, 2016 3:17:40 PM",
+      "dateFinished": "Feb 15, 2016 3:17:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// INPUT Format - PARQUET\n\n    val sqlContext\u003dnew org.apache.spark.sql.SQLContext(sc)\n    val parquetFile \u003d sqlContext.parquetFile(logFile)\n    parquetFile.registerAsTable(\"parquetFile\")\n    val userId \u003d sqlContext.sql(\"SELECT usr_id FROM parquetFile\")\n    val userPair \u003d userId.map(t \u003d\u003e (t,1))\n    val uniquePair \u003d userPair.reduceByKey((x, y) \u003d\u003e x + y)\n    val count \u003duniquePair.count()\n    \n//https://developer.ibm.com/hadoop/blog/2016/01/14/5-reasons-to-choose-parquet-for-spark-sql/\n//https://github.com/LogBaseInc/spark-parquet-intro-talk/blob/master/Tweets.ipynb \u0026https://github.com/LogBaseInc/spark-parquet-intro-talk\n//https://github.com/andygrove/spark-parquet-nested-types/tree/master/src/main/scala\n//http://ampcamp.berkeley.edu/5/exercises/data-exploration-using-spark-sql.html\n\n//https://github.com/databricks/spark-training/blob/master/website/data-exploration-using-spark-sql.md\n\n//Try/read these\n//https://www.mapr.com/blog/evolving-parquet-self-describing-data-format-new-paradigms-consumerization-hadoop-data\n\n\n\n\n// Convert csv/tsv to Parquet for performance \ndef convert(sqlContext: SQLContext, filename: String, schema: StructType, tablename: String) {\n      // import text-based table first into a data frame\n      val df \u003d sqlContext.read.format(\"com.databricks.spark.csv\").\n        schema(schema).option(\"delimiter\", \"|\").load(filename)\n      // now simply write to a parquet file\n      df.write.parquet(\"/user/spark/data/parquet/\"+tablename)\n  }\n\n  // usage exampe -- a tpc-ds table called catalog_page\n  schema\u003d StructType(Array(\n          StructField(\"cp_catalog_page_sk\",        IntegerType,false),\n          StructField(\"cp_catalog_page_id\",        StringType,false),\n          StructField(\"cp_start_date_sk\",          IntegerType,true),\n          StructField(\"cp_end_date_sk\",            IntegerType,true),\n          StructField(\"cp_department\",             StringType,true),\n          StructField(\"cp_catalog_number\",         LongType,true),\n          StructField(\"cp_catalog_page_number\",    LongType,true),\n          StructField(\"cp_description\",            StringType,true),\n          StructField(\"cp_type\",                   StringType,true)))\n  convert(sqlContext,\n          hadoopdsPath+\"/catalog_page/*\",\n          schema,\n          \"catalog_page\")\n%sparkr\nlibrary(SparkR)\n\n# Initialize SparkContext and SQLContext\nsc \u003c- sparkR.init(appName\u003d\"SparkR-Parquet-example\")\nsqlContext \u003c- sparkRSQL.init(sc)\n\n# Create a DataFrame from a Parquet file\npath\u003c-\"hdfs://byd0085/apps/hive/warehouse/install_running/cor_partner\u003dlotuseed/year\u003d2015/month\u003d1/day\u003d9\"\nAppDF \u003c- parquetFile(sqlContext, path)\nprintSchema(AppDF)\n\n# Register this DataFrame as a table.\nregisterTempTable(AppDF, \"appdf\")\n\n# SQL statements can be run by using the sql methods provided by sqlContext\nappinfo \u003c- sql(sqlContext, \"SELECT app_id as App,count(*)as User FROM appdf GROUP BY app_id\")\n\n\n# save to parquet file \nwrite.df(appinfo, \"/ysfseu/appinfo.parquet\",\"parquet\",\"overwrite\")\n# Stop the SparkContext now\nsparkR.stop()",
+      "dateUpdated": "Jan 29, 2016 3:55:21 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453223158992_-1850371873",
+      "id": "20160119-170558_1683694383",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 19, 2016 5:05:58 PM",
+      "dateStarted": "Jan 19, 2016 5:06:06 PM",
+      "dateFinished": "Jan 19, 2016 5:06:06 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d INPUT Format - JSON\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d \n//                ********************** Refer Spark_JSON Zeppelin notebook for more examples**********************\nval foldername \u003d\"/Users/mridhusri/Documents/iPython/ampcamp6/data\"\nval people\u003dsqlContext.jsonFile(foldername+\"/resources/Datasets/people1.json\")\npeople.show()\npeople.printSchema\npeople.registerTempTable(\"people\")\n\nval young \u003d sqlContext.sql(\"SELECT name, gender FROM people WHERE age \u003c 30\")\nyoung.collect.foreach(println)\n\npeople.stat.crosstab(\"favorite_language\", \"gender\").show()",
+      "dateUpdated": "Feb 15, 2016 3:21:40 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453223166673_-510660879",
+      "id": "20160119-170606_724800839",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "foldername: String \u003d /Users/mridhusri/Documents/iPython/ampcamp6/data\nwarning: there were 1 deprecation warning(s); re-run with -deprecation for details\npeople: org.apache.spark.sql.DataFrame \u003d [age: bigint, favorite_language: string, gender: string, name: string]\n+---+-----------------+------+--------+\n|age|favorite_language|gender|    name|\n+---+-----------------+------+--------+\n| 40|           Python|     M| Orlando|\n| 39|               C#|     F|    Lina|\n| 30|           Python|     M|    John|\n| 32|           Python|     F|    Jane|\n| 18|           Python|     F|Michelle|\n| 20|               C#|     M|  Daniel|\n+---+-----------------+------+--------+\n\nroot\n |-- age: long (nullable \u003d true)\n |-- favorite_language: string (nullable \u003d true)\n |-- gender: string (nullable \u003d true)\n |-- name: string (nullable \u003d true)\n\nyoung: org.apache.spark.sql.DataFrame \u003d [name: string, gender: string]\n[Michelle,F]\n[Daniel,M]\n+------------------------+---+---+\n|favorite_language_gender|  F|  M|\n+------------------------+---+---+\n|                      C#|  1|  1|\n|                  Python|  2|  2|\n+------------------------+---+---+\n\n"
+      },
+      "dateCreated": "Jan 19, 2016 5:06:06 PM",
+      "dateStarted": "Feb 15, 2016 3:21:40 PM",
+      "dateFinished": "Feb 15, 2016 3:21:44 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d INPUT Format - XML\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d \n//https://github.com/seglo/learning-spark/blob/master/src/main/scala/StackAnalysis.scala\nimport scala.xml.XML\nimport java.text.SimpleDateFormat\nimport java.util.Date\nimport org.apache.spark.rdd.RDD\n\n  def scalaQuestions(rows: RDD[String]) \u003d {\n    val sdf \u003d new SimpleDateFormat(\"yyyy-MM-dd\u0027T\u0027HH:mm:ss.SSS\")\n    rows  \n      // Use random sampling for 10% of data\n      //.sample(false, 0.1, System.currentTimeMillis().toInt)\n      // Skip XML lines without \u003crow /\u003e elements\n      .filter(l ⇒ l.contains(\"row\"))\n      // Extract PostTypeId and Tags\n      // If XML deserialization successful then return data\n      .flatMap(l ⇒ {\n        try {\n          val xml \u003d XML.loadString(l)\n          //val id \u003d (xml \\ \"@Id\").text.toLong\n          val postTypeId \u003d (xml \\ \"@PostTypeId\").text.toInt\n          val creationDate \u003d (xml \\ \"@CreationDate\").text\n          val tags \u003d (xml \\ \"@Tags\").text\n          List((postTypeId, creationDate, tags))\n        } catch {\n          case ex: Exception ⇒\n            println(s\"failed to parse line: $l\")\n            Nil\n        }\n      })\n      // Format create date string\n      .map { case (postTypeId, creationDateString, tagString) ⇒ (postTypeId, sdf.parse(creationDateString), tagString) }\n      // Format tags into Array\n      // i.e. \u003cscala\u003e\u003cjava\u003e\u003cpotato\u003e -\u003e Array[String](\"scala\", \"java\", \"potato\")\n      .map { case (postTypeId, creationDate, tagString) ⇒\n        val splitTags \u003d if (tagString.length \u003d\u003d 0) Array[String]() else tagString.substring(1,tagString.length-1).split(\"\u003e\u003c\")\n        (postTypeId, creationDate, splitTags.toList)\n      }\n      // Only get \"Question\" posts (PostTypeId \u003d\u003d 1)\n      .filter { case (postTypeId, creationDate, tags) ⇒ postTypeId \u003d\u003d 1 }\n      // Filter question posts by those that contain Scala tags\n      .filter { case (id, creationDate, tags) ⇒ tags.contains(\"scala\") }\n      // Cache this dataflow for other uses\n      .cache()\n  }\n//Refer the following links for larger dataset for this example\n//https://github.com/seglo/learning-spark\n//https://archive.org/details/stackexchange\nval foldername \u003d\"/Users/mridhusri/Documents/iPython/ampcamp6/data\"\nval rows \u003d sc.textFile(foldername+\"/resources/Datasets/Posts100k.xml\")\n\nval sqs \u003d scalaQuestions(rows)\nprintln(s\"Scala question count ${sqs.count()}\")\n\n",
+      "dateUpdated": "Feb 15, 2016 3:34:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453223189427_-1153744857",
+      "id": "20160119-170629_2088023586",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import scala.xml.XML\nimport java.text.SimpleDateFormat\nimport java.util.Date\nimport org.apache.spark.rdd.RDD\nscalaQuestions: (rows: org.apache.spark.rdd.RDD[String])org.apache.spark.rdd.RDD[(Int, java.util.Date, List[String])]\nfoldername: String \u003d /Users/mridhusri/Documents/iPython/ampcamp6/data\nrows: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[421] at textFile at \u003cconsole\u003e:35\nsqs: org.apache.spark.rdd.RDD[(Int, java.util.Date, List[String])] \u003d MapPartitionsRDD[427] at filter at \u003cconsole\u003e:66\nScala question count 6\n"
+      },
+      "dateCreated": "Jan 19, 2016 5:06:29 PM",
+      "dateStarted": "Feb 15, 2016 3:34:04 PM",
+      "dateFinished": "Feb 15, 2016 3:34:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d INPUT Format - XML\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d \nprintln(s\"Scala rows count ${rows.count()}\")\nrows.take(4).foreach(println)\nsqs.collect.foreach(println)\n\nprintln(s\"Scala filtered rows count ${rows.filter(l ⇒ l.contains(\"row\")).count()}\")\nprintln(s\"Scala partition count ${rows.glom().count()}\")\n\nprintln(sqs.toDebugString)\n      ",
+      "dateUpdated": "Feb 15, 2016 3:34:31 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453743552944_-220009595",
+      "id": "20160125-173912_1067230982",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Scala rows count 100000\n\u003c?xml version\u003d\"1.0\" encoding\u003d\"utf-8\"?\u003e\n\u003cposts\u003e\n  \u003crow Id\u003d\"4\" PostTypeId\u003d\"1\" AcceptedAnswerId\u003d\"7\" CreationDate\u003d\"2008-07-31T21:42:52.667\" Score\u003d\"305\" ViewCount\u003d\"20324\" Body\u003d\"\u0026lt;p\u0026gt;I want to use a track-bar to change a form\u0027s opacity.\u0026lt;/p\u0026gt;\u0026#xA;\u0026#xA;\u0026lt;p\u0026gt;This is my code:\u0026lt;/p\u0026gt;\u0026#xA;\u0026#xA;\u0026lt;pre\u0026gt;\u0026lt;code\u0026gt;decimal trans \u003d trackBar1.Value / 5000;\u0026#xA;this.Opacity \u003d trans;\u0026#xA;\u0026lt;/code\u0026gt;\u0026lt;/pre\u0026gt;\u0026#xA;\u0026#xA;\u0026lt;p\u0026gt;When I try to build it, I get this error:\u0026lt;/p\u0026gt;\u0026#xA;\u0026#xA;\u0026lt;blockquote\u0026gt;\u0026#xA;  \u0026lt;p\u0026gt;Cannot implicitly convert type \u0027decimal\u0027 to \u0027double\u0027.\u0026lt;/p\u0026gt;\u0026#xA;\u0026lt;/blockquote\u0026gt;\u0026#xA;\u0026#xA;\u0026lt;p\u0026gt;I tried making \u0026lt;code\u0026gt;trans\u0026lt;/code\u0026gt; a \u0026lt;code\u0026gt;double\u0026lt;/code\u0026gt;, but then the control doesn\u0027t work. This code has worked fine for me in VB.NET in the past. \u0026lt;/p\u0026gt;\u0026#xA;\" OwnerUserId\u003d\"8\" LastEditorUserId\u003d\"451518\" LastEditorDisplayName\u003d\"Rich B\" LastEditDate\u003d\"2014-07-28T10:02:50.557\" LastActivityDate\u003d\"2014-07-28T10:02:50.557\" Title\u003d\"When setting a form\u0027s opacity should I use a decimal or double?\" Tags\u003d\"\u0026lt;c#\u0026gt;\u0026lt;winforms\u0026gt;\u0026lt;type-conversion\u0026gt;\u0026lt;opacity\u0026gt;\" AnswerCount\u003d\"13\" CommentCount\u003d\"1\" FavoriteCount\u003d\"28\" CommunityOwnedDate\u003d\"2012-10-31T16:42:47.213\" /\u003e\n  \u003crow Id\u003d\"6\" PostTypeId\u003d\"1\" AcceptedAnswerId\u003d\"31\" CreationDate\u003d\"2008-07-31T22:08:08.620\" Score\u003d\"130\" ViewCount\u003d\"10031\" Body\u003d\"\u0026lt;p\u0026gt;I have an absolutely positioned \u0026lt;code\u0026gt;div\u0026lt;/code\u0026gt; containing several children, one of which is a relatively positioned \u0026lt;code\u0026gt;div\u0026lt;/code\u0026gt;. When I use a \u0026lt;strong\u0026gt;percentage-based width\u0026lt;/strong\u0026gt; on the child \u0026lt;code\u0026gt;div\u0026lt;/code\u0026gt;, it collapses to \u0026lt;code\u0026gt;0\u0026lt;/code\u0026gt; width on IE7, but not on Firefox or Safari. \u0026lt;/p\u0026gt;\u0026#xA;\u0026#xA;\u0026lt;p\u0026gt;If I use \u0026lt;strong\u0026gt;pixel width\u0026lt;/strong\u0026gt;, it works. If the parent is relatively positioned, the percentage width on the child works. \u0026lt;/p\u0026gt;\u0026#xA;\u0026#xA;\u0026lt;p\u0026gt;Is there something I\u0027m missing here? \u0026#xA;Is there an easy fix for this besides the \u0026lt;em\u0026gt;pixel-based width\u0026lt;/em\u0026gt; on the child? \u0026#xA;Is there an area of the \u0026lt;code\u0026gt;CSS\u0026lt;/code\u0026gt; specification that covers this?\u0026lt;/p\u0026gt;\u0026#xA;\" OwnerUserId\u003d\"9\" LastEditorUserId\u003d\"1350209\" LastEditorDisplayName\u003d\"Rich B\" LastEditDate\u003d\"2014-06-26T04:57:13.750\" LastActivityDate\u003d\"2014-08-17T17:32:41.700\" Title\u003d\"Why doesn\u0027t the percentage width child in absolutely positioned parent work?\" Tags\u003d\"\u0026lt;html\u0026gt;\u0026lt;css\u0026gt;\u0026lt;css3\u0026gt;\u0026lt;internet-explorer-7\u0026gt;\" AnswerCount\u003d\"5\" CommentCount\u003d\"0\" FavoriteCount\u003d\"7\" /\u003e\n(1,Mon Sep 08 18:32:58 EDT 2008,List(generics, scala))\n(1,Wed Sep 10 13:15:29 EDT 2008,List(scala, list))\n(1,Fri Sep 19 21:18:29 EDT 2008,List(web-services, scala, f#, functional-programming))\n(1,Fri Sep 19 21:35:35 EDT 2008,List(java, jvm, scala, tail-recursion))\n(1,Tue Sep 23 02:06:50 EDT 2008,List(scala, lift))\n(1,Tue Sep 23 12:35:48 EDT 2008,List(scala, recursion, jvm, jvm-languages))\nScala filtered rows count 99998\nScala partition count 3\n(3) MapPartitionsRDD[427] at filter at \u003cconsole\u003e:66 [Memory Deserialized 1x Replicated]\n |       CachedPartitions: 3; MemorySize: 1928.0 B; ExternalBlockStoreSize: 0.0 B; DiskSize: 0.0 B\n |  MapPartitionsRDD[426] at filter at \u003cconsole\u003e:64 [Memory Deserialized 1x Replicated]\n |  MapPartitionsRDD[425] at map at \u003cconsole\u003e:59 [Memory Deserialized 1x Replicated]\n |  MapPartitionsRDD[424] at map at \u003cconsole\u003e:56 [Memory Deserialized 1x Replicated]\n |  MapPartitionsRDD[423] at flatMap at \u003cconsole\u003e:41 [Memory Deserialized 1x Replicated]\n |  MapPartitionsRDD[422] at filter at \u003cconsole\u003e:38 [Memory Deserialized 1x Replicated]\n |  MapPartitionsRDD[421] at textFile at \u003cconsole\u003e:35 [Memory Deserialized 1x Replicated]\n |  /Users/mridhusri/Documents/iPython/ampcamp6/data/resources/Datasets/Posts100k.xml HadoopRDD[420] at textFile at \u003cconsole\u003e:35 [Memory Deserialized 1x Replicated]\n"
+      },
+      "dateCreated": "Jan 25, 2016 5:39:12 PM",
+      "dateStarted": "Feb 15, 2016 3:34:31 PM",
+      "dateFinished": "Feb 15, 2016 3:34:36 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d INPUT Format - XML\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d \n  def tagCounts(qs: RDD[(Int, Date, List[String])]) \u003d {\n    qs\n      // If this question contains a scala tag then return a collection of all other tags\n      .flatMap { case (postTypeId, creationDate, tags) ⇒\n        val otherTags \u003d tags.diff(List(\"scala\"))\n        // Return key value pair (tuple) with tag name as the key and a base number\n        // to sum in subsequent reduce step.\n        if (tags.length \u003e otherTags.length)\n          otherTags.map(tag ⇒ (tag, 1))\n        else\n          Nil\n      }\n      // `reduceByKey` groups by key (tag name) and performs a reduction for all elements\n      // that have the same key\n      .reduceByKey((a, b) ⇒ a + b)\n      // Swap tuple values for sortByKey\n      .map { case (tag, count) ⇒ (count, tag) }\n      // Sort by tag counts in descending order\n      .sortByKey(ascending \u003d false)\n  }\n\n\n  def scalaQuestionsByMonth(sqs: RDD[(Int, Date, List[String])]) \u003d {\n    // Date pattern to group by (Month)\n    val sdfMonth \u003d new SimpleDateFormat(\"yyyy-MM\")\n    \n    sqs\n      // Transform to key value pairs of Month and Seed count\n      .map { case (id, creationDate, tags) ⇒ (sdfMonth.format(creationDate), 1)} \n      // Sum reduction by key\n      .reduceByKey((a, b) ⇒ a + b) \n      // Sort by month\n      .sortByKey(ascending \u003d true)\n  }\n",
+      "dateUpdated": "Feb 15, 2016 3:36:18 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453746155692_-354682468",
+      "id": "20160125-182235_361801696",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "tagCounts: (qs: org.apache.spark.rdd.RDD[(Int, java.util.Date, List[String])])org.apache.spark.rdd.RDD[(Int, String)]\nscalaQuestionsByMonth: (sqs: org.apache.spark.rdd.RDD[(Int, java.util.Date, List[String])])org.apache.spark.rdd.RDD[(String, Int)]\n"
+      },
+      "dateCreated": "Jan 25, 2016 6:22:35 PM",
+      "dateStarted": "Feb 15, 2016 3:36:18 PM",
+      "dateFinished": "Feb 15, 2016 3:36:19 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d INPUT Format - XML\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d \nval tc \u003d tagCounts(sqs)\nval sqsByMonth \u003d scalaQuestionsByMonth(sqs)\n\n\nprintln(s\"Scala tc count ${tc.count()}\")\nprintln(s\"Scala sqsByMonth count ${sqsByMonth.count()}\")\ntc.take(10).foreach(println)\nsqsByMonth.take(4).foreach(println)\n\n\n    val outputDir \u003d \"/resources/Datasets\"\n    val outputDirStr \u003d outputDir.toString\n    val stcFile \u003d s\"$outputDirStr/ScalaTagCount\"\n    val sqbmFile \u003d s\"$outputDirStr/ScalaQuestionsByMonth\" \n//Delete the above directories before running again !!!!!!!!!!   \n    tc.saveAsTextFile(stcFile)\n    sqsByMonth.saveAsTextFile(sqbmFile)\n",
+      "dateUpdated": "Feb 15, 2016 3:36:28 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453746203068_415862309",
+      "id": "20160125-182323_577175792",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "tc: org.apache.spark.rdd.RDD[(Int, String)] \u003d ShuffledRDD[435] at sortByKey at \u003cconsole\u003e:50\nsqsByMonth: org.apache.spark.rdd.RDD[(String, Int)] \u003d ShuffledRDD[440] at sortByKey at \u003cconsole\u003e:53\nScala tc count 11\nScala sqsByMonth count 1\n(2,jvm)\n(1,list)\n(1,recursion)\n(1,web-services)\n(1,java)\n(1,tail-recursion)\n(1,functional-programming)\n(1,f#)\n(1,generics)\n(1,lift)\n(2008-09,6)\noutputDir: String \u003d /resources/Datasets\noutputDirStr: String \u003d /resources/Datasets\nstcFile: String \u003d /resources/Datasets/ScalaTagCount\nsqbmFile: String \u003d /resources/Datasets/ScalaQuestionsByMonth\norg.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 157.0 failed 1 times, most recent failure: Lost task 0.0 in stage 157.0 (TID 1864, localhost): java.io.IOException: Mkdirs failed to create file:/resources/Datasets/ScalaTagCount/_temporary/0/_temporary/attempt_201602151536_0157_m_000000_1864 (exists\u003dfalse, cwd\u003dfile:/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all)\n\tat org.apache.hadoop.fs.ChecksumFileSystem.create(ChecksumFileSystem.java:442)\n\tat org.apache.hadoop.fs.ChecksumFileSystem.create(ChecksumFileSystem.java:428)\n\tat org.apache.hadoop.fs.FileSystem.create(FileSystem.java:908)\n\tat org.apache.hadoop.fs.FileSystem.create(FileSystem.java:801)\n\tat org.apache.hadoop.mapred.TextOutputFormat.getRecordWriter(TextOutputFormat.java:123)\n\tat org.apache.spark.SparkHadoopWriter.open(SparkHadoopWriter.scala:91)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopDataset$1$$anonfun$13.apply(PairRDDFunctions.scala:1104)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopDataset$1$$anonfun$13.apply(PairRDDFunctions.scala:1095)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n\tat org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1280)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1268)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1267)\n\tat scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n\tat scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:47)\n\tat org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1267)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:697)\n\tat scala.Option.foreach(Option.scala:236)\n\tat org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:697)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1493)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1455)\n\tat org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1444)\n\tat org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n\tat org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:567)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1813)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1826)\n\tat org.apache.spark.SparkContext.runJob(SparkContext.scala:1903)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopDataset$1.apply$mcV$sp(PairRDDFunctions.scala:1124)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopDataset$1.apply(PairRDDFunctions.scala:1065)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopDataset$1.apply(PairRDDFunctions.scala:1065)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.PairRDDFunctions.saveAsHadoopDataset(PairRDDFunctions.scala:1065)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopFile$4.apply$mcV$sp(PairRDDFunctions.scala:989)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopFile$4.apply(PairRDDFunctions.scala:965)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopFile$4.apply(PairRDDFunctions.scala:965)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.PairRDDFunctions.saveAsHadoopFile(PairRDDFunctions.scala:965)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopFile$1.apply$mcV$sp(PairRDDFunctions.scala:897)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopFile$1.apply(PairRDDFunctions.scala:897)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopFile$1.apply(PairRDDFunctions.scala:897)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.PairRDDFunctions.saveAsHadoopFile(PairRDDFunctions.scala:896)\n\tat org.apache.spark.rdd.RDD$$anonfun$saveAsTextFile$1.apply$mcV$sp(RDD.scala:1426)\n\tat org.apache.spark.rdd.RDD$$anonfun$saveAsTextFile$1.apply(RDD.scala:1405)\n\tat org.apache.spark.rdd.RDD$$anonfun$saveAsTextFile$1.apply(RDD.scala:1405)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:147)\n\tat org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:108)\n\tat org.apache.spark.rdd.RDD.withScope(RDD.scala:306)\n\tat org.apache.spark.rdd.RDD.saveAsTextFile(RDD.scala:1405)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:53)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:58)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:60)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:62)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:64)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:66)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:68)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:70)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:72)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:74)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:76)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:78)\n\tat \u003cinit\u003e(\u003cconsole\u003e:80)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:84)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:497)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:1065)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1340)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:840)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:871)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:819)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:709)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\nCaused by: java.io.IOException: Mkdirs failed to create file:/resources/Datasets/ScalaTagCount/_temporary/0/_temporary/attempt_201602151536_0157_m_000000_1864 (exists\u003dfalse, cwd\u003dfile:/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all)\n\tat org.apache.hadoop.fs.ChecksumFileSystem.create(ChecksumFileSystem.java:442)\n\tat org.apache.hadoop.fs.ChecksumFileSystem.create(ChecksumFileSystem.java:428)\n\tat org.apache.hadoop.fs.FileSystem.create(FileSystem.java:908)\n\tat org.apache.hadoop.fs.FileSystem.create(FileSystem.java:801)\n\tat org.apache.hadoop.mapred.TextOutputFormat.getRecordWriter(TextOutputFormat.java:123)\n\tat org.apache.spark.SparkHadoopWriter.open(SparkHadoopWriter.scala:91)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopDataset$1$$anonfun$13.apply(PairRDDFunctions.scala:1104)\n\tat org.apache.spark.rdd.PairRDDFunctions$$anonfun$saveAsHadoopDataset$1$$anonfun$13.apply(PairRDDFunctions.scala:1095)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:66)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:88)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:214)\n\t... 3 more\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 6:23:23 PM",
+      "dateStarted": "Feb 15, 2016 3:36:28 PM",
+      "dateFinished": "Feb 15, 2016 3:36:31 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d INPUT Format - XML\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d \n\nval df \u003d sqlContext.read\n    .format(\"com.databricks.spark.xml\")\n    .option(\"rowTag\", \"book\")\n    .load(\"/resources/Datasets/books1.xml\")\n\ndf.printSchema()\nval selectedData \u003d df.select(\"author\", \"@id\")\nselectedData.show()",
+      "dateUpdated": "Jan 25, 2016 11:38:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453764849310_1238974982",
+      "id": "20160125-233409_1145687746",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [@id: string, author: string, description: string, genre: string, price: double, publish_date: string, title: string]\nroot\n |-- @id: string (nullable \u003d true)\n |-- author: string (nullable \u003d true)\n |-- description: string (nullable \u003d true)\n |-- genre: string (nullable \u003d true)\n |-- price: double (nullable \u003d true)\n |-- publish_date: string (nullable \u003d true)\n |-- title: string (nullable \u003d true)\n\nselectedData: org.apache.spark.sql.DataFrame \u003d [author: string, @id: string]\n+--------------------+-----+\n|              author|  @id|\n+--------------------+-----+\n|Gambardella, Matthew|bk101|\n|          Ralls, Kim|bk102|\n|         Corets, Eva|bk103|\n|         Corets, Eva|bk104|\n|         Corets, Eva|bk105|\n|    Randall, Cynthia|bk106|\n|      Thurman, Paula|bk107|\n|       Knorr, Stefan|bk108|\n|        Kress, Peter|bk109|\n|        O\u0027Brien, Tim|bk110|\n|        O\u0027Brien, Tim|bk111|\n|         Galos, Mike|bk112|\n+--------------------+-----+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 11:34:09 PM",
+      "dateStarted": "Jan 25, 2016 11:38:37 PM",
+      "dateFinished": "Jan 25, 2016 11:38:37 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d INPUT Format - XML\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d \n\n//https://github.com/databricks/spark-xml/blob/master/src/test/scala/com/databricks/spark/xml/XmlSuite.scala\nval df \u003d sqlContext.read\n    .format(\"com.databricks.spark.xml\")\n    .option(\"rowTag\", \"ROW\")\n    .load(\"/resources/Datasets/ages.xml\")\n\ndf.printSchema()\ndf.show()\n\nval carsFile \u003d \"/resources/Datasets/cars.xml\"\nsqlContext.sql(\n      s\"\"\"\n         |CREATE TEMPORARY TABLE carsTable\n         |USING xml\n         |OPTIONS (path \"$carsFile\")\n      \"\"\".stripMargin.replaceAll(\"\\n\", \" \"))\nval cars \u003d sqlContext.sql(\"SELECT * FROM carsTable\")\ncars.printSchema()\ncars.show()\n\nsqlContext.sql(\"SELECT year FROM carsTable\").show()",
+      "dateUpdated": "Jan 25, 2016 11:55:12 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453765131890_-1350786833",
+      "id": "20160125-233851_835827901",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [Remark: string, age: bigint, amount: bigint, id: bigint, name: string]\nroot\n |-- Remark: string (nullable \u003d true)\n |-- age: long (nullable \u003d true)\n |-- amount: long (nullable \u003d true)\n |-- id: long (nullable \u003d true)\n |-- name: string (nullable \u003d true)\n\n+--------------------+----+------+---+--------------------+\n|              Remark| age|amount| id|                name|\n+--------------------+----+------+---+--------------------+\n|        Pays on time|  45|  null|  1|Johnson, Smith, a...|\n|                null|null|    93|  2|   Sam Mad Dog Smith|\n|Great to work wit...|   0|  null|  3|      Barney Company|\n|        Pays on time|2344|  null|  4| Johnsons Automotive|\n+--------------------+----+------+---+--------------------+\n\ncarsFile: String \u003d /resources/Datasets/cars.xml\nres79: org.apache.spark.sql.DataFrame \u003d []\ncars: org.apache.spark.sql.DataFrame \u003d [comment: string, make: string, model: string, year: bigint]\nroot\n |-- comment: string (nullable \u003d true)\n |-- make: string (nullable \u003d true)\n |-- model: string (nullable \u003d true)\n |-- year: long (nullable \u003d true)\n\n+--------------------+-----+-----+----+\n|             comment| make|model|year|\n+--------------------+-----+-----+----+\n|          No comment|Tesla|    S|2012|\n|Go get one now th...| Ford| E350|1997|\n|                  No|Chevy| Volt|2015|\n+--------------------+-----+-----+----+\n\n+----+\n|year|\n+----+\n|2012|\n|1997|\n|2015|\n+----+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 11:38:51 PM",
+      "dateStarted": "Jan 25, 2016 11:52:23 PM",
+      "dateFinished": "Jan 25, 2016 11:52:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// INPUT Format - S3\n//http://sparktutorials.net/Reading+and+Writing+S3+Data+with+Apache+Spark\n\n\nimport java.net.URLEncoder\n \nval AccessKey \u003d getArgument(\"1. ACCESS_KEY\", \"REPLACE_WITH_YOUR_ACCESS_KEY\")\nval SecretKey \u003d getArgument(\"2. SECRET_KEY\", \"REPLACE_WITH_YOUR_SECRET_KEY\")\nval EncodedSecretKey \u003d SecretKey.replace(\"/\", \"%2F\")\nval AwsBucketName \u003d getArgument(\"3. S3_BUCKET\", \"REPLACE_WITH_YOUR_S3_BUCKET\")\nval MountName \u003d getArgument(\"4. MNT_NAME\", \"REPLACE_WITH_YOUR_MOUNT_NAME\")\n// fill it in with your own information\n \nval publicPCD \u003d sqlContext\n  .read.format(\"com.databricks.spark.csv\")\n  .option(\"header\", \"true\")\n  .option(\"inferSchema\", \"true\")\n  .load(s\"s3a://$AccessKey:$SecretKey@$AwsBucketName/.../...\")\n// change that last line to line up with the bucket location!",
+      "dateUpdated": "Jan 19, 2016 7:53:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453223197092_178271159",
+      "id": "20160119-170637_314239368",
+      "dateCreated": "Jan 19, 2016 5:06:37 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// INPUT Format - MongoDB",
+      "dateUpdated": "Jan 19, 2016 5:08:54 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453223316381_606648282",
+      "id": "20160119-170836_2019289536",
+      "dateCreated": "Jan 19, 2016 5:08:36 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// INPUT Format - PDF\nhttp://tika.apache.org/0.7/api/org/apache/tika/parser/pdf/PDFParser.html",
+      "dateUpdated": "Jan 19, 2016 5:13:39 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453223597568_1639500389",
+      "id": "20160119-171317_632991412",
+      "dateCreated": "Jan 19, 2016 5:13:17 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// INPUT Format gzip bz2 LZO etc",
+      "dateUpdated": "Jan 19, 2016 5:30:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453224498600_936283379",
+      "id": "20160119-172818_1760388211",
+      "dateCreated": "Jan 19, 2016 5:28:18 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// INPUT Format - BigSQL",
+      "dateUpdated": "Jan 19, 2016 5:34:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453224855217_439321905",
+      "id": "20160119-173415_340595033",
+      "dateCreated": "Jan 19, 2016 5:34:15 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_InputFormats",
+  "id": "2BBRBXN6P",
+  "angularObjects": {
+    "2BCRC6M19": [],
+    "2BANG2RG8": [],
+    "2BACPWMUG": [],
+    "2BBBRWT9Q": [],
+    "2BE76JS7C": [],
+    "2BD2FRUTX": [],
+    "2BB4WQTX8": [],
+    "2BD4NNXC9": [],
+    "2BBHZKNQU": [],
+    "2BC7YE4AV": [],
+    "2BDP5QWCV": [],
+    "2BE1GD93Y": [],
+    "2BD1XTDGP": [],
+    "2BE9MUD1W": []
+  },
+  "config": {},
+  "info": {}
+}

@@ -1,0 +1,41 @@
+{
+  "paragraphs": [
+    {
+      "text": "// Indexed RDD\n//https://github.com/spirom/spark-indexedrdd\n",
+      "dateUpdated": "Jan 25, 2016 4:21:20 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453695661643_-1919390326",
+      "id": "20160125-042101_855069376",
+      "dateCreated": "Jan 25, 2016 4:21:01 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_RDD_Adv",
+  "id": "2B9CP75EC",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

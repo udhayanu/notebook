@@ -1,0 +1,41 @@
+{
+  "paragraphs": [
+    {
+      "text": "//https://github.com/jadianes/spark-py-notebooks",
+      "dateUpdated": "Jan 19, 2016 11:38:08 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453246682692_1655800828",
+      "id": "20160119-233802_782440621",
+      "dateCreated": "Jan 19, 2016 11:38:02 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_KDD_Analysis",
+  "id": "2B9NA1G7B",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

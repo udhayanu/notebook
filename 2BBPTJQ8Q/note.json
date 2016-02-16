@@ -1,0 +1,93 @@
+{
+  "paragraphs": [
+    {
+      "text": "//http://ampcamp.berkeley.edu/5/exercises/sparkr.html\n//Cary Weather data Analysis\n//http://www.wunderground.com/history/airport/KRDU/2014/1/1/CustomHistory.html?dayend\u003d1\u0026monthend\u003d1\u0026yearend\u003d2016\u0026req_city\u003d\u0026req_state\u003d\u0026req_statename\u003d\u0026reqdb.zip\u003d\u0026reqdb.magic\u003d\u0026reqdb.wmo\u003d\n",
+      "dateUpdated": "Jan 28, 2016 10:36:50 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454020598051_730013831",
+      "id": "20160128-223638_366965015",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 28, 2016 10:36:38 PM",
+      "dateStarted": "Jan 28, 2016 10:36:50 PM",
+      "dateFinished": "Jan 28, 2016 10:36:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "sqlContext.sql(\"CREATE TABLE IF NOT EXISTS employee(id INT, name STRING, age INT)\")\nsqlContext.sql(\"FROM employee SELECT id, name, age\").show()\nsqlContext.sql(\"show tables\").show()",
+      "dateUpdated": "Jan 28, 2016 10:36:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454020610873_1245608005",
+      "id": "20160128-223650_1143551065",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res339: org.apache.spark.sql.DataFrame \u003d [result: string]\n+---+----+---+\n| id|name|age|\n+---+----+---+\n+---+----+---+\n\n+-------------+-----------+\n|    tableName|isTemporary|\n+-------------+-----------+\n|    avrotable|       true|\n|episodesempty|       true|\n|     employee|      false|\n+-------------+-----------+\n\n"
+      },
+      "dateCreated": "Jan 28, 2016 10:36:50 PM",
+      "dateStarted": "Jan 28, 2016 10:36:56 PM",
+      "dateFinished": "Jan 28, 2016 10:36:59 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454020616435_1727713701",
+      "id": "20160128-223656_1105739325",
+      "dateCreated": "Jan 28, 2016 10:36:56 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Tutorial_Miscl",
+  "id": "2BBPTJQ8Q",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

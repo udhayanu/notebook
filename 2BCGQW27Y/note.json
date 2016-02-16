@@ -1,0 +1,41 @@
+{
+  "paragraphs": [
+    {
+      "text": "\n/*\nhttps://github.com/fluxcapacitor/pipeline/wiki\nhttp://advancedspark.com/\nhttps://github.com/retroryan/pipeline-1\nhttps://hub.docker.com/r/fluxcapacitor/pipeline/\nhttps://github.com/fluxcapacitor/pipeline\nhttps://www.youtube.com/watch?v\u003dZ1KwVY6yOXg\nhttp://www.slideshare.net/cfregly/brussels-spark-meetup-oct-30-2015-spark-after-dark-15-realtime-advanced-analytics-with-spark-15-kafka-cassandra-elasticsearch-zeppelin-and-docker\nKeep an eye on the Github and Docker Hub Registry links under project name \"fluxcapacitor\":\n\n1) https://github.com/fluxcapacitor\n\n2) https://registry.hub.docker.com/repos/fluxcapacitor/\n\n*/\n\n",
+      "dateUpdated": "Jan 29, 2016 4:33:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454084823179_-1545911131",
+      "id": "20160129-162703_282575188",
+      "dateCreated": "Jan 29, 2016 4:27:03 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_AfterDark",
+  "id": "2BCGQW27Y",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

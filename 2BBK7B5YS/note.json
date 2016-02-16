@@ -1,0 +1,307 @@
+{
+  "paragraphs": [
+    {
+      "text": "/*\nDataset reference - http://ourairports.com/data/\n/resources/Datasets/mycountries.csv\n/resources/Datasets/myairports.csv\n*/\nval foldername \u003d\"/Users/mridhusri/Documents/iPython/ampcamp6/data\"\nval mycountries \u003d sqlContext.read\n            .format(\"com.databricks.spark.csv\")\n            .option(\"header\", \"true\")\n            .load(foldername+\"/resources/Datasets/mycountries.csv\")\nmycountries.show(5)\nmycountries.printSchema()\n\nval myairports \u003d sqlContext.read\n            .format(\"com.databricks.spark.csv\")\n            .option(\"header\", \"true\")\n            .load(foldername+\"/resources/Datasets/myairports.csv\")\nmyairports.show(5)\nmyairports.printSchema()\n\n\nmycountries.registerTempTable(\"mycountries\")\nmyairports.registerTempTable(\"myairports\")\n",
+      "dateUpdated": "Feb 15, 2016 3:07:21 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454272575377_-189591176",
+      "id": "20160131-203615_156183324",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "foldername: String \u003d /Users/mridhusri/Documents/iPython/ampcamp6/data\nmycountries: org.apache.spark.sql.DataFrame \u003d [id: string, code: string, name: string, continent: string, wikipedia_link: string, keywords: string]\n+------+----+--------------------+---------+--------------------+--------+\n|    id|code|                name|continent|      wikipedia_link|keywords|\n+------+----+--------------------+---------+--------------------+--------+\n|302672|  AD|             Andorra|       EU|http://en.wikiped...|        |\n|302618|  AE|United Arab Emirates|       AS|http://en.wikiped...|     UAE|\n|302619|  AF|         Afghanistan|       AS|http://en.wikiped...|        |\n|302722|  AG| Antigua and Barbuda|       NA|http://en.wikiped...|        |\n|302723|  AI|            Anguilla|       NA|http://en.wikiped...|        |\n+------+----+--------------------+---------+--------------------+--------+\nonly showing top 5 rows\n\nroot\n |-- id: string (nullable \u003d true)\n |-- code: string (nullable \u003d true)\n |-- name: string (nullable \u003d true)\n |-- continent: string (nullable \u003d true)\n |-- wikipedia_link: string (nullable \u003d true)\n |-- keywords: string (nullable \u003d true)\n\nmyairports: org.apache.spark.sql.DataFrame \u003d [id: string, ident: string, type: string, name: string, latitude_deg: string, longitude_deg: string, elevation_ft: string, continent: string, iso_country: string, iso_region: string, municipality: string, scheduled_service: string, gps_code: string, iata_code: string, local_code: string, home_link: string, wikipedia_link: string, keywords: string]\n+----+-----+-------------+--------------------+------------------+-------------------+------------+---------+-----------+----------+------------+-----------------+--------+---------+----------+---------+--------------+--------+\n|  id|ident|         type|                name|      latitude_deg|      longitude_deg|elevation_ft|continent|iso_country|iso_region|municipality|scheduled_service|gps_code|iata_code|local_code|home_link|wikipedia_link|keywords|\n+----+-----+-------------+--------------------+------------------+-------------------+------------+---------+-----------+----------+------------+-----------------+--------+---------+----------+---------+--------------+--------+\n|6523|  00A|     heliport|   Total Rf Heliport|    40.07080078125| -74.93360137939453|          11|       NA|         US|     US-PA|    Bensalem|               no|     00A|         |       00A|         |              |        |\n|6524| 00AK|small_airport|        Lowell Field|       59.94919968|     -151.695999146|         450|       NA|         US|     US-AK|Anchor Point|               no|    00AK|         |      00AK|         |              |        |\n|6525| 00AL|small_airport|        Epps Airpark| 34.86479949951172| -86.77030181884766|         820|       NA|         US|     US-AL|     Harvest|               no|    00AL|         |      00AL|         |              |        |\n|6526| 00AR|     heliport|Newport Hospital ...|35.608699798583984| -91.25489807128906|         237|       NA|         US|     US-AR|     Newport|               no|    00AR|         |      00AR|         |              |        |\n|6527| 00AZ|small_airport|      Cordes Airport|34.305599212646484|-112.16500091552734|        3810|       NA|         US|     US-AZ|      Cordes|               no|    00AZ|         |      00AZ|         |              |        |\n+----+-----+-------------+--------------------+------------------+-------------------+------------+---------+-----------+----------+------------+-----------------+--------+---------+----------+---------+--------------+--------+\nonly showing top 5 rows\n\nroot\n |-- id: string (nullable \u003d true)\n |-- ident: string (nullable \u003d true)\n |-- type: string (nullable \u003d true)\n |-- name: string (nullable \u003d true)\n |-- latitude_deg: string (nullable \u003d true)\n |-- longitude_deg: string (nullable \u003d true)\n |-- elevation_ft: string (nullable \u003d true)\n |-- continent: string (nullable \u003d true)\n |-- iso_country: string (nullable \u003d true)\n |-- iso_region: string (nullable \u003d true)\n |-- municipality: string (nullable \u003d true)\n |-- scheduled_service: string (nullable \u003d true)\n |-- gps_code: string (nullable \u003d true)\n |-- iata_code: string (nullable \u003d true)\n |-- local_code: string (nullable \u003d true)\n |-- home_link: string (nullable \u003d true)\n |-- wikipedia_link: string (nullable \u003d true)\n |-- keywords: string (nullable \u003d true)\n\n"
+      },
+      "dateCreated": "Jan 31, 2016 8:36:15 PM",
+      "dateStarted": "Feb 15, 2016 3:07:21 PM",
+      "dateFinished": "Feb 15, 2016 3:07:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//https://databricks.com/blog/2015/09/16/spark-1-5-dataframe-api-highlights-datetimestring-handling-time-intervals-and-udafs.html\n//val result \u003d log.select(\"page\",\"visitor\").groupBy(\u0027page).agg(\u0027page, countDistinct(\u0027visitor))\n// countDistinct\n\nsqlContext.setConf(\"spark.sql.retainGroupColumns\", \"true\")\n\n    def Continent(short:String): String \u003d short match {\n      case \"NA\" \u003d\u003e \"North America\"\n      case \"AF\" \u003d\u003e \"Africa\"\n      case \"AN\" \u003d\u003e \"Antartica\"\n      case \"AS\"\u003d\u003e \"Asia\"\n      case \"OC\" \u003d\u003e \"Other Continent\"\n      case \"EU\"\u003d\u003e \"European Union\"\n      case \"SA\"\u003d\u003e \"South America\"\n    }\n    sqlContext.udf.register(\"Continent\", Continent _)\n\nval countries \u003d sqlContext.sql(\"SELECT *,Continent(continent) as ccontinent FROM mycountries\")\ncountries.show(2)\n//countries.printSchema\nmycountries.select(\"name\",\"continent\").groupBy(\"continent\").agg(countDistinct(\"name\")).show()\n\ncountries.select(\"name\",\"ccontinent\").groupBy(\"ccontinent\").agg(approxCountDistinct(\"name\")).show()\ncountries.registerTempTable(\"countries\")\nsqlContext.sql(\"SELECT name,md5(ccontinent) as md5 FROM countries\").show()\n\n\n\n",
+      "dateUpdated": "Feb 15, 2016 3:08:48 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454273353002_581561112",
+      "id": "20160131-204913_1518120883",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Continent: (short: String)String\nres178: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction1\u003e,StringType,List())\ncountries: org.apache.spark.sql.DataFrame \u003d [id: string, code: string, name: string, continent: string, wikipedia_link: string, keywords: string, ccontinent: string]\n+------+----+--------------------+---------+--------------------+--------+--------------+\n|    id|code|                name|continent|      wikipedia_link|keywords|    ccontinent|\n+------+----+--------------------+---------+--------------------+--------+--------------+\n|302672|  AD|             Andorra|       EU|http://en.wikiped...|        |European Union|\n|302618|  AE|United Arab Emirates|       AS|http://en.wikiped...|     UAE|          Asia|\n+------+----+--------------------+---------+--------------------+--------+--------------+\nonly showing top 2 rows\n\n+---------+--------------------+\n|continent|COUNT(DISTINCT name)|\n+---------+--------------------+\n|       NA|                  41|\n|       AF|                  59|\n|       AN|                   3|\n|       AS|                  54|\n|       OC|                  26|\n|       EU|                  50|\n|       SA|                  14|\n+---------+--------------------+\n\n+---------------+--------------------------------+\n|     ccontinent|APPROXIMATE COUNT(DISTINCT name)|\n+---------------+--------------------------------+\n|Other Continent|                              27|\n| European Union|                              51|\n|      Antartica|                               3|\n|  South America|                              14|\n|         Africa|                              64|\n|  North America|                              40|\n|           Asia|                              53|\n+---------------+--------------------------------+\n\n+--------------------+--------------------+\n|                name|                 md5|\n+--------------------+--------------------+\n|             Andorra|9a18968af130ca004...|\n|United Arab Emirates|154a67340e8c14dd5...|\n|         Afghanistan|154a67340e8c14dd5...|\n| Antigua and Barbuda|5ffec2d87ab548202...|\n|            Anguilla|5ffec2d87ab548202...|\n|             Albania|9a18968af130ca004...|\n|             Armenia|154a67340e8c14dd5...|\n|              Angola|f5cd262901883dff6...|\n|          Antarctica|c9d402d0280088a8c...|\n|           Argentina|aab422acb3d2334a6...|\n|      American Samoa|27241e27b44dab559...|\n|             Austria|9a18968af130ca004...|\n|           Australia|27241e27b44dab559...|\n|               Aruba|5ffec2d87ab548202...|\n|          Azerbaijan|154a67340e8c14dd5...|\n|Bosnia and Herzeg...|9a18968af130ca004...|\n|            Barbados|5ffec2d87ab548202...|\n|          Bangladesh|154a67340e8c14dd5...|\n|             Belgium|9a18968af130ca004...|\n|        Burkina Faso|f5cd262901883dff6...|\n+--------------------+--------------------+\nonly showing top 20 rows\n\n"
+      },
+      "dateCreated": "Jan 31, 2016 8:49:13 PM",
+      "dateStarted": "Feb 15, 2016 3:08:48 PM",
+      "dateFinished": "Feb 15, 2016 3:08:52 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\ncountries.stat.crosstab(\"ccontinent\", \"continent\").show()\n//freq \u003d df.stat.freqItems([\"a\", \"b\", \"c\"], 0.4)\nval freq \u003d countries.stat.freqItems(Seq(\"ccontinent\", \"continent\"), 0.5)\nfreq.collect.foreach(println)",
+      "dateUpdated": "Jan 31, 2016 11:11:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454281413671_1704151583",
+      "id": "20160131-230333_464010278",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+--------------------+---+---+---+---+---+---+---+\n|ccontinent_continent| AN| AS| OC| SA| NA| EU| AF|\n+--------------------+---+---+---+---+---+---+---+\n|       North America|  0|  0|  0|  0| 41|  0|  0|\n|     Other Continent|  0|  0| 26|  0|  0|  0|  0|\n|       South America|  0|  0|  0| 14|  0|  0|  0|\n|                Asia|  0| 54|  0|  0|  0|  0|  0|\n|              Africa|  0|  0|  0|  0|  0|  0| 59|\n|      European Union|  0|  0|  0|  0|  0| 50|  0|\n|           Antartica|  3|  0|  0|  0|  0|  0|  0|\n+--------------------+---+---+---+---+---+---+---+\n\nfreq: org.apache.spark.sql.DataFrame \u003d [ccontinent_freqItems: array\u003cstring\u003e, continent_freqItems: array\u003cstring\u003e]\n[WrappedArray(Asia, Africa),WrappedArray(AS, AF)]\n"
+      },
+      "dateCreated": "Jan 31, 2016 11:03:33 PM",
+      "dateStarted": "Jan 31, 2016 11:11:16 PM",
+      "dateFinished": "Jan 31, 2016 11:11:20 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql.functions import rand, randn\ndf \u003d sqlContext.range(0, 10)\ndf.show()\ndf.select(\"id\", rand(seed\u003d10).alias(\"uniform\"), randn(seed\u003d27).alias(\"normal\")).show()\n\ndf \u003d sqlContext.range(0, 10).withColumn(\u0027uniform\u0027, rand(seed\u003d10)).withColumn(\u0027normal\u0027, randn(seed\u003d27))\ndf.describe().show()\ndf.describe(\u0027uniform\u0027, \u0027normal\u0027).show()\nfrom pyspark.sql.functions import mean, min, max\ndf.select([mean(\u0027uniform\u0027), min(\u0027uniform\u0027), max(\u0027uniform\u0027)]).show()",
+      "dateUpdated": "Jan 31, 2016 10:55:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454276421343_-394578094",
+      "id": "20160131-214021_1431779414",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+---+\n| id|\n+---+\n|  0|\n|  1|\n|  2|\n|  3|\n|  4|\n|  5|\n|  6|\n|  7|\n|  8|\n|  9|\n+---+\n\n+---+--------------------+--------------------+\n| id|             uniform|              normal|\n+---+--------------------+--------------------+\n|  0|  0.7224977951905031| -0.1875348803463305|\n|  1|  0.3312021111290707| -0.8692578137288678|\n|  2|  0.2953174992603351|-0.26525647952450265|\n|  3|0.018326130186194667|  0.4168701474078032|\n|  4|  0.3163135293051941| -1.1616209180686536|\n|  5|  0.4536856090041318| -0.7195024130068081|\n|  6|   0.873869321369476| 0.27429207565220803|\n|  7|  0.9970412477032209|  0.5181478766595276|\n|  8| 0.19657711634539565|  0.7316273979766378|\n|  9|  0.9632338825504894| -1.2643715325516889|\n+---+--------------------+--------------------+\n\n+-------+------------------+--------------------+-------------------+\n|summary|                id|             uniform|             normal|\n+-------+------------------+--------------------+-------------------+\n|  count|                10|                  10|                 10|\n|   mean|               4.5|   0.516806424204401|-0.2526606539530675|\n| stddev|2.8722813232690143|  0.3283965849631114| 0.6885652041391322|\n|    min|                 0|0.018326130186194667|-1.2643715325516889|\n|    max|                 9|  0.9970412477032209| 0.7316273979766378|\n+-------+------------------+--------------------+-------------------+\n\n+-------+--------------------+-------------------+\n|summary|             uniform|             normal|\n+-------+--------------------+-------------------+\n|  count|                  10|                 10|\n|   mean|   0.516806424204401|-0.2526606539530675|\n| stddev|  0.3283965849631114| 0.6885652041391322|\n|    min|0.018326130186194667|-1.2643715325516889|\n|    max|  0.9970412477032209| 0.7316273979766378|\n+-------+--------------------+-------------------+\n\n+-----------------+--------------------+------------------+\n|     avg(uniform)|        min(uniform)|      max(uniform)|\n+-----------------+--------------------+------------------+\n|0.516806424204401|0.018326130186194667|0.9970412477032209|\n+-----------------+--------------------+------------------+\n\n"
+      },
+      "dateCreated": "Jan 31, 2016 9:40:21 PM",
+      "dateStarted": "Jan 31, 2016 10:55:46 PM",
+      "dateFinished": "Jan 31, 2016 10:55:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql.functions import rand\ndf \u003d sqlContext.range(0, 10).withColumn(\u0027rand1\u0027, rand(seed\u003d10)).withColumn(\u0027rand2\u0027, rand(seed\u003d27))\nprint df.stat.cov(\u0027rand1\u0027, \u0027rand2\u0027)\n\nprint df.stat.cov(\u0027id\u0027, \u0027id\u0027)\nprint df.stat.corr(\u0027rand1\u0027, \u0027rand2\u0027)\nprint df.stat.corr(\u0027id\u0027, \u0027id\u0027)\n\nnames \u003d [\"Alice\", \"Bob\", \"Mike\"]\nitems \u003d [\"milk\", \"bread\", \"butter\", \"apples\", \"oranges\"]\ndf \u003d sqlContext.createDataFrame([(names[i % 3], items[i % 5]) for i in range(100)], [\"name\", \"item\"])\n\n# Take a look at the first 10 rows.\ndf.show(10)\ndf.stat.crosstab(\"name\", \"item\").show()\n",
+      "dateUpdated": "Feb 15, 2016 3:14:06 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454280519611_-1969288588",
+      "id": "20160131-224839_1100530915",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "0.0650080507276\n9.16666666667\n0.61306449313\n1.0\n+-----+-------+\n| name|   item|\n+-----+-------+\n|Alice|   milk|\n|  Bob|  bread|\n| Mike| butter|\n|Alice| apples|\n|  Bob|oranges|\n| Mike|   milk|\n|Alice|  bread|\n|  Bob| butter|\n| Mike| apples|\n|Alice|oranges|\n+-----+-------+\nonly showing top 10 rows\n\n+---------+------+-------+------+----+-----+\n|name_item|apples|oranges|butter|milk|bread|\n+---------+------+-------+------+----+-----+\n|      Bob|     6|      7|     7|   6|    7|\n|     Mike|     7|      6|     7|   7|    6|\n|    Alice|     7|      7|     6|   7|    7|\n+---------+------+-------+------+----+-----+\n\n"
+      },
+      "dateCreated": "Jan 31, 2016 10:48:39 PM",
+      "dateStarted": "Feb 15, 2016 3:14:06 PM",
+      "dateFinished": "Feb 15, 2016 3:14:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\ndf \u003d sqlContext.createDataFrame([(1, 2, 3) if i % 2 \u003d\u003d 0 else (i, 2 * i, i % 4) for i in range(100)], [\"a\", \"b\", \"c\"])\n\ndf.show(10)\n\nfreq \u003d df.stat.freqItems([\"a\", \"b\", \"c\"], 0.4)\nprint freq.collect()",
+      "dateUpdated": "Feb 15, 2016 3:14:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454280815762_1041355110",
+      "id": "20160131-225335_1568781974",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+---+---+---+\n|  a|  b|  c|\n+---+---+---+\n|  1|  2|  3|\n|  1|  2|  1|\n|  1|  2|  3|\n|  3|  6|  3|\n|  1|  2|  3|\n|  5| 10|  1|\n|  1|  2|  3|\n|  7| 14|  3|\n|  1|  2|  3|\n|  9| 18|  1|\n+---+---+---+\nonly showing top 10 rows\n\n[Row(a_freqItems\u003d[1, 99], b_freqItems\u003d[2, 198], c_freqItems\u003d[1, 3])]\n"
+      },
+      "dateCreated": "Jan 31, 2016 10:53:35 PM",
+      "dateStarted": "Feb 15, 2016 3:14:17 PM",
+      "dateFinished": "Feb 15, 2016 3:14:17 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//window functions\n\n val schema \u003d Seq(\"product\", \"category\", \"revenue\")\n val data \u003d Seq(\n        (\"Thin\",       \"cell phone\", 6000),\n        (\"Normal\",     \"tablet\",     1500),\n        (\"Mini\",       \"tablet\",     5500),\n        (\"Ultra thin\", \"cell phone\", 5000),\n        (\"Very thin\",  \"cell phone\", 6000),\n        (\"Big\",        \"tablet\",     2500),\n        (\"Bendable\",   \"cell phone\", 3000),\n        (\"Foldable\",   \"cell phone\", 3000),\n        (\"Pro\",        \"tablet\",     4500),\n        (\"Pro2\",       \"tablet\",     6500)\n      )\nval df \u003d sc.parallelize(data).toDF(schema: _*)\ndf.select(\u0027*).show\ndf.where(df(\"category\") \u003d\u003d\u003d \"tablet\").show",
+      "dateUpdated": "Feb 15, 2016 3:14:20 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454281598292_1274643760",
+      "id": "20160131-230638_636748369",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "schema: Seq[String] \u003d List(product, category, revenue)\ndata: Seq[(String, String, Int)] \u003d List((Thin,cell phone,6000), (Normal,tablet,1500), (Mini,tablet,5500), (Ultra thin,cell phone,5000), (Very thin,cell phone,6000), (Big,tablet,2500), (Bendable,cell phone,3000), (Foldable,cell phone,3000), (Pro,tablet,4500), (Pro2,tablet,6500))\ndf: org.apache.spark.sql.DataFrame \u003d [product: string, category: string, revenue: int]\n+----------+----------+-------+\n|   product|  category|revenue|\n+----------+----------+-------+\n|      Thin|cell phone|   6000|\n|    Normal|    tablet|   1500|\n|      Mini|    tablet|   5500|\n|Ultra thin|cell phone|   5000|\n| Very thin|cell phone|   6000|\n|       Big|    tablet|   2500|\n|  Bendable|cell phone|   3000|\n|  Foldable|cell phone|   3000|\n|       Pro|    tablet|   4500|\n|      Pro2|    tablet|   6500|\n+----------+----------+-------+\n\n+-------+--------+-------+\n|product|category|revenue|\n+-------+--------+-------+\n| Normal|  tablet|   1500|\n|   Mini|  tablet|   5500|\n|    Big|  tablet|   2500|\n|    Pro|  tablet|   4500|\n|   Pro2|  tablet|   6500|\n+-------+--------+-------+\n\n"
+      },
+      "dateCreated": "Jan 31, 2016 11:06:38 PM",
+      "dateStarted": "Feb 15, 2016 3:14:20 PM",
+      "dateFinished": "Feb 15, 2016 3:14:22 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "df.stat.crosstab(\"category\", \"product\").show()",
+      "dateUpdated": "Feb 15, 2016 3:14:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454282616540_-1505093712",
+      "id": "20160131-232336_2104479770",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "+----------------+---+----+----------+--------+---+--------+---------+------+----+----+\n|category_product|Pro|Thin|Ultra thin|Bendable|Big|Foldable|Very thin|Normal|Pro2|Mini|\n+----------------+---+----+----------+--------+---+--------+---------+------+----+----+\n|      cell phone|  0|   1|         1|       1|  0|       1|        1|     0|   0|   0|\n|          tablet|  1|   0|         0|       0|  1|       0|        0|     1|   1|   1|\n+----------------+---+----+----------+--------+---+--------+---------+------+----+----+\n\n"
+      },
+      "dateCreated": "Jan 31, 2016 11:23:36 PM",
+      "dateStarted": "Feb 15, 2016 3:14:56 PM",
+      "dateFinished": "Feb 15, 2016 3:14:58 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455567296848_-1446699004",
+      "id": "20160215-151456_869659744",
+      "dateCreated": "Feb 15, 2016 3:14:56 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_BuiltInFuncs",
+  "id": "2BBK7B5YS",
+  "angularObjects": {
+    "2BCRC6M19": [],
+    "2BANG2RG8": [],
+    "2BACPWMUG": [],
+    "2BBBRWT9Q": [],
+    "2BE76JS7C": [],
+    "2BD2FRUTX": [],
+    "2BB4WQTX8": [],
+    "2BD4NNXC9": [],
+    "2BBHZKNQU": [],
+    "2BC7YE4AV": [],
+    "2BDP5QWCV": [],
+    "2BE1GD93Y": [],
+    "2BD1XTDGP": [],
+    "2BE9MUD1W": []
+  },
+  "config": {},
+  "info": {}
+}

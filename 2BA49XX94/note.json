@@ -1,0 +1,128 @@
+{
+  "paragraphs": [
+    {
+      "text": "val srdd \u003d sc.parallelize(1 to 15, 15).map { index \u003d\u003e\n val host \u003d java.net.InetAddress.getLocalHost.getHostName\n if (host \u003d\u003d \"ip-172-31-2-222\") {\n Thread.sleep(10000)\n host\n } else {\n Thread.sleep(1000)\n host\n }}\n \nsrdd.collect()",
+      "dateUpdated": "Jan 25, 2016 1:52:24 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453686629436_2021212622",
+      "id": "20160125-015029_1719097927",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "srdd: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[382] at map at \u003cconsole\u003e:80\nres201: Array[String] \u003d Array(3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c, 3c7fc44f854c)\n"
+      },
+      "dateCreated": "Jan 25, 2016 1:50:29 AM",
+      "dateStarted": "Jan 25, 2016 1:52:24 AM",
+      "dateFinished": "Jan 25, 2016 1:52:29 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//Stragglers due to data skew\nsc.parallelize(1 to 15, 15)\n .flatMap { i \u003d\u003e 1 to i }\n .map { i \u003d\u003e Thread.sleep(1000) }\n .count()\n \n \n/*\nLocal Performance\nEach Spark executor runs a JVM/Python process\nInsert your favorite JVM/Python profiling tool\n\u003e jstack\n\u003e YourKit\n\u003e VisualVM\n\u003e println\n\u003e (sorry I don’t know a whole lot about Python)\n\u003e …\n\nRDD abstraction\n\u003e lineage info: partitions, dependencies, compute\n\u003e optimization info: partitioner, preferred locations\n\nScientific Answer: RDD is an Interface!\n“lineage”\n1. Set of partitions (“splits” in Hadoop)\n2. List of dependencies on parent RDDs\n3. Function to compute a partition\n(as an Iterator) given its parent(s)\noptimized\nexecution \n4. (Optional) partitioner (hash, range)\n5. (Optional) preferred location(s)\nfor each partition\n\nEach RDD consists of 5 properties:\n1. partitions\n2. dependencies\n3. compute\n4. (optional) partitioner\n5. (optional) preferred locations\n\nDAG Scheduler\nInput: RDD and partitions to compute\nOutput: output from actions on those partitions\nRoles:\n\u003e Build stages of tasks\n\u003e Submit them to lower level scheduler (e.g. YARN,\nMesos, Standalone) as ready\n\u003e Lower level scheduler will schedule data based on\nlocality\n\u003e Resubmit failed stages if outputs are lost\n*/\n",
+      "dateUpdated": "Jan 25, 2016 2:04:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453686637427_-854785407",
+      "id": "20160125-015037_290030034",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "res213: Long \u003d 120\ndefined class DummyObject\n\u003cconsole\u003e:84: error: not found: value obj\n               obj.toInt\n               ^\n"
+      },
+      "dateCreated": "Jan 25, 2016 1:50:37 AM",
+      "dateStarted": "Jan 25, 2016 2:00:07 AM",
+      "dateFinished": "Jan 25, 2016 2:00:43 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\nps\n#jstack 138\n#jmap -histo:live 138\n#jmap -histo 138\n",
+      "dateUpdated": "Jan 25, 2016 2:00:57 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453686818236_-494616108",
+      "id": "20160125-015338_176361949",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "  PID TTY          TIME CMD\n    1 ?        00:01:12 supervisord\n   50 ?        00:12:49 java\n  128 ?        00:00:00 interpreter.sh\n  138 ?        00:05:27 java\n  469 ?        00:00:00 interpreter.sh\n  479 ?        00:05:20 java\n 5030 ?        00:00:00 interpreter.sh\n 5040 ?        00:03:28 java\n 5546 ?        00:00:00 bash\n 5550 ?        00:00:00 ps\n"
+      },
+      "dateCreated": "Jan 25, 2016 1:53:38 AM",
+      "dateStarted": "Jan 25, 2016 2:00:57 AM",
+      "dateFinished": "Jan 25, 2016 2:00:57 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453686941535_1289280651",
+      "id": "20160125-015541_184932182",
+      "dateCreated": "Jan 25, 2016 1:55:41 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_Performance",
+  "id": "2BA49XX94",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

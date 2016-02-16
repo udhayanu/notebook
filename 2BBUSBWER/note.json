@@ -1,0 +1,795 @@
+{
+  "paragraphs": [
+    {
+      "text": "// easy enough to query flat JSON\n    val people \u003d sqlContext.read.json(\"/resources/Datasets/flatpeople.json\")\n    people.printSchema()\n    people.registerTempTable(\"people\")\n    people.show()\n    \n    val young \u003d sqlContext.sql(\"SELECT firstName, lastName FROM people WHERE age \u003c 30\")\n    young.show()\n",
+      "dateUpdated": "Jan 25, 2016 12:47:44 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453679540144_2043588307",
+      "id": "20160124-235220_1953000712",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "people: org.apache.spark.sql.DataFrame \u003d [age: bigint, firstName: string, lastName: string]\nroot\n |-- age: long (nullable \u003d true)\n |-- firstName: string (nullable \u003d true)\n |-- lastName: string (nullable \u003d true)\n\n+---+---------+----------+\n|age|firstName|  lastName|\n+---+---------+----------+\n| 25|     John|     Smith|\n| 40|     Fred|Flintstone|\n+---+---------+----------+\n\nyoung: org.apache.spark.sql.DataFrame \u003d [firstName: string, lastName: string]\n+---------+--------+\n|firstName|lastName|\n+---------+--------+\n|     John|   Smith|\n+---------+--------+\n\n"
+      },
+      "dateCreated": "Jan 24, 2016 11:52:20 PM",
+      "dateStarted": "Jan 25, 2016 12:47:44 AM",
+      "dateFinished": "Jan 25, 2016 12:47:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\necho \"flatpeople\"\ncat /resources/Datasets/flatpeople.json\nprintf \"\\nnonflatpeople\\n\"\ncat /resources/Datasets/nonflatpeople.json\nprintf \"\\nnonflatbadpeople - has an extra $ sysmbol on the state variable\\n\"\ncat /resources/Datasets/nonflatbadpeople.json\nprintf \"\\nmixed.json\\n\"\ncat /resources/Datasets/mixed.json\nprintf \"\\npeople.txt\\n\"\ncat /resources/Datasets/people.txt\n",
+      "dateUpdated": "Jan 25, 2016 1:27:00 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453680497791_-1098896213",
+      "id": "20160125-000817_1880432654",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "flatpeople\n{ \"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 25 }\n{ \"firstName\": \"Fred\", \"lastName\": \"Flintstone\", \"age\": 40 }\nnonflatpeople\n{ \"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 25, \"address\": { \"state\": \"NY\", \"postalCode\": \"10021-3100\" } }\n{ \"firstName\": \"Fred\", \"lastName\": \"Flintstone\", \"age\": 40, \"address\": { \"state\": \"PA\", \"postalCode\": \"1\" } }\nnonflatbadpeople - has an extra $ sysmbol on the state variable\n{ \"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 25, \"address\": { \"$state\": \"NY\", \"postalCode\": \"10021-3100\" } }\n{ \"firstName\": \"Fred\", \"lastName\": \"Flintstone\", \"age\": 40, \"address\": { \"$state\": \"PA\", \"postalCode\": \"1\" } }\nmixed.json\n{ \"a\": 1, \"id\": \"101\", \"since\": \"2001\", \"orders\":[ {\"oid\":\"100001\"} ] }\n{ \"id\": \"102\", \"a\": 2, \"address\":{\"zip\": \"98016\"}, \"since\": 1999 }\n{ \"a\": 3.1, \"id\": \"103\", \"since\": \"foo\", \"orders\":[ {\"oid\":\"300001\", \"SKU\":\"B001\"}, {\"oid\":\"300002\", \"SKU\":\"B005\"}, {\"oid\":\"300003\", \"SKU\":\"A007\"} ] }\npeople.txt\nMichael, 29\nAndy, 30\nJustin, 19\n"
+      },
+      "dateCreated": "Jan 25, 2016 12:08:17 AM",
+      "dateStarted": "Jan 25, 2016 1:27:00 AM",
+      "dateFinished": "Jan 25, 2016 1:27:00 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// nested JSON results in fields that have compound names, like address.state\n    val peopleAddr \u003d sqlContext.read.json(\"/resources/Datasets/nonflatpeople.json\")\n    peopleAddr.printSchema()\n    peopleAddr.show()\n    peopleAddr.registerTempTable(\"peopleAddr\")\n    val inPA \u003d sqlContext.sql(\"SELECT firstName, lastName FROM peopleAddr WHERE address.state \u003d \u0027PA\u0027\")\n    inPA.show()",
+      "dateUpdated": "Jan 25, 2016 12:47:53 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453680354021_-1500172347",
+      "id": "20160125-000554_670766063",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "peopleAddr: org.apache.spark.sql.DataFrame \u003d [address: struct\u003cpostalCode:string,state:string\u003e, age: bigint, firstName: string, lastName: string]\nroot\n |-- address: struct (nullable \u003d true)\n |    |-- postalCode: string (nullable \u003d true)\n |    |-- state: string (nullable \u003d true)\n |-- age: long (nullable \u003d true)\n |-- firstName: string (nullable \u003d true)\n |-- lastName: string (nullable \u003d true)\n\n+---------------+---+---------+----------+\n|        address|age|firstName|  lastName|\n+---------------+---+---------+----------+\n|[10021-3100,NY]| 25|     John|     Smith|\n|         [1,PA]| 40|     Fred|Flintstone|\n+---------------+---+---------+----------+\n\ninPA: org.apache.spark.sql.DataFrame \u003d [firstName: string, lastName: string]\n+---------+----------+\n|firstName|  lastName|\n+---------+----------+\n|     Fred|Flintstone|\n+---------+----------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 12:05:54 AM",
+      "dateStarted": "Jan 25, 2016 12:47:53 AM",
+      "dateFinished": "Jan 25, 2016 12:47:54 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\n    // interesting characters in field names lead to problems with querying, as Spark SQL\n    // has no quoting mechanism for identifiers\n    val peopleAddrBad \u003d sqlContext.read.json(\"/resources/Datasets/nonflatbadpeople.json\")\n    peopleAddrBad.printSchema()\n    peopleAddrBad.collect.foreach(println)\n    \n    // instead read the JSON in as an RDD[String], do necessary string\n    // manipulations (example below is simplistic) and then turn it into a Schema RDD\n    val lines \u003d sc.textFile(\"/resources/Datasets/nonflatbadpeople.json\")\n    val linesFixed \u003d lines.map(s \u003d\u003e s.replaceAllLiterally(\"$\", \"\"))\n    val peopleAddrFixed \u003d sqlContext.read.json(linesFixed)\n    peopleAddrFixed.printSchema()\n    peopleAddrFixed.registerTempTable(\"peopleAddrFixed\")\n    peopleAddrFixed.show()\n    val inPAFixed \u003d sqlContext.sql(\"SELECT firstName, lastName FROM peopleAddrFixed WHERE address.state \u003d \u0027PA\u0027\")\n    inPAFixed.show()",
+      "dateUpdated": "Jan 25, 2016 12:48:00 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453680422975_-302925715",
+      "id": "20160125-000702_1547198295",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "peopleAddrBad: org.apache.spark.sql.DataFrame \u003d [address: struct\u003c$state:string,postalCode:string\u003e, age: bigint, firstName: string, lastName: string]\nroot\n |-- address: struct (nullable \u003d true)\n |    |-- $state: string (nullable \u003d true)\n |    |-- postalCode: string (nullable \u003d true)\n |-- age: long (nullable \u003d true)\n |-- firstName: string (nullable \u003d true)\n |-- lastName: string (nullable \u003d true)\n\n[[NY,10021-3100],25,John,Smith]\n[[PA,1],40,Fred,Flintstone]\nlines: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[459] at textFile at \u003cconsole\u003e:66\nlinesFixed: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[460] at map at \u003cconsole\u003e:65\npeopleAddrFixed: org.apache.spark.sql.DataFrame \u003d [address: struct\u003cpostalCode:string,state:string\u003e, age: bigint, firstName: string, lastName: string]\nroot\n |-- address: struct (nullable \u003d true)\n |    |-- postalCode: string (nullable \u003d true)\n |    |-- state: string (nullable \u003d true)\n |-- age: long (nullable \u003d true)\n |-- firstName: string (nullable \u003d true)\n |-- lastName: string (nullable \u003d true)\n\n+---------------+---+---------+----------+\n|        address|age|firstName|  lastName|\n+---------------+---+---------+----------+\n|[10021-3100,NY]| 25|     John|     Smith|\n|         [1,PA]| 40|     Fred|Flintstone|\n+---------------+---+---------+----------+\n\ninPAFixed: org.apache.spark.sql.DataFrame \u003d [firstName: string, lastName: string]\n+---------+----------+\n|firstName|  lastName|\n+---------+----------+\n|     Fred|Flintstone|\n+---------+----------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 12:07:02 AM",
+      "dateStarted": "Jan 25, 2016 12:48:00 AM",
+      "dateFinished": "Jan 25, 2016 12:48:02 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\n    val text \u003d sc.parallelize(Seq(\n    \"{\\\"date\\\":\\\"1969-12-31\\\", \\\"ts\\\": \\\"1969-12-31 17:00:01.0\\\"}\"\n    ), 4)\n\n    val json1 \u003d sqlContext.read.json(text)\n\n    json1.printSchema()\n    json1.show()",
+      "dateUpdated": "Jan 25, 2016 12:46:48 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453680691973_1071981319",
+      "id": "20160125-001131_2049598406",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "text: org.apache.spark.rdd.RDD[String] \u003d ParallelCollectionRDD[398] at parallelize at \u003cconsole\u003e:64\njson1: org.apache.spark.sql.DataFrame \u003d [date: string, ts: string]\nroot\n |-- date: string (nullable \u003d true)\n |-- ts: string (nullable \u003d true)\n\n+----------+--------------------+\n|      date|                  ts|\n+----------+--------------------+\n|1969-12-31|1969-12-31 17:00:...|\n+----------+--------------------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 12:11:31 AM",
+      "dateStarted": "Jan 25, 2016 12:46:48 AM",
+      "dateFinished": "Jan 25, 2016 12:46:49 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/*\nmixed.json\n{ \"a\": 1, \"id\": \"101\", \"since\": \"2001\", \"orders\":[ {\"oid\":\"100001\"} ] }\n{ \"id\": \"102\", \"a\": 2, \"address\":{\"zip\": \"98016\"}, \"since\": 1999 }\n{ \"a\": 3.1, \"id\": \"103\", \"since\": \"foo\", \"orders\":[ {\"oid\":\"300001\", \"SKU\":\"B001\"}, {\"oid\":\"300002\", \"SKU\":\"B005\"}, {\"oid\":\"300003\", \"SKU\":\"A007\"} ] }\n*/\n    val transactions \u003d sqlContext.read.json(\"/resources/Datasets/mixed.json\")\n    transactions.printSchema()\n    transactions.registerTempTable(\"transactions\")\n\n\n    val all \u003d sqlContext.sql(\"SELECT id FROM transactions\")\n    all.show()\n\n    val more \u003d sqlContext.sql(\"SELECT id, since FROM transactions\")\n    more.show()\n\n    val deeper \u003d sqlContext.sql(\"SELECT id, address.zip FROM transactions\")\n    deeper.show()\n\n    println(\"selecting an array valued column\")\n    val array1 \u003d sqlContext.sql(\"SELECT id, orders FROM transactions\")\n    array1.show()\n\n    println(\"selecting a specific array element\")\n    val array2 \u003d sqlContext.sql(\"SELECT id, orders[0] FROM transactions\")\n    array2.show()",
+      "dateUpdated": "Jan 25, 2016 12:53:57 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453682783595_-2126095343",
+      "id": "20160125-004623_951800436",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "transactions: org.apache.spark.sql.DataFrame \u003d [a: double, address: struct\u003czip:string\u003e, id: string, orders: array\u003cstruct\u003cSKU:string,oid:string\u003e\u003e, since: string]\nroot\n |-- a: double (nullable \u003d true)\n |-- address: struct (nullable \u003d true)\n |    |-- zip: string (nullable \u003d true)\n |-- id: string (nullable \u003d true)\n |-- orders: array (nullable \u003d true)\n |    |-- element: struct (containsNull \u003d true)\n |    |    |-- SKU: string (nullable \u003d true)\n |    |    |-- oid: string (nullable \u003d true)\n |-- since: string (nullable \u003d true)\n\nall: org.apache.spark.sql.DataFrame \u003d [id: string]\n+---+\n| id|\n+---+\n|101|\n|102|\n|103|\n+---+\n\nmore: org.apache.spark.sql.DataFrame \u003d [id: string, since: string]\n+---+-----+\n| id|since|\n+---+-----+\n|101| 2001|\n|102| 1999|\n|103|  foo|\n+---+-----+\n\ndeeper: org.apache.spark.sql.DataFrame \u003d [id: string, zip: string]\n+---+-----+\n| id|  zip|\n+---+-----+\n|101| null|\n|102|98016|\n|103| null|\n+---+-----+\n\nselecting an array valued column\narray1: org.apache.spark.sql.DataFrame \u003d [id: string, orders: array\u003cstruct\u003cSKU:string,oid:string\u003e\u003e]\n+---+--------------------+\n| id|              orders|\n+---+--------------------+\n|101|     [[null,100001]]|\n|102|                null|\n|103|[[B001,300001], [...|\n+---+--------------------+\n\nselecting a specific array element\narray2: org.apache.spark.sql.DataFrame \u003d [id: string, _c1: struct\u003cSKU:string,oid:string\u003e]\n+---+-------------+\n| id|          _c1|\n+---+-------------+\n|101|[null,100001]|\n|102|         null|\n|103|[B001,300001]|\n+---+-------------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 12:46:23 AM",
+      "dateStarted": "Jan 25, 2016 12:53:57 AM",
+      "dateFinished": "Jan 25, 2016 12:53:59 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.rdd.RDD\nimport org.apache.spark.sql.DataFrame\nimport org.apache.spark.sql.Row\nimport org.apache.spark.sql.types._\n\n// NOTE: This is example is now, strictly speaking, out of date, as the\n// ability to write JSON was added in Spark 1.2.0, but the example was written\n// to answer the following question on StackOverflow in the days of Spark 1.1.0.\n\nobject OutputJSON extends java.io.Serializable {\n\n  \n  def formatItem(p:(StructField, Any)) : String \u003d {\n    p match {\n      case (sf, a) \u003d\u003e\n        sf.dataType match {\n          // leaving out some of the atomic types\n          case StringType \u003d\u003e \"\\\"\" + sf.name + \"\\\":\\\"\" + a + \"\\\"\"\n          case IntegerType \u003d\u003e \"\\\"\" + sf.name + \"\\\":\" + a\n          case LongType \u003d\u003e \"\\\"\" + sf.name + \"\\\":\" + a\n          case DoubleType \u003d\u003e \"\\\"\" + sf.name + \"\\\":\" + a //added by Udhay for mixed.json\n          case NullType \u003d\u003e \"\\\"\" + sf.name + \"\\\":\" + a //added by Udhay for mixed.json\n          // This next line deals with nested JSON structures (not needed if flat)\n    //http://spark.apache.org/docs/latest/sql-programming-guide.html#json-datasets refer this page for datatypes\n          case StructType(s) \u003d\u003e \"\\\"\" + sf.name + \"\\\":\" + formatStruct(s, a.asInstanceOf[Row])\n        }\n    }\n  }\n\n  // Format a single struct by iterating through the schema and the Row\n  def formatStruct(schema: Seq[StructField], r: Row) : String \u003d {\n    val paired \u003d schema.zip(r.toSeq)\n    \"{\" + paired.foldLeft(\"\")((s, p) \u003d\u003e (if (s \u003d\u003d \"\") \"\" else (s + \", \")) + formatItem(p)) + \"}\"\n\n  }\n\n  // Simultaneously iterate through the schema and Row each time --\n  // the top level of a Row is always a struct.\n  def formatDataFrame(st: StructType, srdd: DataFrame): RDD[String] \u003d {\n    srdd.map(r \u003d\u003e formatStruct(st.fields, r))\n  }\n\n}",
+      "dateUpdated": "Jan 25, 2016 1:30:50 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453683078233_-242716661",
+      "id": "20160125-005118_1966292477",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.rdd.RDD\nimport org.apache.spark.sql.DataFrame\nimport org.apache.spark.sql.Row\nimport org.apache.spark.sql.types._\ndefined module OutputJSON\n"
+      },
+      "dateCreated": "Jan 25, 2016 12:51:18 AM",
+      "dateStarted": "Jan 25, 2016 1:22:32 AM",
+      "dateFinished": "Jan 25, 2016 1:22:33 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    // easy enough to query flat JSON\n    val people \u003d sqlContext.read.json(\"/resources/Datasets/flatpeople.json\")\n    val strings \u003d  OutputJSON.formatDataFrame(people.schema, people)\n    strings.collect.foreach(println)\n    println()\n\n    val peopleAddr \u003d sqlContext.read.json(\"/resources/Datasets/nonflatpeople.json\")\n    val nestedStrings \u003d OutputJSON.formatDataFrame(peopleAddr.schema, peopleAddr)\n    nestedStrings.collect.foreach(println)\n    nestedStrings.toDebugString\n    nestedStrings.collect\n    //nestedStrings.take(3)\n\n/*    Doesnot work for null values in the data set\n    val transactions \u003d sqlContext.read.json(\"/resources/Datasets/mixed.json\")\n    transactions.printSchema()  \n    val nestedtransactions \u003d OutputJSON.formatDataFrame(transactions.schema, transactions)\n    nestedtransactions.collect.foreach(println)\n\n%sql    \nCREATE TEMPORARY TABLE people\nUSING org.apache.spark.sql.json\nOPTIONS (path \u0027[the path to the JSON dataset]\u0027)\n\n*/\n",
+      "dateUpdated": "Jan 25, 2016 1:35:45 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453683423184_-488329310",
+      "id": "20160125-005703_601744486",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "people: org.apache.spark.sql.DataFrame \u003d [age: bigint, firstName: string, lastName: string]\nstrings: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[366] at map at \u003cconsole\u003e:106\n{\"age\":25, \"firstName\":\"John\", \"lastName\":\"Smith\"}\n{\"age\":40, \"firstName\":\"Fred\", \"lastName\":\"Flintstone\"}\n\npeopleAddr: org.apache.spark.sql.DataFrame \u003d [address: struct\u003cpostalCode:string,state:string\u003e, age: bigint, firstName: string, lastName: string]\nnestedStrings: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[375] at map at \u003cconsole\u003e:106\n{\"address\":{\"postalCode\":\"10021-3100\", \"state\":\"NY\"}, \"age\":25, \"firstName\":\"John\", \"lastName\":\"Smith\"}\n{\"address\":{\"postalCode\":\"1\", \"state\":\"PA\"}, \"age\":40, \"firstName\":\"Fred\", \"lastName\":\"Flintstone\"}\nres181: String \u003d \n(2) MapPartitionsRDD[375] at map at \u003cconsole\u003e:106 []\n |  MapPartitionsRDD[374] at map at \u003cconsole\u003e:106 []\n |  MapPartitionsRDD[373] at map at \u003cconsole\u003e:106 []\n |  MapPartitionsRDD[372] at map at \u003cconsole\u003e:106 []\n |  HadoopRDD[371] at map at \u003cconsole\u003e:106 []\nres182: Array[String] \u003d Array({\"address\":{\"postalCode\":\"10021-3100\", \"state\":\"NY\"}, \"age\":25, \"firstName\":\"John\", \"lastName\":\"Smith\"}, {\"address\":{\"postalCode\":\"1\", \"state\":\"PA\"}, \"age\":40, \"firstName\":\"Fred\", \"lastName\":\"Flintstone\"})\n"
+      },
+      "dateCreated": "Jan 25, 2016 12:57:03 AM",
+      "dateStarted": "Jan 25, 2016 1:28:47 AM",
+      "dateFinished": "Jan 25, 2016 1:28:49 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.commons.io.IOUtils\nimport java.net.URL\nimport java.nio.charset.Charset\n\n// Zeppelin creates and injects sc (SparkContext) and sqlContext (HiveContext or SqlContext)\n// So you don\u0027t need create them manually\n\n// load bank data\nval bankText \u003d sc.parallelize(\n    IOUtils.toString(\n        new URL(\"https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv\"),\n        Charset.forName(\"utf8\")).split(\"\\n\"))\n\ncase class Bank(age: Integer, job: String, marital: String, education: String, balance: Integer)\n\nbankText.take(5).foreach(println)\n",
+      "dateUpdated": "Jan 25, 2016 1:29:18 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453683489131_265301840",
+      "id": "20160125-005809_1265367517",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.commons.io.IOUtils\nimport java.net.URL\nimport java.nio.charset.Charset\nbankText: org.apache.spark.rdd.RDD[String] \u003d ParallelCollectionRDD[376] at parallelize at \u003cconsole\u003e:85\ndefined class Bank\n\"age\";\"job\";\"marital\";\"education\";\"default\";\"balance\";\"housing\";\"loan\";\"contact\";\"day\";\"month\";\"duration\";\"campaign\";\"pdays\";\"previous\";\"poutcome\";\"y\"\n30;\"unemployed\";\"married\";\"primary\";\"no\";1787;\"no\";\"no\";\"cellular\";19;\"oct\";79;1;-1;0;\"unknown\";\"no\"\n33;\"services\";\"married\";\"secondary\";\"no\";4789;\"yes\";\"yes\";\"cellular\";11;\"may\";220;1;339;4;\"failure\";\"no\"\n35;\"management\";\"single\";\"tertiary\";\"no\";1350;\"yes\";\"no\";\"cellular\";16;\"apr\";185;1;330;1;\"failure\";\"no\"\n30;\"management\";\"married\";\"tertiary\";\"no\";1476;\"yes\";\"yes\";\"unknown\";3;\"jun\";199;4;-1;0;\"unknown\";\"no\"\n"
+      },
+      "dateCreated": "Jan 25, 2016 12:58:09 AM",
+      "dateStarted": "Jan 25, 2016 1:29:18 AM",
+      "dateFinished": "Jan 25, 2016 1:29:20 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//https://plot.ly/ipython-notebooks/apache-spark/\n    val bikertl \u003d sqlContext.read.json(\"/resources/Datasets/bikerental.json\")\n    bikertl.printSchema()\n//    bikertl.registerTempTable(\"bikes\")\n    \n    bikertl.limit(3).show()",
+      "dateUpdated": "Jan 25, 2016 3:09:52 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453685358416_1515433095",
+      "id": "20160125-012918_1935002922",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "bikertl: org.apache.spark.sql.DataFrame \u003d [Bike #: string, Duration: string, End Date: string, End Station: string, End Terminal: string, Start Date: string, Start Station: string, Start Terminal: string, Subscription Type: string, Trip ID: string, Zip Code: string]\nroot\n |-- Bike #: string (nullable \u003d true)\n |-- Duration: string (nullable \u003d true)\n |-- End Date: string (nullable \u003d true)\n |-- End Station: string (nullable \u003d true)\n |-- End Terminal: string (nullable \u003d true)\n |-- Start Date: string (nullable \u003d true)\n |-- Start Station: string (nullable \u003d true)\n |-- Start Terminal: string (nullable \u003d true)\n |-- Subscription Type: string (nullable \u003d true)\n |-- Trip ID: string (nullable \u003d true)\n |-- Zip Code: string (nullable \u003d true)\n\n+------+--------+-------------+--------------------+------------+-------------+--------------------+--------------+-----------------+-------+--------+\n|Bike #|Duration|     End Date|         End Station|End Terminal|   Start Date|       Start Station|Start Terminal|Subscription Type|Trip ID|Zip Code|\n+------+--------+-------------+--------------------+------------+-------------+--------------------+--------------+-----------------+-------+--------+\n|   520|      63|8/29/13 14:14|South Van Ness at...|          66|8/29/13 14:13|South Van Ness at...|            66|       Subscriber|   4576|   94127|\n|   661|      70|8/29/13 14:43|  San Jose City Hall|          10|8/29/13 14:42|  San Jose City Hall|            10|       Subscriber|   4607|   95138|\n|    48|      71|8/29/13 10:17|Mountain View Cit...|          27|8/29/13 10:16|Mountain View Cit...|            27|       Subscriber|   4130|   97214|\n+------+--------+-------------+--------------------+------------+-------------+--------------------+--------------+-----------------+-------+--------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 1:29:18 AM",
+      "dateStarted": "Jan 25, 2016 3:06:05 PM",
+      "dateFinished": "Jan 25, 2016 3:06:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//bikertl.dropTempTable(\"bikes\") //drop table\n\ndef convertColumn(df: org.apache.spark.sql.DataFrame, name:String, newType:String) \u003d {\n  val df_1\u003d df.withColumnRenamed(name, \"swap\")\n  df_1.withColumn(name, df_1.col(\"swap\").cast(newType)).drop(\"swap\")\n}\n\nval bay_area_bike \u003d convertColumn(bikertl, \"Duration\", \"int\")\n\nbay_area_bike.registerTempTable(\"bay_area_bike\")\nbay_area_bike.printSchema()",
+      "dateUpdated": "Jan 25, 2016 3:22:41 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453734365150_-415746544",
+      "id": "20160125-150605_1070166418",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "convertColumn: (df: org.apache.spark.sql.DataFrame, name: String, newType: String)org.apache.spark.sql.DataFrame\nbay_area_bike: org.apache.spark.sql.DataFrame \u003d [Bike #: string, End Date: string, End Station: string, End Terminal: string, Start Date: string, Start Station: string, Start Terminal: string, Subscription Type: string, Trip ID: string, Zip Code: string, Duration: int]\nroot\n |-- Bike #: string (nullable \u003d true)\n |-- End Date: string (nullable \u003d true)\n |-- End Station: string (nullable \u003d true)\n |-- End Terminal: string (nullable \u003d true)\n |-- Start Date: string (nullable \u003d true)\n |-- Start Station: string (nullable \u003d true)\n |-- Start Terminal: string (nullable \u003d true)\n |-- Subscription Type: string (nullable \u003d true)\n |-- Trip ID: string (nullable \u003d true)\n |-- Zip Code: string (nullable \u003d true)\n |-- Duration: integer (nullable \u003d true)\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 3:06:05 PM",
+      "dateStarted": "Jan 25, 2016 3:22:41 PM",
+      "dateFinished": "Jan 25, 2016 3:22:42 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "println\nbay_area_bike.describe().show() //Computes statistics for numeric columns, including count, mean, stddev, min, and max.\n// bay_area_bike.takeAsList(2) Spark 1.6\n",
+      "dateUpdated": "Jan 25, 2016 3:27:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453734914638_-109120283",
+      "id": "20160125-151514_681746199",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "\n+-------+------------------+\n|summary|          Duration|\n+-------+------------------+\n|  count|            144015|\n|   mean|1230.9101413047251|\n| stddev|2272.3501111287196|\n|    min|                60|\n|    max|            722236|\n+-------+------------------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 3:15:14 PM",
+      "dateStarted": "Jan 25, 2016 3:27:15 PM",
+      "dateFinished": "Jan 25, 2016 3:27:16 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.sql.functions._\n//Let\u0027s start off by looking at all rides under 2 hours.\n    sqlContext.sql(\"SELECT Duration as d1 from bay_area_bike where Duration \u003c 7200\").limit(10).show()\n\n    sqlContext.setConf(\"spark.sql.retainGroupColumns\", \"true\")\n    println(\"*** Column based aggregation\")\n\n    \n    val dep_stations \u003d bay_area_bike.groupBy(\"Start Station\").agg(max($\"Duration\"),min($\"Duration\"),avg($\"Duration\"),count($\"Zip Code\"))\n    dep_stations.limit(10).show()\n    \n    val dep_stations \u003d bay_area_bike.groupBy(\"Start Station\").agg(max($\"Duration\"),min($\"Duration\"),avg($\"Duration\"),count($\"Zip Code\"))\n    dep_stations.limit(10).show()",
+      "dateUpdated": "Jan 25, 2016 4:13:17 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453735382397_-2090731482",
+      "id": "20160125-152302_1973916505",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.functions._\n+---+\n| d1|\n+---+\n| 63|\n| 70|\n| 71|\n| 77|\n| 83|\n|103|\n|109|\n|111|\n|113|\n|114|\n+---+\n\n*** Column based aggregation\ndep_stations: org.apache.spark.sql.DataFrame \u003d [Start Station: string, max(Duration): int, min(Duration): int, avg(Duration): double, count(Zip Code): bigint]\n+--------------------+-------------+-------------+------------------+---------------+\n|       Start Station|max(Duration)|min(Duration)|     avg(Duration)|count(Zip Code)|\n+--------------------+-------------+-------------+------------------+---------------+\n|Embarcadero at Br...|        81942|           62|1197.0331712896768|           3497|\n|   Market at Sansome|       127569|           63| 978.7345491388045|           5922|\n|       Park at Olive|       329456|           81| 4471.597883597884|            189|\n|Evelyn Park and Ride|        86363|          113| 2129.876146788991|            218|\n|    San Pedro Square|       146178|           78|  1188.93006993007|            715|\n|San Antonio Caltr...|       586356|          157| 5255.357142857143|            238|\n|     2nd at Townsend|        88027|           60| 835.4956887908562|           4987|\n| San Salvador at 1st|        86609|          105| 933.8157453936349|            597|\n|         MLK Library|        83555|           66|1599.4185606060605|            528|\n|Civic Center BART...|       303271|           60|1672.5416395575796|           3074|\n+--------------------+-------------+-------------+------------------+---------------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 3:23:02 PM",
+      "dateStarted": "Jan 25, 2016 4:04:45 PM",
+      "dateFinished": "Jan 25, 2016 4:04:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "/*\n\nroot\n |-- Bike #: string (nullable \u003d true)\n |-- End Date: string (nullable \u003d true)\n |-- End Station: string (nullable \u003d true)\n |-- End Terminal: string (nullable \u003d true)\n |-- Start Date: string (nullable \u003d true)\n |-- Start Station: string (nullable \u003d true)\n |-- Start Terminal: string (nullable \u003d true)\n |-- Subscription Type: string (nullable \u003d true)\n |-- Trip ID: string (nullable \u003d true)\n |-- Zip Code: string (nullable \u003d true)\n |-- Duration: integer (nullable \u003d true)\n SELECT \"Start Terminal\", \"Start Station\", COUNT(1) AS count FROM bay_area_bike GROUP BY startterminal, startstation ORDER BY count DESC LIMIT 10\n*/\n\nval featureDf \u003d bay_area_bike\n    .withColumn(\"Bikeno\", bay_area_bike(\"Bike #\")).drop(\"Bike #\")\n    .withColumn(\"EndDate\", bay_area_bike(\"End Date\")).drop(\"End Date\")\n    .withColumn(\"EndStation\", bay_area_bike(\"End Station\")).drop(\"End Station\")\n    .withColumn(\"EndTerminal\", bay_area_bike(\"End Terminal\")).drop(\"End Terminal\")\n    .withColumn(\"StartDate\", bay_area_bike(\"Start Date\")).drop(\"Start Date\")\n    .withColumn(\"StartStation\", bay_area_bike(\"Start Station\")).drop(\"Start Station\")\n    .withColumn(\"StartTerminal\", bay_area_bike(\"Start Terminal\")).drop(\"Start Terminal\")\n    .withColumn(\"SubscriptionType\", bay_area_bike(\"Subscription Type\")).drop(\"Subscription Type\")\n    .withColumn(\"TripID\", bay_area_bike(\"Trip ID\")).drop(\"Trip ID\")\n    .withColumn(\"ZipCode\", bay_area_bike(\"Zip Code\")).drop(\"Zip Code\")                        \n    \n\nfeatureDf.registerTempTable(\"bay_area_bike\")\nfeatureDf.printSchema()\n",
+      "dateUpdated": "Jan 25, 2016 4:23:05 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453736377004_1061337300",
+      "id": "20160125-153937_441695834",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "featureDf: org.apache.spark.sql.DataFrame \u003d [Duration: int, Bikeno: string, EndDate: string, EndStation: string, EndTerminal: string, StartDate: string, StartStation: string, StartTerminal: string, SubscriptionType: string, TripID: string, ZipCode: string]\nroot\n |-- Duration: integer (nullable \u003d true)\n |-- Bikeno: string (nullable \u003d true)\n |-- EndDate: string (nullable \u003d true)\n |-- EndStation: string (nullable \u003d true)\n |-- EndTerminal: string (nullable \u003d true)\n |-- StartDate: string (nullable \u003d true)\n |-- StartStation: string (nullable \u003d true)\n |-- StartTerminal: string (nullable \u003d true)\n |-- SubscriptionType: string (nullable \u003d true)\n |-- TripID: string (nullable \u003d true)\n |-- ZipCode: string (nullable \u003d true)\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 3:39:37 PM",
+      "dateStarted": "Jan 25, 2016 4:23:05 PM",
+      "dateFinished": "Jan 25, 2016 4:23:06 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\n\n--SELECT StartTerminal, StartStation FROM bay_area_bike\n--Let’s find the top 10 most popular start stations based on the trip data:\t\nSELECT StartTerminal, StartStation, COUNT(1) AS count FROM bay_area_bike GROUP BY StartTerminal, StartStation ORDER BY count DESC LIMIT 10",
+      "dateUpdated": "Jan 25, 2016 4:25:01 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "StartTerminal",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "StartStation",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "StartTerminal",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "StartStation",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453738219853_1372237361",
+      "id": "20160125-161019_1994191367",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "StartTerminal\tStartStation\tcount\n70\tSan Francisco Caltrain (Townsend at 4th)\t9838\n50\tHarry Bridges Plaza (Ferry Building)\t7343\n60\tEmbarcadero at Sansome\t6545\n77\tMarket at Sansome\t5922\n55\tTemporary Transbay Terminal (Howard at Beale)\t5113\n76\tMarket at 4th\t5030\n61\t2nd at Townsend\t4987\n69\tSan Francisco Caltrain 2 (330 Townsend)\t4976\n74\tSteuart at Market\t4913\n65\tTownsend at 7th\t4493\n"
+      },
+      "dateCreated": "Jan 25, 2016 4:10:19 PM",
+      "dateStarted": "Jan 25, 2016 4:25:01 PM",
+      "dateFinished": "Jan 25, 2016 4:25:03 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// easy enough to query flat JSON\n//select($\u0027stationBeanList[0].id\u0027)\n//http://gethue.com/bay-area-bike-share-data-analysis-with-spark-notebook-part-2/\n\n//val newstr \u003d str.replaceAll(\"\\},\\{\", \"\\}\\n\\{\")\n\n    val stations \u003d sqlContext.read.json(\"/resources/Datasets/bikes_stations.json\")\n    stations.printSchema()\n    stations.registerTempTable(\"stations\")\n    featureDf.printSchema()\n    stations.limit(5).show()",
+      "dateUpdated": "Jan 25, 2016 5:18:23 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453738145886_548615848",
+      "id": "20160125-160905_1187717931",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "stations: org.apache.spark.sql.DataFrame \u003d [altitude: string, availableBikes: bigint, availableDocks: bigint, city: string, id: bigint, landMark: string, lastCommunicationTime: string, latitude: double, location: string, longitude: double, postalCode: string, stAddress1: string, stAddress2: string, stationName: string, statusKey: bigint, statusValue: string, testStation: boolean, totalDocks: bigint]\nroot\n |-- altitude: string (nullable \u003d true)\n |-- availableBikes: long (nullable \u003d true)\n |-- availableDocks: long (nullable \u003d true)\n |-- city: string (nullable \u003d true)\n |-- id: long (nullable \u003d true)\n |-- landMark: string (nullable \u003d true)\n |-- lastCommunicationTime: string (nullable \u003d true)\n |-- latitude: double (nullable \u003d true)\n |-- location: string (nullable \u003d true)\n |-- longitude: double (nullable \u003d true)\n |-- postalCode: string (nullable \u003d true)\n |-- stAddress1: string (nullable \u003d true)\n |-- stAddress2: string (nullable \u003d true)\n |-- stationName: string (nullable \u003d true)\n |-- statusKey: long (nullable \u003d true)\n |-- statusValue: string (nullable \u003d true)\n |-- testStation: boolean (nullable \u003d true)\n |-- totalDocks: long (nullable \u003d true)\n\nroot\n |-- Duration: integer (nullable \u003d true)\n |-- Bikeno: string (nullable \u003d true)\n |-- EndDate: string (nullable \u003d true)\n |-- EndStation: string (nullable \u003d true)\n |-- EndTerminal: string (nullable \u003d true)\n |-- StartDate: string (nullable \u003d true)\n |-- StartStation: string (nullable \u003d true)\n |-- StartTerminal: string (nullable \u003d true)\n |-- SubscriptionType: string (nullable \u003d true)\n |-- TripID: string (nullable \u003d true)\n |-- ZipCode: string (nullable \u003d true)\n\n+--------+--------------+--------------+--------+---+--------+---------------------+---------+--------------------+-----------+----------+--------------------+----------+--------------------+---------+-----------+-----------+----------+\n|altitude|availableBikes|availableDocks|    city| id|landMark|lastCommunicationTime| latitude|            location|  longitude|postalCode|          stAddress1|stAddress2|         stationName|statusKey|statusValue|testStation|totalDocks|\n+--------+--------------+--------------+--------+---+--------+---------------------+---------+--------------------+-----------+----------+--------------------+----------+--------------------+---------+-----------+-----------+----------+\n|        |            13|            14|San Jose|  2|San Jose|                 null|37.329732|     Crandall Street|-121.901782|          |San Jose Diridon ...|          |San Jose Diridon ...|        1| In Service|      false|        27|\n|        |             9|             6|San Jose|  3|San Jose|                 null|37.330698| W San Carlos Street|-121.888979|          |San Jose Civic Ce...|          |San Jose Civic Ce...|        1| In Service|      false|        15|\n|        |             8|             3|San Jose|  4|San Jose|                 null|37.333988|W Santa Clara Street|-121.894902|          |Santa Clara at Al...|          |Santa Clara at Al...|        1| In Service|      false|        11|\n|        |             3|            16|San Jose|  5|San Jose|                 null|37.331415|   Almaden Boulevard|  -121.8932|          |    Adobe on Almaden|          |    Adobe on Almaden|        1| In Service|      false|        19|\n|        |             6|             9|San Jose|  6|San Jose|                 null|37.336721|  N San Pedro Street|-121.894074|          |    San Pedro Square|          |    San Pedro Square|        1| In Service|      false|        15|\n+--------+--------------+--------------+--------+---+--------+---------------------+---------+--------------------+-----------+----------+--------------------+----------+--------------------+---------+-----------+-----------+----------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 4:09:05 PM",
+      "dateStarted": "Jan 25, 2016 5:18:23 PM",
+      "dateFinished": "Jan 25, 2016 5:18:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql \nselect * from stations\n",
+      "dateUpdated": "Jan 25, 2016 5:19:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "_c0",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "_c0",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453740276153_597864231",
+      "id": "20160125-164436_94041006",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "altitude\tavailableBikes\tavailableDocks\tcity\tid\tlandMark\tlastCommunicationTime\tlatitude\tlocation\tlongitude\tpostalCode\tstAddress1\tstAddress2\tstationName\tstatusKey\tstatusValue\ttestStation\ttotalDocks\n\t13\t14\tSan Jose\t2\tSan Jose\tnull\t37.329732\tCrandall Street\t-121.901782\t\tSan Jose Diridon Caltrain Station\t\tSan Jose Diridon Caltrain Station\t1\tIn Service\tfalse\t27\n\t9\t6\tSan Jose\t3\tSan Jose\tnull\t37.330698\tW San Carlos Street\t-121.888979\t\tSan Jose Civic Center\t\tSan Jose Civic Center\t1\tIn Service\tfalse\t15\n\t8\t3\tSan Jose\t4\tSan Jose\tnull\t37.333988\tW Santa Clara Street\t-121.894902\t\tSanta Clara at Almaden\t\tSanta Clara at Almaden\t1\tIn Service\tfalse\t11\n\t3\t16\tSan Jose\t5\tSan Jose\tnull\t37.331415\tAlmaden Boulevard\t-121.8932\t\tAdobe on Almaden\t\tAdobe on Almaden\t1\tIn Service\tfalse\t19\n\t6\t9\tSan Jose\t6\tSan Jose\tnull\t37.336721\tN San Pedro Street\t-121.894074\t\tSan Pedro Square\t\tSan Pedro Square\t1\tIn Service\tfalse\t15\n\t6\t9\tSan Jose\t7\tSan Jose\tnull\t37.333798\tPaseo de San Antonio\t-121.886943\t\tPaseo de San Antonio\t\tPaseo de San Antonio\t1\tIn Service\tfalse\t15\n\t9\t6\tSan Jose\t8\tSan Jose\tnull\t37.330165\tE San Salvador Street\t-121.885831\t\tSan Salvador at 1st\t\tSan Salvador at 1st\t1\tIn Service\tfalse\t15\n\t7\t8\tSan Jose\t9\tSan Jose\tnull\t37.348742\tN 5th Street\t-121.894715\t\tJapantown\t\tJapantown\t1\tIn Service\tfalse\t15\n\t3\t12\tSan Jose\t10\tSan Jose\tnull\t37.337391\tS 4th Street\t-121.886995\t\tSan Jose City Hall\t\tSan Jose City Hall\t1\tIn Service\tfalse\t15\n\t7\t12\tSan Jose\t11\tSan Jose\tnull\t37.335885\tE San Fernando Street\t-121.88566\t\tMLK Library\t\tMLK Library\t1\tIn Service\tfalse\t19\n\t6\t13\tSan Jose\t12\tSan Jose\tnull\t37.332808\tS 4th Street\t-121.883891\t\tSJSU 4th at San Carlos\t\tSJSU 4th at San Carlos\t1\tIn Service\tfalse\t19\n\t4\t11\tSan Jose\t13\tSan Jose\tnull\t37.339301\tN 3rd Street\t-121.889937\t\tSt James Park\t\tSt James Park\t1\tIn Service\tfalse\t15\n\t7\t12\tSan Jose\t14\tSan Jose\tnull\t37.332692\tN Autumn Street\t-121.900084\t\tArena Green / SAP Center\t\tArena Green / SAP Center\t1\tIn Service\tfalse\t19\n\t6\t9\tSan Jose\t16\tSan Jose\tnull\t37.333955\tS 9th Street\t-121.877349\t\tSJSU - San Salvador at 9th\t\tSJSU - San Salvador at 9th\t1\tIn Service\tfalse\t15\n\t6\t9\tRedwood City\t21\tRedwood City\tnull\t37.479303\t\t-122.253755\t\tSequoia Hospital\tFranklin Street\tSequoia Hospital\t1\tIn Service\tfalse\t15\n\t15\t12\tRedwood City\t22\tRedwood City\tnull\t37.486078\t\t-122.232089\t\tRedwood City Caltrain Station\tBroadway\tRedwood City Caltrain Station\t1\tIn Service\tfalse\t27\n\t10\t5\tRedwood City\t23\tRedwood City\tnull\t37.487616\t\t-122.229951\t\tSan Mateo County Center\tHamilton St\tSan Mateo County Center\t1\tIn Service\tfalse\t15\n\t6\t9\tRedwood City\t24\tRedwood City\tnull\t37.484219\t\t-122.227424\t\tRedwood City Public Library\tMiddlefield Road\tRedwood City Public Library\t1\tIn Service\tfalse\t15\n\t6\t9\tRedwood City\t25\tRedwood City\tnull\t37.48537\t\t-122.203288\t\tStanford in Redwood City\t2nd St\tStanford in Redwood City\t1\tIn Service\tfalse\t15\n\t8\t7\tRedwood City\t26\tRedwood City\tnull\t37.489704\t\t-122.224728\t\tKaiser Hospital\tMarshall Street\tKaiser Hospital\t1\tIn Service\tfalse\t15\n\t5\t10\tMountain View\t27\tMountain View\tnull\t37.389218\t\t-122.081896\t\tMountain View City Hall\tCastro Street\tMountain View City Hall\t1\tIn Service\tfalse\t15\n\t14\t9\tMountain View\t28\tMountain View\tnull\t37.394358\t\t-122.076713\t\tMountain View Caltrain Station\tEvelyn Avenue\tMountain View Caltrain Station\t1\tIn Service\tfalse\t23\n\t12\t11\tMountain View\t29\tMountain View\tnull\t37.40694\t\t-122.106758\t\tSan Antonio Caltrain Station\tShowers Drive\tSan Antonio Caltrain Station\t1\tIn Service\tfalse\t23\n\t7\t8\tMountain View\t30\tMountain View\tnull\t37.395337\t\t-122.052476\t\tMiddlefield Light Rail Station\tEvelyn Avenue\tMiddlefield Light Rail Station\t1\tIn Service\tfalse\t15\n\t7\t8\tMountain View\t31\tMountain View\tnull\t37.400443\t\t-122.108338\t\tSan Antonio Shopping Center\tLatham Street\tSan Antonio Shopping Center\t1\tIn Service\tfalse\t15\n\t5\t6\tMountain View\t32\tMountain View\tnull\t37.385956\t\t-122.083678\t\tCastro Street and El Camino Real\tCastro Street\tCastro Street and El Camino Real\t1\tIn Service\tfalse\t11\n\t4\t11\tMountain View\t33\tMountain View\tnull\t37.420909\t\t-122.080623\t\tCharleston Park/ North Bayshore Area\tRengstorff Avenue\tCharleston Park/ North Bayshore Area\t1\tIn Service\tfalse\t15\n\t12\t11\tPalo Alto\t34\tPalo Alto\tnull\t37.443988\t\t-122.164759\t\tPalo Alto Caltrain Station\tAlma Street\tPalo Alto Caltrain Station\t1\tIn Service\tfalse\t23\n\t6\t5\tPalo Alto\t35\tPalo Alto\tnull\t37.444521\t\t-122.163093\t\tUniversity and Emerson\tUniversity Avenue\tUniversity and Emerson\t1\tIn Service\tfalse\t11\n\t8\t7\tPalo Alto\t36\tPalo Alto\tnull\t37.429082\t\t-122.142805\t\tCalifornia Ave Caltrain Station\tPark Boulevard\tCalifornia Ave Caltrain Station\t1\tIn Service\tfalse\t15\n\t2\t9\tPalo Alto\t37\tPalo Alto\tnull\t37.448598\t\t-122.159504\t\tCowper at University\tCowper Street\tCowper at University\t1\tIn Service\tfalse\t11\n\t6\t9\tPalo Alto\t38\tPalo Alto\tnull\t37.4256839\t\t-122.1377775\t\tPark at Olive\tPark Boulevard\tPark at Olive\t1\tIn Service\tfalse\t15\n\t8\t11\tSan Francisco\t39\tSan Francisco\tnull\t37.783871\tSan Francisco\t-122.408433\t\tPowell Street BART\tMarket\tPowell Street BART\t1\tIn Service\tfalse\t19\n\t6\t9\tSan Francisco\t41\tSan Francisco\tnull\t37.795001\t\t-122.39997\t\tClay at Battery\tClay Street\tClay at Battery\t1\tIn Service\tfalse\t15\n\t4\t11\tSan Francisco\t42\tSan Francisco\tnull\t37.79728\t\t-122.398436\t\tDavis at Jackson\tDavis Street\tDavis at Jackson\t1\tIn Service\tfalse\t15\n\t6\t9\tSan Francisco\t45\tSan Francisco\tnull\t37.794231\t\t-122.402923\t\tCommercial at Montgomery\tSan Francisco\tCommercial at Montgomery\t1\tIn Service\tfalse\t15\n\t5\t10\tSan Francisco\t46\tSan Francisco\tnull\t37.795425\t\t-122.404767\t\tWashington at Kearny\tWashington Street\tWashington at Kearny\t1\tIn Service\tfalse\t15\n\t7\t12\tSan Francisco\t47\tSan Francisco\tnull\t37.788975\t\t-122.403452\t\tPost at Kearny\tPost Street\tPost at Kearny\t1\tIn Service\tfalse\t19\n\t7\t8\tSan Francisco\t48\tSan Francisco\tnull\t37.799953\t\t-122.398525\t\tEmbarcadero at Vallejo\tEmbarcadero\tEmbarcadero at Vallejo\t1\tIn Service\tfalse\t15\n\t9\t10\tSan Francisco\t49\tSan Francisco\tnull\t37.789656\t\t-122.390373\t\tSpear at Folsom\tSpear Street\tSpear at Folsom\t1\tIn Service\tfalse\t19\n\t15\t8\tSan Francisco\t50\tSan Francisco\tnull\t37.796464\t\t-122.394672\t\tHarry Bridges Plaza (Ferry Building)\tEmbarcadero\tHarry Bridges Plaza (Ferry Building)\t1\tIn Service\tfalse\t23\n\t7\t12\tSan Francisco\t51\tSan Francisco\tnull\t37.791464\t\t-122.391034\t\tEmbarcadero at Folsom\tEmbarcadero\tEmbarcadero at Folsom\t1\tIn Service\tfalse\t19\n\t8\t7\tSan Francisco\t54\tSan Francisco\tnull\t37.787152\t\t-122.388013\t\tEmbarcadero at Bryant\tEmbarcadero\tEmbarcadero at Bryant\t1\tIn Service\tfalse\t15\n\t4\t19\tSan Francisco\t55\tSan Francisco\tnull\t37.789756\t\t-122.394643\t\tTemporary Transbay Terminal (Howard at Beale)\tHoward Street\tTemporary Transbay Terminal (Howard at Beale)\t1\tIn Service\tfalse\t23\n\t15\t4\tSan Francisco\t56\tSan Francisco\tnull\t37.792251\t\t-122.397086\t\tBeale at Market\tBeale Street\tBeale at Market\t1\tIn Service\tfalse\t19\n\t4\t11\tSan Francisco\t57\tSan Francisco\tnull\t37.781752\t\t-122.405127\t\t5th at Howard\t5th Street\t5th at Howard\t1\tIn Service\tfalse\t15\n\t9\t10\tSan Francisco\t58\tSan Francisco\tnull\t37.77865\t\t-122.418235\t\tSan Francisco City Hall\tCarlton B. Goodlet\tSan Francisco City Hall\t1\tIn Service\tfalse\t19\n\t9\t14\tSan Francisco\t59\tSan Francisco\tnull\t37.781332\t\t-122.418603\t\tGolden Gate at Polk\tGolden Gate Avenue\tGolden Gate at Polk\t1\tIn Service\tfalse\t23\n\t4\t11\tSan Francisco\t60\tSan Francisco\tnull\t37.80477\t\t-122.403234\t\tEmbarcadero at Sansome\tEmbarcadero\tEmbarcadero at Sansome\t1\tIn Service\tfalse\t15\n\t13\t14\tSan Francisco\t61\tSan Francisco\tnull\t37.780526\t\t-122.390288\t\t2nd at Townsend\t2nd Street\t2nd at Townsend\t1\tIn Service\tfalse\t27\n\t4\t15\tSan Francisco\t62\tSan Francisco\tnull\t37.785366\t\t-122.39644\t\t2nd at Folsom\t2nd Street\t2nd at Folsom\t1\tIn Service\tfalse\t19\n\t13\t5\tSan Francisco\t63\tSan Francisco\tnull\t37.786978\t\t-122.398108\t\tHoward at 2nd\tHoward Street\tHoward at 2nd\t1\tIn Service\tfalse\t19\n\t10\t5\tSan Francisco\t64\tSan Francisco\tnull\t37.782259\t\t-122.392738\t\t2nd at South Park\t2nd Street\t2nd at South Park\t1\tIn Service\tfalse\t15\n\t8\t7\tSan Francisco\t65\tSan Francisco\tnull\t37.771058\t\t-122.402717\t\tTownsend at 7th\tTownsend Street\tTownsend at 7th\t1\tIn Service\tfalse\t15\n\t8\t11\tSan Francisco\t66\tSan Francisco\tnull\t37.774814\t\t-122.418954\t\tSouth Van Ness at Market\tVan Ness Avenue\tSouth Van Ness at Market\t1\tIn Service\tfalse\t19\n\t7\t19\tSan Francisco\t67\tSan Francisco\tnull\t37.776619\t\t-122.417385\t\tMarket at 10th\tMarket Street\tMarket at 10th\t1\tIn Service\tfalse\t27\n\t6\t13\tSan Francisco\t68\tSan Francisco\tnull\t37.784878\t\t-122.401014\t\tYerba Buena Center of the Arts (3rd @ Howard)\tHoward Street\tYerba Buena Center of the Arts (3rd @ Howard)\t1\tIn Service\tfalse\t19\n\t5\t18\tSan Francisco\t69\tSan Francisco\tnull\t37.7766\t\t-122.39547\t\tSan Francisco Caltrain 2\tTownsend Street\tSan Francisco Caltrain 2 (330 Townsend)\t1\tIn Service\tfalse\t23\n\t8\t11\tSan Francisco\t70\tSan Francisco\tnull\t37.776599\t\t-122.39528\t\tSan Francisco Caltrain (Townsend at 4th)\tTownsend Street\tSan Francisco Caltrain (Townsend at 4th)\t1\tIn Service\tfalse\t19\n\t4\t15\tSan Francisco\t71\tSan Francisco\tnull\t37.788446\t\t-122.408499\t\tPowell at Post (Union Square)\tPowell Street\tPowell at Post (Union Square)\t1\tIn Service\tfalse\t19\n\t11\t12\tSan Francisco\t72\tSan Francisco\tnull\t37.781039\t\t-122.411748\t\tCivic Center BART (7th at Market)\tMarket Street\tCivic Center BART (7th at Market)\t1\tIn Service\tfalse\t23\n\t3\t12\tSan Francisco\t73\tSan Francisco\tnull\t37.798522\t\t-122.407245\t\tGrant at Columbus\tGrant Street\tGrant Avenue at Columbus Avenue\t1\tIn Service\tfalse\t15\n\t19\t4\tSan Francisco\t74\tSan Francisco\tnull\t37.793227\t\t-122.392104\t\tSteuart at Market\tSteuart Street\tSteuart at Market\t1\tIn Service\tfalse\t23\n\t6\t13\tSan Francisco\t75\tSan Francisco\tnull\t37.7913\t\t-122.399051\t\tMechanics Plaza (Market at Battery)\tMarket Street\tMechanics Plaza (Market at Battery)\t1\tIn Service\tfalse\t19\n\t0\t19\tSan Francisco\t76\tSan Francisco\tnull\t37.786305\t\t-122.404966\t\tMarket at 4th\tMarket Street\tMarket at 4th\t1\tIn Service\tfalse\t19\n\t18\t9\tSan Francisco\t77\tSan Francisco\tnull\t37.789625\t\t-122.400811\t\tMarket at Sansome\tMarket Street\tMarket at Sansome\t1\tIn Service\tfalse\t27\n\t7\t8\tSan Jose\t80\tSan Jose\tnull\t37.352601\tSan Jose Government Center\t-121.905733\t\tSanta Clara County Civic Center\t\tSanta Clara County Civic Center\t1\tIn Service\tfalse\t15\n\t0\t15\tSan Francisco\t82\tSan Francisco\tnull\t37.798541\tSan Francisco\t-122.400862\t\tBroadway St at Battery St\tBroadway St\tBroadway St at Battery St\t1\tIn Service\tfalse\t15\n\t5\t10\tRedwood City\t83\tRedwood City\tnull\t37.491405\tMezes Park\t-122.233051\t\tMezes\tStandish St\tMezes\t1\tIn Service\tfalse\t15\n\t6\t9\tSan Jose\t84\tSan Jose\tnull\t37.342725\tSan Jose\t-121.895617\t\tRyland Park\tN First St\tRyland Park\t1\tIn Service\tfalse\t15\n"
+      },
+      "dateCreated": "Jan 25, 2016 4:44:36 PM",
+      "dateStarted": "Jan 25, 2016 5:19:04 PM",
+      "dateFinished": "Jan 25, 2016 5:19:04 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\nSELECT\n s.id,\n s.stationName,\n s.latitude,\n s.longitude,\n COUNT(1) AS count\nFROM bay_area_bike t\nJOIN stations s ON s.id \u003d t.EndTerminal\nWHERE t.startterminal \u003d 70\nGROUP BY s.id, s.stationName, s.latitude, s.longitude\nORDER BY count DESC LIMIT 10",
+      "dateUpdated": "Jan 25, 2016 5:20:05 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453739800914_-1335003685",
+      "id": "20160125-163640_571570820",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "id\tstationName\tlatitude\tlongitude\tcount\n50\tHarry Bridges Plaza (Ferry Building)\t37.796464\t-122.394672\t782\n51\tEmbarcadero at Folsom\t37.791464\t-122.391034\t695\n55\tTemporary Transbay Terminal (Howard at Beale)\t37.789756\t-122.394643\t644\n74\tSteuart at Market\t37.793227\t-122.392104\t609\n65\tTownsend at 7th\t37.771058\t-122.402717\t568\n68\tYerba Buena Center of the Arts (3rd @ Howard)\t37.784878\t-122.401014\t495\n77\tMarket at Sansome\t37.789625\t-122.400811\t480\n63\tHoward at 2nd\t37.786978\t-122.398108\t427\n54\tEmbarcadero at Bryant\t37.787152\t-122.388013\t394\n49\tSpear at Folsom\t37.789656\t-122.390373\t346\n"
+      },
+      "dateCreated": "Jan 25, 2016 4:36:40 PM",
+      "dateStarted": "Jan 25, 2016 5:20:05 PM",
+      "dateFinished": "Jan 25, 2016 5:20:08 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\nSELECT\n    hour,\n    COUNT(1) AS bay_area_bike,\n    ROUND(AVG(Duration) / 60) AS avg_duration\nFROM (\n    SELECT\n        CAST(SPLIT(SPLIT(t.StartDate, \u0027 \u0027)[1], \u0027:\u0027)[0] AS INT) AS hour,\n        t.duration AS duration\n    FROM bay_area_bike t\n    WHERE\n        t.StartTerminal \u003d 70\n        AND\n        t.Duration IS NOT NULL\n    ) r\nGROUP BY hour\nORDER BY hour ASC",
+      "dateUpdated": "Jan 25, 2016 5:27:11 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "hour",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "bay_area_bike",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "hour",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "bay_area_bike",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453739594607_-1966066857",
+      "id": "20160125-163314_364325418",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "hour\tbay_area_bike\tavg_duration\n0\t16\t9.0\n1\t4\t46.0\n2\t7\t6.0\n3\t7\t10.0\n4\t12\t10.0\n5\t67\t12.0\n6\t444\t12.0\n7\t1636\t11.0\n8\t2028\t13.0\n9\t1173\t15.0\n10\t468\t18.0\n11\t319\t22.0\n12\t255\t26.0\n13\t217\t23.0\n14\t200\t20.0\n15\t214\t21.0\n16\t306\t18.0\n17\t839\t13.0\n18\t725\t11.0\n19\t475\t13.0\n20\t165\t21.0\n21\t126\t10.0\n22\t88\t16.0\n23\t47\t10.0\n"
+      },
+      "dateCreated": "Jan 25, 2016 4:33:14 PM",
+      "dateStarted": "Jan 25, 2016 4:37:29 PM",
+      "dateFinished": "Jan 25, 2016 4:37:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\n#Gracefully Dealing with Bad Input Data\n\nimport json\ninput_rdd \u003d sc.parallelize([\"{\\\"value\\\": 1}\",  # Good\n                            \"bad_json\",  # Bad\n                            \"{\\\"value\\\": 2}\",  # Good\n                            \"{\\\"value\\\": 3\"  # Missing an ending brace.\n                            ])\ndef try_correct_json(json_string):\n  try:\n    # First check if the json is okay.\n    json.loads(json_string)\n    return [json_string]\n  except ValueError:\n    try:\n      # If not, try correcting it by adding a ending brace.\n      try_to_correct_json \u003d json_string + \"}\"\n      json.loads(try_to_correct_json)\n      return [try_to_correct_json]\n    except ValueError:\n      # The malformed json input can\u0027t be recovered, drop this input.\n      return []\n      \ncorrected_input_rdd \u003d input_rdd.flatMap(try_correct_json)\nsqlContext.jsonRDD(corrected_input_rdd).registerTempTable(\"valueTable\")\nprint sqlContext.sql(\"select * from valueTable\").collect()",
+      "dateUpdated": "Jan 26, 2016 12:15:51 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453767050529_-2025911715",
+      "id": "20160126-001050_1317391955",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[Row(value\u003d1), Row(value\u003d2), Row(value\u003d3)]\n"
+      },
+      "dateCreated": "Jan 26, 2016 12:10:50 AM",
+      "dateStarted": "Jan 26, 2016 12:15:28 AM",
+      "dateFinished": "Jan 26, 2016 12:15:28 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\n#https://pymotw.com/2/json/\n\nimport json\n\ndata \u003d [ { \u0027a\u0027:\u0027A\u0027, \u0027b\u0027:(2, 4), \u0027c\u0027:3.0 } ]\nprint \u0027DATA:\u0027, repr(data)\n\nprint \u0027NORMAL:\u0027, json.dumps(data, sort_keys\u003dTrue)\nprint \u0027INDENT:\u0027, json.dumps(data, sort_keys\u003dTrue, indent\u003d2)\n\n\nunsorted \u003d json.dumps(data)\nprint \u0027JSON:\u0027, json.dumps(data)\nprint \u0027SORT:\u0027, json.dumps(data, sort_keys\u003dTrue)\n\nfirst \u003d json.dumps(data, sort_keys\u003dTrue)\nsecond \u003d json.dumps(data, sort_keys\u003dTrue)\n\nprint \u0027UNSORTED MATCH:\u0027, unsorted \u003d\u003d first\nprint \u0027SORTED MATCH  :\u0027, first \u003d\u003d second\n\nprint \u0027repr(data)             :\u0027, len(repr(data))\nprint \u0027dumps(data)            :\u0027, len(json.dumps(data))\nprint \u0027dumps(data, indent\u003d2)  :\u0027, len(json.dumps(data, indent\u003d2))\nprint \u0027dumps(data, separators):\u0027, len(json.dumps(data, separators\u003d(\u0027,\u0027,\u0027:\u0027)))\n\ndata \u003d [ { \u0027a\u0027:\u0027A\u0027, \u0027b\u0027:(2, 4), \u0027c\u0027:3.0, (\u0027d\u0027,):\u0027D tuple\u0027 } ]\n\nprint \u0027First attempt\u0027\ntry:\n    print json.dumps(data)\nexcept (TypeError, ValueError) as err:\n    print \u0027ERROR:\u0027, err\n\nprint\nprint \u0027Second attempt\u0027\nprint json.dumps(data, skipkeys\u003dTrue)\n\nfrom urllib import urlopen\n#import simplejson as json\n\nurl \u003d urlopen(\"http://21.luckyminers.com/index.php?page\u003dapi\u0026action\u003dgetpoolstatus\u0026api_key\u003d8dba7050f9fea1e6a554bbcf4c3de5096795b253b45525c53562b72938771c41\").read()\nprint url\n#url \u003d json.loads(url)\n#print url.get(\u0027getpoolstatus\u0027).get(\u0027data\u0027).get(\u0027networkdiff\u0027)",
+      "dateUpdated": "Jan 26, 2016 12:25:04 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453767090414_-1398508853",
+      "id": "20160126-001130_1340252787",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "DATA: [{\u0027a\u0027: \u0027A\u0027, \u0027c\u0027: 3.0, \u0027b\u0027: (2, 4)}]\nNORMAL: [{\"a\": \"A\", \"b\": [2, 4], \"c\": 3.0}]\nINDENT: [\n  {\n    \"a\": \"A\", \n    \"b\": [\n      2, \n      4\n    ], \n    \"c\": 3.0\n  }\n]\nJSON: [{\"a\": \"A\", \"c\": 3.0, \"b\": [2, 4]}]\nSORT: [{\"a\": \"A\", \"b\": [2, 4], \"c\": 3.0}]\nUNSORTED MATCH: False\nSORTED MATCH  : True\nrepr(data)             : 35\ndumps(data)            : 35\ndumps(data, indent\u003d2)  : 76\ndumps(data, separators): 29\nFirst attempt\nERROR: keys must be a string\n\nSecond attempt\n[{\"a\": \"A\", \"c\": 3.0, \"b\": [2, 4]}]\n\u003chtml\u003e\r\n\u003chead\u003e\u003ctitle\u003e403 Forbidden\u003c/title\u003e\u003c/head\u003e\r\n\u003cbody bgcolor\u003d\"white\"\u003e\r\n\u003ccenter\u003e\u003ch1\u003e403 Forbidden\u003c/h1\u003e\u003c/center\u003e\r\n\u003chr\u003e\u003ccenter\u003enginx\u003c/center\u003e\r\n\u003c/body\u003e\r\n\u003c/html\u003e\r\n\n"
+      },
+      "dateCreated": "Jan 26, 2016 12:11:30 AM",
+      "dateStarted": "Jan 26, 2016 12:25:04 AM",
+      "dateFinished": "Jan 26, 2016 12:25:05 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453767433062_-666440609",
+      "id": "20160126-001713_1474112066",
+      "dateCreated": "Jan 26, 2016 12:17:13 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_JSON",
+  "id": "2BBUSBWER",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

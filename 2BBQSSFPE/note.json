@@ -1,0 +1,565 @@
+{
+  "paragraphs": [
+    {
+      "text": "//https://databricks.com/blog/2015/09/16/spark-1-5-dataframe-api-highlights-datetimestring-handling-time-intervals-and-udafs.html\n//http://alvincjin.blogspot.com/search/label/Spark\n//https://github.com/JerryLead/SparkLearning/tree/master/src/local/examples\n\n//http://sparktutorials.net/Getting+Started+with+Apache+Spark+DataFrames+in+Python+and+Scala\n\n//https://github.com/andygrove/spark-sql-udt/blob/master/src/main/scala/Example.scala\n//http://www.infoobjects.com/dataframes-with-apache-spark/\n//https://www.percona.com/blog/2015/10/07/using-apache-spark-mysql-data-analysis/\n//http://www.svds.com/flexible-data-architecture-with-spark-cassandra-and-impala/\n//https://medium.com/@chris_bour/6-differences-between-pandas-and-spark-dataframes-1380cec394d2#.5nchsy5na\n\n//\n// An example of the experimental User Defined Aggregation Function mechanism\n// added in Spark 1.5.0\n\nval df \u003d sc.parallelize(Seq(\n    (\"a\", 0), (\"a\", 1), (\"b\", 30), (\"b\", -50))).toDF(\"group\", \"power\")\n\ndf\n  .withColumn(\"belowThreshold\", ($\"power\".lt(-40)).cast(IntegerType))\n  .show\n\nsqlContext.setConf(\"spark.sql.retainGroupColumns\", \"true\")\n\ndf\n  .withColumn(\"belowThreshold\", ($\"power\".lt(-40)).cast(IntegerType))\n  .groupBy($\"group\")\n  .agg(sum($\"belowThreshold\").notEqual(0).alias(\"belowThreshold\"))\n  .show",
+      "dateUpdated": "Jan 25, 2016 2:40:38 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453501491704_-427272599",
+      "id": "20160122-222451_189347317",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "df: org.apache.spark.sql.DataFrame \u003d [group: string, power: int]\n+-----+-----+--------------+\n|group|power|belowThreshold|\n+-----+-----+--------------+\n|    a|    0|             0|\n|    a|    1|             0|\n|    b|   30|             0|\n|    b|  -50|             1|\n+-----+-----+--------------+\n\n+-----+--------------+\n|group|belowThreshold|\n+-----+--------------+\n|    a|         false|\n|    b|          true|\n+-----+--------------+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 10:24:51 PM",
+      "dateStarted": "Jan 22, 2016 10:45:06 PM",
+      "dateFinished": "Jan 22, 2016 10:45:08 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// UDAF Examples\n\nimport org.apache.spark.sql.expressions._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.Row\n\nobject belowThreshold extends UserDefinedAggregateFunction {\n    // Schema you get as an input\n    def inputSchema \u003d new StructType().add(\"power\", IntegerType)\n    // Schema of the row which is used for aggregation\n    def bufferSchema \u003d new StructType().add(\"ind\", BooleanType)\n    // Returned type\n    def dataType \u003d BooleanType\n    // Self-explaining \n    def deterministic \u003d true\n    // zero value\n    def initialize(buffer: MutableAggregationBuffer) \u003d buffer.update(0, false)\n    // Similar to seqOp in aggregate\n    def update(buffer: MutableAggregationBuffer, input: Row) \u003d {\n        if (!input.isNullAt(0))\n          buffer.update(0, buffer.getBoolean(0) | input.getInt(0) \u003c -40)\n    }\n    // Similar to combOp in aggregate\n    def merge(buffer1: MutableAggregationBuffer, buffer2: Row) \u003d {\n      buffer1.update(0, buffer1.getBoolean(0) | buffer2.getBoolean(0))    \n    }\n    // Called on exit to get return value\n    def evaluate(buffer: Row) \u003d buffer.getBoolean(0)\n}\n\ndf\n  .groupBy($\"group\")\n  .agg(belowThreshold($\"power\").alias(\"belowThreshold\"))\n  .show",
+      "dateUpdated": "Jan 22, 2016 10:45:11 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453501409028_1173211662",
+      "id": "20160122-222329_1053389810",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.expressions._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.Row\ndefined module belowThreshold\n+-----+--------------+\n|group|belowThreshold|\n+-----+--------------+\n|    a|         false|\n|    b|          true|\n+-----+--------------+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 10:23:29 PM",
+      "dateStarted": "Jan 22, 2016 10:45:11 PM",
+      "dateFinished": "Jan 22, 2016 10:45:13 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "object CustomMean extends UserDefinedAggregateFunction {\n \n  // Input Data Type Schema\n  def inputSchema: StructType \u003d StructType(Array(StructField(\"item\", DoubleType)))\n \n  // Intermediate Schema\n  def bufferSchema \u003d StructType(Array(\n    StructField(\"sum\", DoubleType),\n    StructField(\"cnt\", LongType)\n  ))\n \n  // Returned Data Type .\n  def dataType: DataType \u003d DoubleType\n \n  // Self-explaining\n  def deterministic \u003d true\n \n  // This function is called whenever key changes\n  def initialize(buffer: MutableAggregationBuffer) \u003d {\n    buffer(0) \u003d 0.toDouble // set sum to zero\n    buffer(1) \u003d 0L // set number of items to 0\n  }\n \n  // Iterate over each entry of a group\n  def update(buffer: MutableAggregationBuffer, input: Row) \u003d {\n    buffer(0) \u003d buffer.getDouble(0) + input.getDouble(0)\n    buffer(1) \u003d buffer.getLong(1) + 1\n  }\n \n  // Merge two partial aggregates\n  def merge(buffer1: MutableAggregationBuffer, buffer2: Row) \u003d {\n    buffer1(0) \u003d buffer1.getDouble(0) + buffer2.getDouble(0)\n    buffer1(1) \u003d buffer1.getLong(1) + buffer2.getLong(1)\n  }\n \n  // Called after all the entries are exhausted.\n  def evaluate(buffer: Row) \u003d {\n    buffer.getDouble(0)/buffer.getLong(1).toDouble\n  }\n \n}\n\n// create test dataset\nval data \u003d (1 to 1000).map{x:Int \u003d\u003e x match {\ncase t if t \u003c\u003d 500 \u003d\u003e Row(\"A\", t.toDouble)\ncase t \u003d\u003e Row(\"B\", t.toDouble)\n}}\n \n// create schema of the test dataset\nval schema \u003d StructType(Array(\nStructField(\"key\", StringType),\nStructField(\"value\", DoubleType)\n))\n \n// construct data frame\nval rdd \u003d sc.parallelize(data)\nval df \u003d sqlContext.createDataFrame(rdd, schema)\n \n// Calculate average value for each group\ndf.groupBy(\"key\").agg(\nCustomMean(df.col(\"value\")).as(\"custom_mean\"),\navg(\"value\").as(\"avg\")\n).show()",
+      "dateUpdated": "Jan 22, 2016 10:33:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453501443619_2129743400",
+      "id": "20160122-222403_101372662",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "defined module CustomMean\ndata: scala.collection.immutable.IndexedSeq[org.apache.spark.sql.Row] \u003d Vector([A,1.0], [A,2.0], [A,3.0], [A,4.0], [A,5.0], [A,6.0], [A,7.0], [A,8.0], [A,9.0], [A,10.0], [A,11.0], [A,12.0], [A,13.0], [A,14.0], [A,15.0], [A,16.0], [A,17.0], [A,18.0], [A,19.0], [A,20.0], [A,21.0], [A,22.0], [A,23.0], [A,24.0], [A,25.0], [A,26.0], [A,27.0], [A,28.0], [A,29.0], [A,30.0], [A,31.0], [A,32.0], [A,33.0], [A,34.0], [A,35.0], [A,36.0], [A,37.0], [A,38.0], [A,39.0], [A,40.0], [A,41.0], [A,42.0], [A,43.0], [A,44.0], [A,45.0], [A,46.0], [A,47.0], [A,48.0], [A,49.0], [A,50.0], [A,51.0], [A,52.0], [A,53.0], [A,54.0], [A,55.0], [A,56.0], [A,57.0], [A,58.0], [A,59.0], [A,60.0], [A,61.0], [A,62.0], [A,63.0], [A,64.0], [A,65.0], [A,66.0], [A,67.0], [A,68.0], [A,69.0], [A,70.0], [A,71.0], [A,72.0], [A,73.0...schema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(key,StringType,true), StructField(value,DoubleType,true))\nrdd: org.apache.spark.rdd.RDD[org.apache.spark.sql.Row] \u003d ParallelCollectionRDD[53] at parallelize at \u003cconsole\u003e:46\ndf: org.apache.spark.sql.DataFrame \u003d [key: string, value: double]\n+---+-----------+-----+\n|key|custom_mean|  avg|\n+---+-----------+-----+\n|  A|      250.5|250.5|\n|  B|      750.5|750.5|\n+---+-----------+-----+\n\n"
+      },
+      "dateCreated": "Jan 22, 2016 10:24:03 PM",
+      "dateStarted": "Jan 22, 2016 10:33:13 PM",
+      "dateFinished": "Jan 22, 2016 10:33:15 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//-------------------------------------UDAF---------------------------------\n// An example of the experimental User Defined Aggregation Function mechanism\n// added in Spark 1.5.0.\n\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.expressions.{MutableAggregationBuffer, UserDefinedAggregateFunction}\nimport org.apache.spark.sql.types._\n\nobject ScalaAggregateFunction extends UserDefinedAggregateFunction {\n\n     // an aggregation function can take multiple arguments in general. but\n     // this one just takes one\n     def inputSchema: StructType \u003d\n       new StructType().add(\"sales\", DoubleType)\n     // the aggregation buffer can also have multiple values in general but\n     // this one just has one: the partial sum\n     def bufferSchema: StructType \u003d\n       new StructType().add(\"sumLargeSales\", DoubleType)\n     // returns just a double: the sum\n     def dataType: DataType \u003d DoubleType\n     // always gets the same result\n     def deterministic: Boolean \u003d true\n\n     // each partial sum is initialized to zero\n     def initialize(buffer: MutableAggregationBuffer): Unit \u003d {\n       buffer.update(0, 0.0)\n     }\n\n     // an individual sales value is incorporated by adding it if it exceeds 500.0\n     def update(buffer: MutableAggregationBuffer, input: Row): Unit \u003d {\n       val sum \u003d buffer.getDouble(0)\n       if (!input.isNullAt(0)) {\n         val sales \u003d input.getDouble(0)\n         if (sales \u003e 500.0) {\n           buffer.update(0, sum+sales)\n         }\n       }\n     }\n\n     // buffers are merged by adding the single values in them\n     def merge(buffer1: MutableAggregationBuffer, buffer2: Row): Unit \u003d {\n       buffer1.update(0, buffer1.getDouble(0) + buffer2.getDouble(0))\n     }\n\n     // the aggregation buffer just has one value: so return it\n     def evaluate(buffer: Row): Any \u003d {\n       buffer.getDouble(0)\n     }\n   }",
+      "dateUpdated": "Jan 25, 2016 2:22:16 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453501593651_-358247659",
+      "id": "20160122-222633_913095416",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql._\nimport org.apache.spark.sql.expressions.{MutableAggregationBuffer, UserDefinedAggregateFunction}\nimport org.apache.spark.sql.types._\ndefined module ScalaAggregateFunction\n"
+      },
+      "dateCreated": "Jan 22, 2016 10:26:33 PM",
+      "dateStarted": "Jan 25, 2016 2:22:16 AM",
+      "dateFinished": "Jan 25, 2016 2:22:18 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//-------------------------------------UDAF---------------------------------continue\nimport sqlContext.implicits._\n\n\n// create an RDD of tuples with some data\n     val custs \u003d Seq(\n       (1, \"Widget Co\", 120000.00, 0.00, \"AZ\"),\n       (2, \"Acme Widgets\", 410500.00, 500.00, \"CA\"),\n       (3, \"Widgetry\", 200.00, 200.00, \"CA\"),\n       (4, \"Widgets R Us\", 410500.00, 0.0, \"CA\"),\n       (5, \"Ye Olde Widgete\", 500.00, 0.0, \"MA\")\n     )\n     val customerRows \u003d sc.parallelize(custs, 4)\n     val customerDF \u003d customerRows.toDF(\"id\", \"name\", \"sales\", \"discount\", \"state\")\n\n     customerDF.printSchema()\n     customerDF.registerTempTable(\"customers\")\n\n     sqlContext.udf.register(\"mysum\", ScalaAggregateFunction)",
+      "dateUpdated": "Jan 25, 2016 2:22:45 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453688536968_2145983992",
+      "id": "20160125-022216_291265623",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import sqlContext.implicits._\ncusts: Seq[(Int, String, Double, Double, String)] \u003d List((1,Widget Co,120000.0,0.0,AZ), (2,Acme Widgets,410500.0,500.0,CA), (3,Widgetry,200.0,200.0,CA), (4,Widgets R Us,410500.0,0.0,CA), (5,Ye Olde Widgete,500.0,0.0,MA))\ncustomerRows: org.apache.spark.rdd.RDD[(Int, String, Double, Double, String)] \u003d ParallelCollectionRDD[420] at parallelize at \u003cconsole\u003e:108\ncustomerDF: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, sales: double, discount: double, state: string]\nroot\n |-- id: integer (nullable \u003d false)\n |-- name: string (nullable \u003d true)\n |-- sales: double (nullable \u003d false)\n |-- discount: double (nullable \u003d false)\n |-- state: string (nullable \u003d true)\n\nres263: org.apache.spark.sql.expressions.UserDefinedAggregateFunction \u003d $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$ScalaAggregateFunction$@3469b9d\n"
+      },
+      "dateCreated": "Jan 25, 2016 2:22:16 AM",
+      "dateStarted": "Jan 25, 2016 2:22:45 AM",
+      "dateFinished": "Jan 25, 2016 2:22:48 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//-------------------------------------UDAF---------------------------------continue\n// now use it in a query\n     val sqlResult \u003d\n       sqlContext.sql(\n         s\"\"\"\n           | SELECT state, mysum(sales) AS bigsales\n           | FROM customers\n           | GROUP BY state\n          \"\"\".stripMargin)\n     sqlResult.printSchema()\n     println()\n     sqlResult.show()",
+      "dateUpdated": "Jan 25, 2016 2:23:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453688565874_941966766",
+      "id": "20160125-022245_1773118744",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "sqlResult: org.apache.spark.sql.DataFrame \u003d [state: string, bigsales: double]\nroot\n |-- state: string (nullable \u003d true)\n |-- bigsales: double (nullable \u003d true)\n\n\n+-----+--------+\n|state|bigsales|\n+-----+--------+\n|   AZ|120000.0|\n|   CA|821000.0|\n|   MA|     0.0|\n+-----+--------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 2:22:45 AM",
+      "dateStarted": "Jan 25, 2016 2:23:10 AM",
+      "dateFinished": "Jan 25, 2016 2:23:12 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//-------------------------------------UDF---------------------------------\n// An example of the experimental User Defined Function mechanism\n// added in Spark 1.5.0.\n\n// a case class for our sample table\ncase class Cust(id: Integer, name: String, sales: Double, discounts: Double, state: String)\n\n// an extra case class to show how UDFs can generate structure\ncase class SalesDisc(sales: Double, discounts: Double)\n\n// create an RDD with some data\nval custs \u003d Seq(\n  Cust(1, \"Widget Co\", 120000.00, 0.00, \"AZ\"),\n  Cust(2, \"Acme Widgets\", 410500.00, 500.00, \"CA\"),\n  Cust(3, \"Widgetry\", 410500.00, 200.00, \"CA\"),\n  Cust(4, \"Widgets R Us\", 410500.00, 0.0, \"CA\"),\n  Cust(5, \"Ye Olde Widgete\", 500.00, 0.0, \"MA\")\n)\nval customerTable \u003d sc.parallelize(custs, 4).toDF()\n\n// for SQL usage  we need to register the table\ncustomerTable.registerTempTable(\"customerTable\")\n\n// Definition examples of various UDF functions inthe SQL syntax---------------\n// WHERE clause\n    def westernState(state: String) \u003d Seq(\"CA\", \"OR\", \"WA\", \"AK\").contains(state)\n    sqlContext.udf.register(\"westernState\", westernState _)\n// HAVING clause\n    def manyCustomers(cnt: Long) \u003d cnt \u003e 2\n    sqlContext.udf.register(\"manyCustomers\", manyCustomers _)\n// GROUP BY clause\n    def stateRegion(state:String) \u003d state match {\n      case \"CA\" | \"AK\" | \"OR\" | \"WA\" \u003d\u003e \"West\"\n      case \"ME\" | \"NH\" | \"MA\" | \"RI\" | \"CT\" | \"VT\" \u003d\u003e \"NorthEast\"\n      case \"AZ\" | \"NM\" | \"CO\" | \"UT\" \u003d\u003e \"SouthWest\"\n    }\n    sqlContext.udf.register(\"stateRegion\", stateRegion _)\n// we can also apply a UDF to the result columns\n    def discountRatio(sales: Double, discounts: Double) \u003d discounts/sales\n    sqlContext.udf.register(\"discountRatio\", discountRatio _)\n// we can make the UDF create nested structure in the results\n    def makeStruct(sales: Double, disc:Double) \u003d SalesDisc(sales, disc)\n    sqlContext.udf.register(\"makeStruct\", makeStruct _)",
+      "dateUpdated": "Jan 25, 2016 2:34:23 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453688590249_-1140648382",
+      "id": "20160125-022310_900450357",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "defined class Cust\ndefined class SalesDisc\ncusts: Seq[Cust] \u003d List(Cust(1,Widget Co,120000.0,0.0,AZ), Cust(2,Acme Widgets,410500.0,500.0,CA), Cust(3,Widgetry,410500.0,200.0,CA), Cust(4,Widgets R Us,410500.0,0.0,CA), Cust(5,Ye Olde Widgete,500.0,0.0,MA))\ncustomerTable: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, sales: double, discounts: double, state: string]\nwesternState: (state: String)Boolean\nres371: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction1\u003e,BooleanType,List())\nmanyCustomers: (cnt: Long)Boolean\nres373: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction1\u003e,BooleanType,List())\nstateRegion: (state: String)String\nres375: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction1\u003e,StringType,List())\ndiscountRatio: (sales: Double, discounts: Double)Double\nres377: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction2\u003e,DoubleType,List())\nmakeStruct: (sales: Double, disc: Double)SalesDisc\nres379: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction2\u003e,StructType(StructField(sales,DoubleType,false), StructField(discounts,DoubleType,false)),List())\n"
+      },
+      "dateCreated": "Jan 25, 2016 2:23:10 AM",
+      "dateStarted": "Jan 25, 2016 2:34:23 AM",
+      "dateFinished": "Jan 25, 2016 2:34:26 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    println(\"UDF in a WHERE\")\n    val westernStates \u003d\n      sqlContext.sql(\"SELECT * FROM customerTable WHERE westernState(state)\")\n    westernStates.show()\n    \n    println(\"UDF in a HAVING\")\n    val statesManyCustomers \u003d\n      sqlContext.sql(\n        s\"\"\"\n          |SELECT state, COUNT(id) AS custCount\n          |FROM customerTable\n          |GROUP BY state\n          |HAVING manyCustomers(custCount)\n         \"\"\".stripMargin)\n    statesManyCustomers.show()",
+      "dateUpdated": "Jan 25, 2016 2:33:16 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453688969095_-1370239496",
+      "id": "20160125-022929_1151044433",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "UDF in a WHERE\nwesternStates: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, sales: double, discounts: double, state: string]\n+---+------------+--------+---------+-----+\n| id|        name|   sales|discounts|state|\n+---+------------+--------+---------+-----+\n|  2|Acme Widgets|410500.0|    500.0|   CA|\n|  3|    Widgetry|410500.0|    200.0|   CA|\n|  4|Widgets R Us|410500.0|      0.0|   CA|\n+---+------------+--------+---------+-----+\n\nUDF in a HAVING\nstatesManyCustomers: org.apache.spark.sql.DataFrame \u003d [state: string, custCount: bigint]\n+-----+---------+\n|state|custCount|\n+-----+---------+\n|   CA|        3|\n+-----+---------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 2:29:29 AM",
+      "dateStarted": "Jan 25, 2016 2:33:16 AM",
+      "dateFinished": "Jan 25, 2016 2:33:19 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    println(\"UDF in a GROUP BY\")\n    // note the grouping column repeated since it doesn\u0027t have an alias\n    val salesByRegion \u003d\n      sqlContext.sql(\n        s\"\"\"\n          |SELECT SUM(sales), stateRegion(state) AS totalSales\n          |FROM customerTable\n          |GROUP BY stateRegion(state)\n        \"\"\".stripMargin)\n    salesByRegion.show()\n    \n    println(\"UDF in a result\")\n    val customerDiscounts \u003d\n      sqlContext.sql(\n        s\"\"\"\n          |SELECT id, discountRatio(sales, discounts) AS ratio\n          |FROM customerTable\n        \"\"\".stripMargin)\n    customerDiscounts.show()\n    \n    println(\"UDF creating structured result\")\n    val withStruct \u003d\n      sqlContext.sql(\"SELECT makeStruct(sales, discounts) AS sd FROM customerTable\")\n    withStruct.show()\n\n    println(\"UDF with nested query creating structured result\")\n    val nestedStruct \u003d\n      sqlContext.sql(\"SELECT id, sd.sales FROM (SELECT id, makeStruct(sales, discounts) AS sd FROM customerTable) AS d\")\n    nestedStruct.show()",
+      "dateUpdated": "Jan 25, 2016 2:33:22 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453689022305_-434622116",
+      "id": "20160125-023022_420480962",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "UDF in a GROUP BY\nsalesByRegion: org.apache.spark.sql.DataFrame \u003d [_c0: double, totalSales: string]\n+---------+----------+\n|      _c0|totalSales|\n+---------+----------+\n|1231500.0|      West|\n|    500.0| NorthEast|\n| 120000.0| SouthWest|\n+---------+----------+\n\nUDF in a result\ncustomerDiscounts: org.apache.spark.sql.DataFrame \u003d [id: int, ratio: double]\n+---+--------------------+\n| id|               ratio|\n+---+--------------------+\n|  1|                 0.0|\n|  2|0.001218026796589525|\n|  3|  4.8721071863581E-4|\n|  4|                 0.0|\n|  5|                 0.0|\n+---+--------------------+\n\nUDF creating structured result\nwithStruct: org.apache.spark.sql.DataFrame \u003d [sd: struct\u003csales:double,discounts:double\u003e]\n+----------------+\n|              sd|\n+----------------+\n|  [120000.0,0.0]|\n|[410500.0,500.0]|\n|[410500.0,200.0]|\n|  [410500.0,0.0]|\n|     [500.0,0.0]|\n+----------------+\n\nUDF with nested query creating structured result\nnestedStruct: org.apache.spark.sql.DataFrame \u003d [id: int, sales: double]\n+---+--------+\n| id|   sales|\n+---+--------+\n|  1|120000.0|\n|  2|410500.0|\n|  3|410500.0|\n|  4|410500.0|\n|  5|   500.0|\n+---+--------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 2:30:22 AM",
+      "dateStarted": "Jan 25, 2016 2:33:22 AM",
+      "dateFinished": "Jan 25, 2016 2:33:26 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.rdd.RDD\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.expressions._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.types.{UserDefinedType,DataType,ArrayType,DoubleType,ArrayData,GenericArrayData}\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.functions._\nimport scala.beans.{BeanInfo, BeanProperty}\nimport org.apache.spark.sql.catalyst.util.{ArrayData, GenericArrayData}\n//import java.lang.annotation._\n\n//@SQLUserDefinedType(udt \u003d classOf[MyPoint3DUDT])\n case class MyPoint3D(x: Double, y: Double, z: Double)\n\n class MyPoint3DUDT extends UserDefinedType[MyPoint3D] {\n  override def sqlType: DataType \u003d ArrayType(DoubleType, containsNull \u003d false)\n\n  override def serialize(obj: Any): ArrayData \u003d {\n    obj match {\n      case features: MyPoint3D \u003d\u003e\n        new GenericArrayData(Array(features.x, features.y, features.z))\n    }\n  }\n\n  override def deserialize(datum: Any): MyPoint3D \u003d {\n    datum match {\n      case data: ArrayData if data.numElements() \u003d\u003d 3 \u003d\u003e {\n        val arr \u003d data.toDoubleArray()\n        new MyPoint3D(arr(0), arr(1), arr(2))\n      }\n    }\n  }\n\n  override def userClass: Class[MyPoint3D] \u003d classOf[MyPoint3D]\n\n  override def asNullable: MyPoint3DUDT \u003d this\n}\n\n//@BeanInfo\n case class MyLabeledPoint(\n  @BeanProperty label: String,\n  @BeanProperty point: MyPoint3D)",
+      "dateUpdated": "Jan 25, 2016 3:43:09 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453689096421_1481735535",
+      "id": "20160125-023136_844105299",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.rdd.RDD\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.expressions._\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.types.{UserDefinedType, DataType, ArrayType, DoubleType, ArrayData, GenericArrayData}\nimport org.apache.spark.sql.types._\nimport org.apache.spark.sql.functions._\nimport scala.beans.{BeanInfo, BeanProperty}\n\u003cconsole\u003e:39: error: object ArrayData is not a member of package org.apache.spark.sql.catalyst.util\n       import org.apache.spark.sql.catalyst.util.{ArrayData, GenericArrayData}\n              ^\n"
+      },
+      "dateCreated": "Jan 25, 2016 2:31:36 AM",
+      "dateStarted": "Jan 25, 2016 3:43:09 AM",
+      "dateFinished": "Jan 25, 2016 3:43:36 AM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import sqlContext.implicits._\n\n    val points \u003d Seq(\n      new MyLabeledPoint(\"A\", new MyPoint3D(1.0, 2.0, 3.0)),\n      new MyLabeledPoint(\"B\", new MyPoint3D(1.0, 0.0, 2.0))\n    ).toDF()\n\n    points.printSchema()\n    points.show()\n    \n    points.registerTempTable(\"points\")\n    val pointssql \u003d sqlContext.sql(\"SELECT label,point.x FROM points\")\n    pointssql.printSchema()\n    pointssql.show()\n//  def discountRatio(sales: Double, discounts: Double) \u003d discounts/sales\n//  sqlContext.udf.register(\"discountRatio\", discountRatio _)\n    def myMagnitude(x: Double, y: Double, z: Double): Double \u003d math.sqrt(math.abs(x) * math.abs(y) + math.abs(z))\n    \n    sqlContext.udf.register(\"myMagnitude\",myMagnitude _)\n\n    val labeledMagnitudes \u003d\n      sqlContext.sql(\"SELECT label, myMagnitude(point.x,point.y,point.z) as magnitude FROM points\")\n\n    labeledMagnitudes.printSchema()\n\n    labeledMagnitudes.show()",
+      "dateUpdated": "Jan 25, 2016 3:32:10 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453691001124_1078582153",
+      "id": "20160125-030321_2029560745",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import sqlContext.implicits._\npoints: org.apache.spark.sql.DataFrame \u003d [label: string, point: struct\u003cx:double,y:double,z:double\u003e]\nroot\n |-- label: string (nullable \u003d true)\n |-- point: struct (nullable \u003d true)\n |    |-- x: double (nullable \u003d false)\n |    |-- y: double (nullable \u003d false)\n |    |-- z: double (nullable \u003d false)\n\n+-----+-------------+\n|label|        point|\n+-----+-------------+\n|    A|[1.0,2.0,3.0]|\n|    B|[1.0,0.0,2.0]|\n+-----+-------------+\n\npointssql: org.apache.spark.sql.DataFrame \u003d [label: string, x: double]\nroot\n |-- label: string (nullable \u003d true)\n |-- x: double (nullable \u003d true)\n\n+-----+---+\n|label|  x|\n+-----+---+\n|    A|1.0|\n|    B|1.0|\n+-----+---+\n\nmyMagnitude: (x: Double, y: Double, z: Double)Double\nres17: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction3\u003e,DoubleType,List())\nlabeledMagnitudes: org.apache.spark.sql.DataFrame \u003d [label: string, magnitude: double]\nroot\n |-- label: string (nullable \u003d true)\n |-- magnitude: double (nullable \u003d true)\n\n+-----+------------------+\n|label|         magnitude|\n+-----+------------------+\n|    A|  2.23606797749979|\n|    B|1.4142135623730951|\n+-----+------------------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 3:03:21 AM",
+      "dateStarted": "Jan 25, 2016 3:32:10 AM",
+      "dateFinished": "Jan 25, 2016 3:32:17 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//doesnt work\n//java.lang.ClassCastException: org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema cannot be cast to $iwC$$iwC$MyPoint3D\n\n    sqlContext.udf.register(\"mytypeMagnitude\", (p: MyPoint3D) \u003d\u003e\n      math.sqrt(math.abs(p.x) * math.abs(p.y) + math.abs(p.z)))\n      \n    val labeledTMagnitudes \u003d\n      sqlContext.sql(\"SELECT label, mytypeMagnitude(point) as magnitude FROM points\")\n\n    labeledTMagnitudes.printSchema()\n\n    labeledTMagnitudes.show()",
+      "dateUpdated": "Jan 25, 2016 3:53:54 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453691584697_-1164072690",
+      "id": "20160125-031304_1827360459",
+      "dateCreated": "Jan 25, 2016 3:13:04 AM",
+      "dateStarted": "Jan 25, 2016 3:53:32 AM",
+      "dateFinished": "Jan 25, 2016 3:53:32 AM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "    println(\"*** stepped range with specified partitioning\")\n    val df \u003d sqlContext.range(10, 20, 2, 2)\n    df.show()\n    println(\"# Partitions \u003d \" + df.rdd.partitions.length)\n\n\n\n  case class Customer(id: Integer, name: String, state: String)\n\n  case class Order(id: Integer, custid: Integer, sku: String, quantity: Integer)\n  \n     val custs \u003d Seq(\n      Customer(1, \"Widget Co\", \"AZ\"),\n      Customer(2, \"Acme Widgets\", \"CA\"),\n      Customer(3, \"Widgetry\", \"CA\"),\n      Customer(4, \"Widgets R Us\", \"CA\"),\n      Customer(5, \"Ye Olde Widgete\", \"MA\")\n    )\n\n    val orders \u003d Seq(\n      Order(1001, 1, \"A001\", 100),\n      Order(1002, 1, \"B002\", 500),\n      Order(1003, 3, \"A001\", 100),\n      Order(1004, 3, \"B001\", 100),\n      Order(1005, 4, \"A002\", 10),\n      Order(1006, 5, \"A003\", 100)\n    )\n\n    val cc \u003d sc.parallelize(custs, 4)\n    cc.toDF().registerTempTable(\"custs1\")\n    \n    sc.parallelize(orders, 2).toDF().registerTempTable(\"orders1\")\n    \n    val res1 \u003d sqlContext.sql(\"SELECT * FROM custs1 INNER JOIN orders1 ON custs1.id \u003d orders1.custid\")\n\n    res1.explain()\n\n    res1.show()",
+      "dateUpdated": "Jan 25, 2016 4:02:15 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453692867767_-1511296799",
+      "id": "20160125-033427_1645308671",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "*** stepped range with specified partitioning\ndf: org.apache.spark.sql.DataFrame \u003d [id: bigint]\n+---+\n| id|\n+---+\n| 10|\n| 12|\n| 14|\n| 16|\n| 18|\n+---+\n\n# Partitions \u003d 2\ndefined class Customer\ndefined class Order\ncusts: Seq[Customer] \u003d List(Customer(1,Widget Co,AZ), Customer(2,Acme Widgets,CA), Customer(3,Widgetry,CA), Customer(4,Widgets R Us,CA), Customer(5,Ye Olde Widgete,MA))\norders: Seq[Order] \u003d List(Order(1001,1,A001,100), Order(1002,1,B002,500), Order(1003,3,A001,100), Order(1004,3,B001,100), Order(1005,4,A002,10), Order(1006,5,A003,100))\ncc: org.apache.spark.rdd.RDD[Customer] \u003d ParallelCollectionRDD[16] at parallelize at \u003cconsole\u003e:47\nres1: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, state: string, id: int, custid: int, sku: string, quantity: int]\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [id#32,name#33,state#34,id#35,custid#36,sku#37,quantity#38]\n SortMergeJoin [id#32], [custid#36]\n  TungstenSort [id#32 ASC], false, 0\n   TungstenExchange hashpartitioning(id#32)\n    ConvertToUnsafe\n     Scan PhysicalRDD[id#32,name#33,state#34]\n  TungstenSort [custid#36 ASC], false, 0\n   TungstenExchange hashpartitioning(custid#36)\n    ConvertToUnsafe\n     Scan PhysicalRDD[id#35,custid#36,sku#37,quantity#38]\n+---+---------------+-----+----+------+----+--------+\n| id|           name|state|  id|custid| sku|quantity|\n+---+---------------+-----+----+------+----+--------+\n|  1|      Widget Co|   AZ|1001|     1|A001|     100|\n|  1|      Widget Co|   AZ|1002|     1|B002|     500|\n|  3|       Widgetry|   CA|1003|     3|A001|     100|\n|  3|       Widgetry|   CA|1004|     3|B001|     100|\n|  4|   Widgets R Us|   CA|1005|     4|A002|      10|\n|  5|Ye Olde Widgete|   MA|1006|     5|A003|     100|\n+---+---------------+-----+----+------+----+--------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 3:34:27 AM",
+      "dateStarted": "Jan 25, 2016 4:02:15 AM",
+      "dateFinished": "Jan 25, 2016 4:02:21 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.HashPartitioner\n\n    val partitioner \u003d new HashPartitioner(10)\n\n    val custs2 \u003d sqlContext.sql(\"SELECT * from custs1\").map(r \u003d\u003e (r.getInt(0), r)).partitionBy(partitioner)\n    val orders2 \u003d sqlContext.sql(\"SELECT * from orders1\").map(r \u003d\u003e (r.getInt(1), r)).partitionBy(partitioner)\n\n    custs2.map({case (k,r) \u003d\u003e Customer(r.getInt(0), r.getString(1), r.getString(2))}).toDF().registerTempTable(\"custs2\")\n    orders2.map({case (k,r) \u003d\u003e Order(r.getInt(0), r.getInt(1), r.getString(2), r.getInt(3))}).toDF().registerTempTable(\"orders2\")\n\n    println(\"Cust2 Partition Size: \",custs2.partitions.size)\n    println(\"orders2 Partition Size: \",orders2.partitions.size)\n    println()\n    println(\"Cust2/orders2 join Partition Size: \",custs2.join(orders2).partitions.size)\n\n    val res2 \u003d sqlContext.sql(\"SELECT * FROM custs2 INNER JOIN orders2 ON custs2.id \u003d orders2.custid\")\n    println(\"-----------------------Explain Plan----------------\")\n    res2.explain()\n    println(\"----------------------SHOW Output----------------\")\n    res2.show()",
+      "dateUpdated": "Jan 25, 2016 4:07:40 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453694156016_-1091124762",
+      "id": "20160125-035556_667251116",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.HashPartitioner\npartitioner: org.apache.spark.HashPartitioner \u003d org.apache.spark.HashPartitioner@a\ncusts2: org.apache.spark.rdd.RDD[(Int, org.apache.spark.sql.Row)] \u003d ShuffledRDD[87] at partitionBy at \u003cconsole\u003e:48\norders2: org.apache.spark.rdd.RDD[(Int, org.apache.spark.sql.Row)] \u003d ShuffledRDD[90] at partitionBy at \u003cconsole\u003e:47\n(Cust2 Partition Size: ,10)\n(orders2 Partition Size: ,10)\n\n(Cust2/orders2 join Partition Size: ,10)\nres2: org.apache.spark.sql.DataFrame \u003d [id: int, name: string, state: string, id: int, custid: int, sku: string, quantity: int]\n-----------------------Explain Plan----------------\n\u003d\u003d Physical Plan \u003d\u003d\nTungstenProject [id#56,name#57,state#58,id#59,custid#60,sku#61,quantity#62]\n SortMergeJoin [id#56], [custid#60]\n  TungstenSort [id#56 ASC], false, 0\n   TungstenExchange hashpartitioning(id#56)\n    ConvertToUnsafe\n     Scan PhysicalRDD[id#56,name#57,state#58]\n  TungstenSort [custid#60 ASC], false, 0\n   TungstenExchange hashpartitioning(custid#60)\n    ConvertToUnsafe\n     Scan PhysicalRDD[id#59,custid#60,sku#61,quantity#62]\n----------------------SHOW Output----------------\n+---+---------------+-----+----+------+----+--------+\n| id|           name|state|  id|custid| sku|quantity|\n+---+---------------+-----+----+------+----+--------+\n|  1|      Widget Co|   AZ|1001|     1|A001|     100|\n|  1|      Widget Co|   AZ|1002|     1|B002|     500|\n|  3|       Widgetry|   CA|1003|     3|A001|     100|\n|  3|       Widgetry|   CA|1004|     3|B001|     100|\n|  4|   Widgets R Us|   CA|1005|     4|A002|      10|\n|  5|Ye Olde Widgete|   MA|1006|     5|A003|     100|\n+---+---------------+-----+----+------+----+--------+\n\n"
+      },
+      "dateCreated": "Jan 25, 2016 3:55:56 AM",
+      "dateStarted": "Jan 25, 2016 4:07:40 AM",
+      "dateFinished": "Jan 25, 2016 4:07:45 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "sqlContext.udf.register(\"toSegment\", (timestamp: String) \u003d\u003e {\n  val asLong \u003d timestamp.toLong\n  asLong - asLong % 3600000 // period \u003d 1 hour\n})\n",
+      "dateUpdated": "Jan 29, 2016 9:06:23 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453694743663_1368646120",
+      "id": "20160125-040543_1568911524",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res721: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction1\u003e,LongType,List())\n"
+      },
+      "dateCreated": "Jan 25, 2016 4:05:43 AM",
+      "dateStarted": "Jan 29, 2016 9:06:23 PM",
+      "dateFinished": "Jan 29, 2016 9:06:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "sqlContext.udf.register(\"makeStruct\", (x: Int, y: Int) \u003d\u003e (x, y))",
+      "dateUpdated": "Jan 29, 2016 9:05:36 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454101424327_1484410224",
+      "id": "20160129-210344_300854546",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res719: org.apache.spark.sql.UserDefinedFunction \u003d UserDefinedFunction(\u003cfunction2\u003e,StructType(StructField(_1,IntegerType,false), StructField(_2,IntegerType,false)),List())\n"
+      },
+      "dateCreated": "Jan 29, 2016 9:03:44 PM",
+      "dateStarted": "Jan 29, 2016 9:05:36 PM",
+      "dateFinished": "Jan 29, 2016 9:05:36 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454101536521_-1853950357",
+      "id": "20160129-210536_1348940431",
+      "dateCreated": "Jan 29, 2016 9:05:36 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_DFAdvanced",
+  "id": "2BBQSSFPE",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

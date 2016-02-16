@@ -1,0 +1,243 @@
+{
+  "paragraphs": [
+    {
+      "text": "%sh\nwget  --quiet --output-document bank.csv  https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv \n\n",
+      "dateUpdated": "Jan 11, 2016 8:32:25 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452047803909_159930794",
+      "id": "20160106-023643_585654515",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 6, 2016 2:36:43 AM",
+      "dateStarted": "Jan 11, 2016 8:32:25 PM",
+      "dateFinished": "Jan 11, 2016 8:32:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\nfrom os import getcwd\nfrom pyspark.sql.types import *\n\n\nbankDataset \u003d sc.textFile(\"bank.csv\")\n\nbankSchema \u003d StructType([StructField(\"age\", IntegerType(), False),StructField(\"job\", StringType(), False),StructField(\"marital\", StringType(), False),StructField(\"education\", StringType(), False),StructField(\"balance\", IntegerType(), False)])\n\nbankRDD \u003d bankDataset.map(lambda s: s.split(\";\")).filter(lambda s: s[0] !\u003d \"\\\"age\\\"\").map(lambda s:(int(s[0]), str(s[1]).replace(\"\\\"\", \"\"), str(s[2]).replace(\"\\\"\", \"\"), str(s[3]).replace(\"\\\"\", \"\"), int(s[5]) ))\n\nbankdf \u003d sqlContext.createDataFrame(bankRDD,bankSchema)\nbankdf.registerTempTable(\"bank\")\nprint \"Total Count\", bankdf.count()\nbankdf.show()\nbankdf.printSchema()\n\n",
+      "dateUpdated": "Feb 14, 2016 1:59:01 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452047753793_-923030091",
+      "id": "20160106-023553_448721479",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Total Count 4521\n+---+-------------+-------+---------+-------+\n|age|          job|marital|education|balance|\n+---+-------------+-------+---------+-------+\n| 30|   unemployed|married|  primary|   1787|\n| 33|     services|married|secondary|   4789|\n| 35|   management| single| tertiary|   1350|\n| 30|   management|married| tertiary|   1476|\n| 59|  blue-collar|married|secondary|      0|\n| 35|   management| single| tertiary|    747|\n| 36|self-employed|married| tertiary|    307|\n| 39|   technician|married|secondary|    147|\n| 41| entrepreneur|married| tertiary|    221|\n| 43|     services|married|  primary|    -88|\n| 39|     services|married|secondary|   9374|\n| 43|       admin.|married|secondary|    264|\n| 36|   technician|married| tertiary|   1109|\n| 20|      student| single|secondary|    502|\n| 31|  blue-collar|married|secondary|    360|\n| 40|   management|married| tertiary|    194|\n| 56|   technician|married|secondary|   4073|\n| 37|       admin.| single| tertiary|   2317|\n| 25|  blue-collar| single|  primary|   -221|\n| 31|     services|married|secondary|    132|\n+---+-------------+-------+---------+-------+\nonly showing top 20 rows\n\nroot\n |-- age: integer (nullable \u003d false)\n |-- job: string (nullable \u003d false)\n |-- marital: string (nullable \u003d false)\n |-- education: string (nullable \u003d false)\n |-- balance: integer (nullable \u003d false)\n\n"
+      },
+      "dateCreated": "Jan 6, 2016 2:35:53 AM",
+      "dateStarted": "Feb 14, 2016 1:59:01 PM",
+      "dateFinished": "Feb 14, 2016 1:59:01 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql \nselect age, count(1) value\nfrom bank \nwhere age \u003c 30 \ngroup by age \norder by age",
+      "dateUpdated": "Feb 14, 2016 1:57:22 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "multiBarChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "age",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "value",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "age",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "yAxis": {
+              "name": "value",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452048528032_215542072",
+      "id": "20160106-024848_1783376001",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "age\tvalue\n19\t4\n20\t3\n21\t7\n22\t9\n23\t20\n24\t24\n25\t44\n26\t77\n27\t94\n28\t103\n29\t97\n"
+      },
+      "dateCreated": "Jan 6, 2016 2:48:48 AM",
+      "dateStarted": "Feb 14, 2016 1:57:22 PM",
+      "dateFinished": "Feb 14, 2016 1:57:29 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\nselect age, education, sum(balance) bal from bank\ngroup by age, education",
+      "dateUpdated": "Feb 12, 2016 4:05:01 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "stackedAreaChart",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "age",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [
+            {
+              "name": "bal",
+              "index": 2.0,
+              "aggr": "sum"
+            }
+          ],
+          "groups": [
+            {
+              "name": "education",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          ],
+          "scatter": {
+            "yAxis": {
+              "name": "bal",
+              "index": 2.0,
+              "aggr": "sum"
+            },
+            "xAxis": {
+              "name": "age",
+              "index": 0.0,
+              "aggr": "sum"
+            },
+            "group": {
+              "name": "education",
+              "index": 1.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452049108801_1811339303",
+      "id": "20160106-025828_1247761790",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "age\teducation\tbal\n55\tprimary\t40416\n28\tprimary\t1961\n58\tsecondary\t45864\n31\tsecondary\t104499\n73\tunknown\t519\n52\ttertiary\t18538\n46\tunknown\t9570\n25\ttertiary\t27302\n19\tunknown\t1169\n66\tprimary\t953\n39\tprimary\t25197\n69\tsecondary\t745\n42\tsecondary\t83363\n57\tunknown\t6726\n63\ttertiary\t133\n36\ttertiary\t130534\n77\tprimary\t1360\n50\tprimary\t42974\n80\tsecondary\t17070\n53\tsecondary\t62148\n23\tprimary\t18416\n26\tsecondary\t34353\n41\tunknown\t7318\n47\ttertiary\t49685\n61\tprimary\t2533\n34\tprimary\t6941\n64\tsecondary\t1574\n37\tsecondary\t99404\n79\tunknown\t2628\n58\ttertiary\t47836\n52\tunknown\t4370\n31\ttertiary\t119916\n25\tunknown\t10788\n72\tprimary\t5974\n45\tprimary\t44588\n75\tsecondary\t37617\n48\tsecondary\t60707\n21\tsecondary\t12283\n69\ttertiary\t2617\n42\ttertiary\t93304\n36\tunknown\t3541\n83\tprimary\t1522\n56\tprimary\t16366\n86\tsecondary\t1503\n59\tsecondary\t46515\n29\tprimary\t1048\n32\tsecondary\t115051\n53\ttertiary\t45412\n47\tunknown\t7383\n26\ttertiary\t18640\n67\tprimary\t2301\n40\tprimary\t14909\n70\tsecondary\t11445\n43\tsecondary\t82498\n58\tunknown\t6857\n64\ttertiary\t2415\n37\ttertiary\t84184\n31\tunknown\t635\n78\tprimary\t229\n51\tprimary\t29286\n81\tsecondary\t1\n54\tsecondary\t22068\n24\tprimary\t111\n27\tsecondary\t48959\n75\ttertiary\t3810\n69\tunknown\t426\n48\ttertiary\t56018\n42\tunknown\t9794\n35\tprimary\t13227\n38\tsecondary\t95157\n59\ttertiary\t32141\n53\tunknown\t4548\n32\ttertiary\t141981\n73\tprimary\t2617\n46\tprimary\t16323\n49\tsecondary\t101703\n19\tprimary\t103\n22\tsecondary\t7178\n64\tunknown\t2923\n70\ttertiary\t15834\n37\tunknown\t9610\n43\ttertiary\t80147\n84\tprimary\t639\n57\tprimary\t33000\n30\tprimary\t5562\n60\tsecondary\t19437\n33\tsecondary\t132657\n54\ttertiary\t63140\n48\tunknown\t11852\n27\ttertiary\t25774\n21\tunknown\t137\n41\tprimary\t22592\n71\tsecondary\t2850\n44\tsecondary\t101452\n59\tunknown\t8646\n38\ttertiary\t157119\n32\tunknown\t21538\n79\tprimary\t8985\n52\tprimary\t7776\n25\tprimary\t-810\n55\tsecondary\t38884\n28\tsecondary\t64651\n49\ttertiary\t27788\n43\tunknown\t11397\n22\ttertiary\t1852\n63\tprimary\t9128\n36\tprimary\t10443\n66\tsecondary\t14962\n39\tsecondary\t66947\n60\ttertiary\t14237\n54\tunknown\t14110\n33\ttertiary\t105706\n27\tunknown\t3255\n47\tprimary\t11363\n77\tsecondary\t610\n50\tsecondary\t70579\n23\tsecondary\t21128\n71\ttertiary\t15217\n65\tunknown\t5317\n38\tunknown\t3638\n44\ttertiary\t72648\n58\tprimary\t48625\n31\tprimary\t31358\n61\tsecondary\t17735\n34\tsecondary\t112504\n49\tunknown\t3109\n55\ttertiary\t28689\n28\ttertiary\t37583\n22\tunknown\t596\n69\tprimary\t858\n42\tprimary\t40882\n72\tsecondary\t4130\n45\tsecondary\t48096\n60\tunknown\t15024\n66\ttertiary\t13910\n39\ttertiary\t50319\n33\tunknown\t24316\n80\tprimary\t8031\n53\tprimary\t37193\n83\tsecondary\t0\n56\tsecondary\t68493\n26\tprimary\t7726\n29\tsecondary\t63447\n77\ttertiary\t12461\n50\ttertiary\t43378\n44\tunknown\t1174\n23\ttertiary\t1998\n64\tprimary\t811\n37\tprimary\t42493\n67\tsecondary\t16353\n40\tsecondary\t98662\n55\tunknown\t4056\n61\ttertiary\t13623\n34\ttertiary\t132905\n28\tunknown\t1390\n75\tprimary\t852\n78\tsecondary\t499\n48\tprimary\t38132\n51\tsecondary\t36140\n24\tsecondary\t11219\n45\ttertiary\t27906\n39\tunknown\t1169\n59\tprimary\t25054\n32\tprimary\t2897\n62\tsecondary\t1748\n35\tsecondary\t103576\n56\ttertiary\t66399\n50\tunknown\t9220\n29\ttertiary\t54314\n23\tunknown\t817\n70\tprimary\t8313\n43\tprimary\t33859\n73\tsecondary\t19\n46\tsecondary\t64886\n61\tunknown\t4629\n19\tsecondary\t302\n67\ttertiary\t701\n40\ttertiary\t75443\n34\tunknown\t4415\n54\tprimary\t18305\n57\tsecondary\t72359\n27\tprimary\t2079\n30\tsecondary\t57899\n78\ttertiary\t226\n51\ttertiary\t31479\n45\tunknown\t12395\n24\ttertiary\t172\n65\tprimary\t4512\n68\tsecondary\t23506\n38\tprimary\t17406\n41\tsecondary\t91940\n56\tunknown\t5632\n62\ttertiary\t1865\n35\ttertiary\t97035\n29\tunknown\t3593\n76\tprimary\t2676\n49\tprimary\t45604\n79\tsecondary\t4738\n52\tsecondary\t36593\n22\tprimary\t3472\n67\tunknown\t1392\n25\tsecondary\t17283\n46\ttertiary\t28075\n40\tunknown\t9716\n87\tprimary\t230\n60\tprimary\t90637\n63\tsecondary\t9030\n33\tprimary\t24768\n36\tsecondary\t86138\n57\ttertiary\t39487\n51\tunknown\t42195\n30\ttertiary\t103494\n24\tunknown\t3729\n71\tprimary\t4657\n44\tprimary\t17564\n74\tsecondary\t5935\n47\tsecondary\t78778\n20\tsecondary\t1984\n41\ttertiary\t81432\n35\tunknown\t871\n"
+      },
+      "dateCreated": "Jan 6, 2016 2:58:28 AM",
+      "dateStarted": "Feb 12, 2016 4:05:01 PM",
+      "dateFinished": "Feb 12, 2016 4:05:02 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1452289686179_2075088698",
+      "id": "20160108-214806_1248452214",
+      "dateCreated": "Jan 8, 2016 9:48:06 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Tutorial for Python",
+  "id": "tutorial-python",
+  "angularObjects": {
+    "2BCRC6M19": [],
+    "2BANG2RG8": [],
+    "2BACPWMUG": [],
+    "2BBBRWT9Q": [],
+    "2BE76JS7C": [],
+    "2BD2FRUTX": [],
+    "2BB4WQTX8": [],
+    "2BD4NNXC9": [],
+    "2BBHZKNQU": [],
+    "2BC7YE4AV": [],
+    "2BDP5QWCV": [],
+    "2BE1GD93Y": [],
+    "2BD1XTDGP": [],
+    "2BE9MUD1W": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

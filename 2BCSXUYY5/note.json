@@ -1,0 +1,41 @@
+{
+  "paragraphs": [
+    {
+      "text": "//http://sparktutorials.net/Spark+MLLib+-+Predict+Store+Sales+with+ML+Pipelines\n//https://github.com/irwenqiang/Spark-Tutorial/tree/master/Advanced/mllibs/src/org/apache/spark/mllib\n\n",
+      "dateUpdated": "Jan 26, 2016 12:58:00 AM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453755419147_189604168",
+      "id": "20160125-205659_755437399",
+      "dateCreated": "Jan 25, 2016 8:56:59 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Spark_MLLib",
+  "id": "2BCSXUYY5",
+  "angularObjects": {
+    "2B9RWHEHT": [],
+    "2B9C5HDEG": [],
+    "2B9U4M83A": [],
+    "2B96SBB35": []
+  },
+  "config": {},
+  "info": {}
+}

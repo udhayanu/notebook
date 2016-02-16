@@ -1,0 +1,479 @@
+{
+  "paragraphs": [
+    {
+      "text": "%sh\ndate +\"%r %a %d %h %y (Julian Date: %j)\"\necho $ZEPPELIN_NOTEBOOK_DIR\nls $ZEPPELIN_NOTEBOOK_DIR\n#cat /opt/zeppelin/notebook/2BBTSQQXB/note.json\n# http://www.linuxnix.com/7-linuxunix-gzip-and-gunzip-command-examples/\npwd\n\nls -al\n#help\n\n",
+      "dateUpdated": "Feb 15, 2016 2:17:05 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453215984677_-52688142",
+      "id": "20160119-150624_1189828264",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "02:17:05 PM Mon 15 Feb 16 (Julian Date: 046)\n/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/notebook\n2A94M5J1Z\n2B9CP75EC\n2B9NA1G7B\n2B9Q4W1Z6\n2BA49XX94\n2BA5WHQHC\n2BACUPT3J\n2BAS2M27G\n2BAXH9DHZ\n2BB2P3DKW\n2BBGVGHWG\n2BBHJ3BFP\n2BBK7B5YS\n2BBPTJQ8Q\n2BBQSSFPE\n2BBRBXN6P\n2BBTSQQXB\n2BBUSBWER\n2BCANPNMN\n2BCGQW27Y\n2BCSXUYY5\ntutorial-python\ntutorial-scala\n/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all\ntotal 3688\ndrwxr-xr-x@ 21 mridhusri  staff      714 Feb 12 16:04 .\ndrwxr-xr-x  33 mridhusri  staff     1122 Feb 12 15:26 ..\n-rw-r--r--@  1 mridhusri  staff    10244 Feb 12 15:33 .DS_Store\n-rw-r--r--@  1 mridhusri  staff      542 Jan 11 09:09 DISCLAIMER\n-rw-r--r--@  1 mridhusri  staff    32370 Jan 11 09:10 LICENSE\n-rw-r--r--@  1 mridhusri  staff     5627 Jan 11 09:10 NOTICE\n-rw-r--r--@  1 mridhusri  staff     6561 Jan 11 09:09 README.md\n-rw-r-----@  1 mridhusri  staff   461474 Jan 11 20:12 bank.csv\ndrwxr-xr-x@  7 mridhusri  staff      238 Jan 11 09:09 bin\ndrwxr-xr-x@ 10 mridhusri  staff      340 Feb 12 15:29 conf\n-rw-r--r--   1 mridhusri  staff      809 Feb 14 13:55 derby.log\ndrwxr-xr-x@ 17 mridhusri  staff      578 Feb 12 14:53 interpreter\ndrwxr-xr-x@ 83 mridhusri  staff     2822 Feb 12 15:09 lib\ndrwxr-xr-x@ 37 mridhusri  staff     1258 Jan 11 09:10 licenses\ndrwxr-xr-x  10 mridhusri  staff      340 Feb 15 14:17 logs\ndrwxr-xr-x   9 mridhusri  staff      306 Feb 14 13:55 metastore_db\ndrwxr-xr-x@ 26 mridhusri  staff      884 Feb 12 15:34 notebook\ndrwxr-xr-x   5 mridhusri  staff      170 Feb 14 13:54 run\ndrwxr-xr-x   3 mridhusri  staff      102 Feb 12 15:29 webapps\n-rw-r--r--@  1 mridhusri  staff    57049 Jan 11 09:09 zeppelin-server-0.5.6-incubating.jar\n-rw-r--r--@  1 mridhusri  staff  1295612 Jan 11 09:09 zeppelin-web-0.5.6-incubating.war\n"
+      },
+      "dateCreated": "Jan 19, 2016 3:06:24 PM",
+      "dateStarted": "Feb 15, 2016 2:17:05 PM",
+      "dateFinished": "Feb 15, 2016 2:17:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "#gunzip -r $ZEPPELIN_NOTEBOOK_DIR\nrm -f myzeppelin_nbs.tar.gz\ntar cvfz myzeppelin_nbs.tar.gz $ZEPPELIN_NOTEBOOK_DIR\nrm -rf /resources/zeppelin/opt\ntar xvfz myzeppelin_nbs.tar.gz",
+      "dateUpdated": "Feb 12, 2016 3:46:42 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455309990746_-446257414",
+      "id": "20160212-154630_696395869",
+      "dateCreated": "Feb 12, 2016 3:46:30 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\n#download database\n\n#for s in `seq 1987 2015`\ndo\n#for m in `seq 1 12`\ndo\nwget http://tsdata.bts.gov/PREZIP/On_Time_On_Time_Performance_${s}_${m}.zip\ndone\ndone",
+      "dateUpdated": "Jan 29, 2016 4:21:26 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {
+          "s": {
+            "name": "s",
+            "defaultValue": "",
+            "hidden": true
+          },
+          "m": {
+            "name": "m",
+            "defaultValue": "",
+            "hidden": true
+          }
+        }
+      },
+      "jobName": "paragraph_1454083074411_1407555531",
+      "id": "20160129-155754_292785446",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Process exited with an error: 143 (Exit value: 143)"
+      },
+      "dateCreated": "Jan 29, 2016 3:57:54 PM",
+      "dateStarted": "Jan 29, 2016 3:58:20 PM",
+      "dateFinished": "Jan 29, 2016 4:08:20 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\n\n#wget -O airlines_parquet.tar.gz https://www.dropbox.com/s/20ycbvhqsy2uaqv/airlines_parquet.tar.gz\n#http://blog.cloudera.com/blog/2015/09/how-to-prepare-unstructured-data-in-impala-for-analysis/\n\npwd\nls -al \n#ps -ef\n\n#mv /resources/zeppelin/airlines_parquet.tar.gz /resources/Datasets\n",
+      "dateUpdated": "Feb 14, 2016 1:54:06 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1454013050743_555303737",
+      "id": "20160128-203050_631282125",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all\ntotal 3688\ndrwxr-xr-x@ 21 mridhusri  staff      714 Feb 12 16:04 .\ndrwxr-xr-x  33 mridhusri  staff     1122 Feb 12 15:26 ..\n-rw-r--r--@  1 mridhusri  staff    10244 Feb 12 15:33 .DS_Store\n-rw-r--r--@  1 mridhusri  staff      542 Jan 11 09:09 DISCLAIMER\n-rw-r--r--@  1 mridhusri  staff    32370 Jan 11 09:10 LICENSE\n-rw-r--r--@  1 mridhusri  staff     5627 Jan 11 09:10 NOTICE\n-rw-r--r--@  1 mridhusri  staff     6561 Jan 11 09:09 README.md\n-rw-r-----@  1 mridhusri  staff   461474 Jan 11 20:12 bank.csv\ndrwxr-xr-x@  7 mridhusri  staff      238 Jan 11 09:09 bin\ndrwxr-xr-x@ 10 mridhusri  staff      340 Feb 12 15:29 conf\n-rw-r--r--   1 mridhusri  staff      809 Feb 12 15:36 derby.log\ndrwxr-xr-x@ 17 mridhusri  staff      578 Feb 12 14:53 interpreter\ndrwxr-xr-x@ 83 mridhusri  staff     2822 Feb 12 15:09 lib\ndrwxr-xr-x@ 37 mridhusri  staff     1258 Jan 11 09:10 licenses\ndrwxr-xr-x   8 mridhusri  staff      272 Feb 14 13:53 logs\ndrwxr-xr-x   9 mridhusri  staff      306 Feb 12 15:36 metastore_db\ndrwxr-xr-x@ 26 mridhusri  staff      884 Feb 12 15:34 notebook\ndrwxr-xr-x   4 mridhusri  staff      136 Feb 14 13:53 run\ndrwxr-xr-x   3 mridhusri  staff      102 Feb 12 15:29 webapps\n-rw-r--r--@  1 mridhusri  staff    57049 Jan 11 09:09 zeppelin-server-0.5.6-incubating.jar\n-rw-r--r--@  1 mridhusri  staff  1295612 Jan 11 09:09 zeppelin-web-0.5.6-incubating.war\n"
+      },
+      "dateCreated": "Jan 28, 2016 8:30:50 PM",
+      "dateStarted": "Feb 14, 2016 1:54:06 PM",
+      "dateFinished": "Feb 14, 2016 1:54:06 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\n#wget https://github.com/anabranch/Interactive-Graphs-with-Plotly/raw/master/btd2.json -O /resources/Datasets/bikerental.json\n\n#wget https://github.com/seglo/learning-spark/blob/master/data/stackexchange/stackoverflow.com-Posts/Posts100k.xml?raw\u003dtrue -O /resources/Datasets/Posts100k.xml\n#https://github.com/seglo/learning-spark/blob/master/data/stackexchange/stackoverflow.com-Posts/Posts100k.xml?raw\u003dtrue\n\n#wget https://github.com/databricks/spark-avro/blob/master/src/test/resources/episodes.avro?raw\u003dtrue  -O /resources/Datasets/episodes.avro\n#unzip --help\n#unzip /resources/DEV361Data.zip -d  /resources/Datasets/\n#unzip /resources/DEV361LabFiles.zip -d  /resources/Datasets/Dev361\n#mv /resources/Datasets/data  /resources/Datasets/Dev361\n\n#ls -alR /resources/Datasets/Dev361\n\n#rm -rf /resources/Datasets/Dev361/__MACOSX\n#rm -rf /resources/Datasets/__MACOSX\n#mkdir /resources/Datasets/empty\n\n#rm -rf /resources/Datasets/ScalaTagCount*\n#rm -rf /resources/Datasets/ScalaQuestions*\n#rm -rf On_Time_On*\n\n",
+      "dateUpdated": "Jan 29, 2016 4:22:30 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453734028022_-1250571223",
+      "id": "20160125-150028_1304508138",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 25, 2016 3:00:28 PM",
+      "dateStarted": "Jan 29, 2016 4:22:30 PM",
+      "dateFinished": "Jan 29, 2016 4:22:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\npwd\n\nps -ef\nls -al /srv/zeppelin\n\nls -al /opt/zeppelin/cassandra\n#cat  /opt/zeppelin/cassandra/pom.xml\n\nls -al /opt/zeppelin/notebook\nset\n",
+      "dateUpdated": "Jan 22, 2016 6:45:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453215961900_-1435673258",
+      "id": "20160119-150601_2018908203",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "/resources/zeppelin\nUID        PID  PPID  C STIME TTY          TIME CMD\nroot         1     0  0 Jan19 ?        00:00:42 /usr/bin/python /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf\nroot        50     1  0 Jan19 ?        00:07:23 /opt/jdk1.8.0_31/bin/java -Dfile.encoding\u003dUTF-8 -Xmx1024m -Dzeppelin.log.file\u003d/opt/zeppelin/logs/zeppelin--3c7fc44f854c.log -cp ::/opt/zeppelin/zeppelin-server/target/lib/*:/opt/zeppelin/zeppelin-zengine/target/lib/*:/opt/zeppelin/zeppelin-interpreter/target/lib/*:/opt/zeppelin/*::/opt/zeppelin/conf:/opt/zeppelin/zeppelin-interpreter/target/classes:/opt/zeppelin/zeppelin-zengine/target/classes:/opt/zeppelin/zeppelin-server/target/classes org.apache.zeppelin.server.ZeppelinServer\nroot       128    50  0 Jan19 ?        00:00:00 /bin/bash /opt/zeppelin/bin/interpreter.sh -d /opt/zeppelin/interpreter/sh -p 60143\nroot       138   128  0 Jan19 ?        00:03:10 /opt/jdk1.8.0_31/bin/java -Dfile.encoding\u003dUTF-8 -Dfile.encoding\u003dUTF-8 -Dzeppelin.log.file\u003d/opt/zeppelin/logs/zeppelin-interpreter-sh--3c7fc44f854c.log -Xmx1024m -cp ::/opt/zeppelin/interpreter/sh/*:/opt/zeppelin/zeppelin-interpreter/target/lib/*::/opt/zeppelin/conf:/opt/zeppelin/conf:/opt/zeppelin/zeppelin-interpreter/target/classes org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer 60143\nroot       469    50  0 Jan19 ?        00:00:00 /bin/bash /opt/zeppelin/bin/interpreter.sh -d /opt/zeppelin/interpreter/md -p 52145\nroot       479   469  0 Jan19 ?        00:03:05 /opt/jdk1.8.0_31/bin/java -Dfile.encoding\u003dUTF-8 -Dfile.encoding\u003dUTF-8 -Dzeppelin.log.file\u003d/opt/zeppelin/logs/zeppelin-interpreter-md--3c7fc44f854c.log -Xmx1024m -cp ::/opt/zeppelin/interpreter/md/*:/opt/zeppelin/zeppelin-interpreter/target/lib/*::/opt/zeppelin/conf:/opt/zeppelin/conf:/opt/zeppelin/zeppelin-interpreter/target/classes org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer 52145\nroot       837    50  0 Jan19 ?        00:00:00 /bin/bash /opt/zeppelin/bin/interpreter.sh -d /opt/zeppelin/interpreter/spark -p 52344\nroot       848   837  0 Jan19 ?        00:24:39 /opt/jdk1.8.0_31/bin/java -cp /opt/zeppelin/interpreter/spark/zeppelin-spark-0.6.0-incubating-SNAPSHOT.jar:/opt/spark/conf/:/opt/spark/lib/spark-assembly-1.5.2-hadoop2.6.0.jar:/opt/spark/lib/datanucleus-core-3.2.10.jar:/opt/spark/lib/datanucleus-rdbms-3.2.9.jar:/opt/spark/lib/datanucleus-api-jdo-3.2.6.jar -Xms1g -Xmx1g -Dfile.encoding\u003dUTF-8 -Dfile.encoding\u003dUTF-8 -Dzeppelin.log.file\u003d/opt/zeppelin/logs/zeppelin-interpreter-spark--3c7fc44f854c.log org.apache.spark.deploy.SparkSubmit --conf spark.driver.extraClassPath\u003d::/opt/zeppelin/interpreter/spark/zeppelin-spark-0.6.0-incubating-SNAPSHOT.jar --conf spark.driver.extraJavaOptions\u003d  -Dfile.encoding\u003dUTF-8  -Dfile.encoding\u003dUTF-8 -Dzeppelin.log.file\u003d/opt/zeppelin/logs/zeppelin-interpreter-spark--3c7fc44f854c.log --class org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer --packages com.databricks:spark-csv_2.10:1.2.0 /opt/zeppelin/interpreter/spark/zeppelin-spark-0.6.0-incubating-SNAPSHOT.jar 52344\nroot      2594   138  0 18:41 ?        00:00:00 bash -c pwd  ps -ef ls -al /srv/zeppelin  ls -al /opt/zeppelin/cassandra #cat  /opt/zeppelin/cassandra/pom.xml  ls -al /opt/zeppelin/notebook\nroot      2598  2594  0 18:41 ?        00:00:00 ps -ef\ntotal 12\ndrwxr-xr-x 2 zeppelin zeppelin 4096 Jan 13 21:52 .\ndrwxr-xr-x 4 root     root     4096 Jan 13 21:52 ..\n-rw-r--r-- 1 zeppelin zeppelin 3994 Jan 13 02:33 Makefile\ntotal 24\ndrwxr-xr-x  3 root root  4096 Dec 14 19:19 .\ndrwxr-xr-x 61 root root  4096 Jan 19 15:06 ..\n-rw-r--r--  1 root root 11469 Dec 14 19:19 pom.xml\ndrwxr-xr-x  4 root root  4096 Dec 14 19:19 src\ntotal 56\ndrwxr-xr-x 15 root root 4096 Jan 22 18:38 .\ndrwxr-xr-x 61 root root 4096 Jan 19 15:06 ..\ndrwxr-xr-x  2 root root 4096 Jan 19 23:38 2B9NA1G7B\ndrwxr-xr-x  2 root root 4096 Jan 19 18:12 2B9Q4W1Z6\ndrwxr-xr-x  2 root root 4096 Jan 19 18:00 2BA5WHQHC\ndrwxr-xr-x  2 root root 4096 Jan 22 18:38 2BACUPT3J\ndrwxr-xr-x  2 root root 4096 Jan 22 18:35 2BAS2M27G\ndrwxr-xr-x  2 root root 4096 Jan 19 19:55 2BB2P3DKW\ndrwxr-xr-x  2 root root 4096 Jan 22 13:44 2BBRBXN6P\ndrwxr-xr-x  2 root root 4096 Jan 22 18:41 2BBTSQQXB\ndrwxr-xr-x  2 root root 4096 Jan 19 19:51 2BBZTM1AZ\ndrwxr-xr-x  2 root root 4096 Jan 19 19:56 2BCANPNMN\ndrwxr-xr-x  2 root root 4096 Jan 11 22:32 tutorial-python\ndrwxr-xr-x  2 root root 4096 Jan 11 22:32 tutorial-scala\n"
+      },
+      "dateCreated": "Jan 19, 2016 3:06:01 PM",
+      "dateStarted": "Jan 22, 2016 6:41:11 PM",
+      "dateFinished": "Jan 22, 2016 6:41:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\nwhich gzip\ngzip --help\nwhoami\njava -version\njavac -version\n\nscala -version\n\nuname -a\nifconfig\nhelp",
+      "dateUpdated": "Feb 14, 2016 1:54:17 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453217027304_-672820170",
+      "id": "20160119-152347_1946979799",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "/usr/bin/gzip\nApple gzip 251\nusage: gzip [-123456789acdfhklLNnqrtVv] [-S .suffix] [\u003cfile\u003e [\u003cfile\u003e ...]]\n -1 --fast            fastest (worst) compression\n -2 .. -8             set compression level\n -9 --best            best (slowest) compression\n -c --stdout          write to stdout, keep original files\n    --to-stdout\n -d --decompress      uncompress files\n    --uncompress\n -f --force           force overwriting \u0026 compress links\n -h --help            display this help\n -k --keep            don\u0027t delete input files during operation\n -l --list            list compressed file contents\n -N --name            save or restore original file name and time stamp\n -n --no-name         don\u0027t save original file name or time stamp\n -q --quiet           output no warnings\n -r --recursive       recursively compress files in directories\n -S .suf              use suffix .suf instead of .gz\n    --suffix .suf\n -t --test            test compressed file\n -V --version         display program version\n -v --verbose         print extra statistics\nmridhusri\njava version \"1.8.0_45\"\nJava(TM) SE Runtime Environment (build 1.8.0_45-b14)\nJava HotSpot(TM) 64-Bit Server VM (build 25.45-b02, mixed mode)\njavac 1.8.0_45\nJava HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize\u003d512m; support was removed in 8.0\nJava HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize\u003d512m; support was removed in 8.0\nScala code runner version 2.11.7 -- Copyright 2002-2013, LAMP/EPFL\nDarwin iMridhusris-iMac.local 15.2.0 Darwin Kernel Version 15.2.0: Fri Nov 13 19:56:56 PST 2015; root:xnu-3248.20.55~2/RELEASE_X86_64 x86_64\nlo0: flags\u003d8049\u003cUP,LOOPBACK,RUNNING,MULTICAST\u003e mtu 16384\n\toptions\u003d3\u003cRXCSUM,TXCSUM\u003e\n\tinet6 ::1 prefixlen 128 \n\tinet 127.0.0.1 netmask 0xff000000 \n\tinet6 fe80::1%lo0 prefixlen 64 scopeid 0x1 \n\tnd6 options\u003d1\u003cPERFORMNUD\u003e\ngif0: flags\u003d8010\u003cPOINTOPOINT,MULTICAST\u003e mtu 1280\nstf0: flags\u003d0\u003c\u003e mtu 1280\nen0: flags\u003d8863\u003cUP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST\u003e mtu 1500\n\toptions\u003d10b\u003cRXCSUM,TXCSUM,VLAN_HWTAGGING,AV\u003e\n\tether 0c:4d:e9:ac:ce:da \n\tinet6 fe80::e4d:e9ff:feac:ceda%en0 prefixlen 64 scopeid 0x4 \n\tinet 192.168.0.5 netmask 0xffffff00 broadcast 192.168.0.255\n\tnd6 options\u003d1\u003cPERFORMNUD\u003e\n\tmedia: autoselect (1000baseT \u003cfull-duplex,flow-control,energy-efficient-ethernet\u003e)\n\tstatus: active\nen1: flags\u003d8823\u003cUP,BROADCAST,SMART,SIMPLEX,MULTICAST\u003e mtu 1500\n\tether 88:63:df:9a:bf:07 \n\tnd6 options\u003d1\u003cPERFORMNUD\u003e\n\tmedia: autoselect (\u003cunknown type\u003e)\n\tstatus: inactive\nen2: flags\u003d963\u003cUP,BROADCAST,SMART,RUNNING,PROMISC,SIMPLEX\u003e mtu 1500\n\toptions\u003d60\u003cTSO4,TSO6\u003e\n\tether ca:00:00:36:23:b0 \n\tmedia: autoselect \u003cfull-duplex\u003e\n\tstatus: inactive\nen3: flags\u003d963\u003cUP,BROADCAST,SMART,RUNNING,PROMISC,SIMPLEX\u003e mtu 1500\n\toptions\u003d60\u003cTSO4,TSO6\u003e\n\tether ca:00:00:36:23:b1 \n\tmedia: autoselect \u003cfull-duplex\u003e\n\tstatus: inactive\np2p0: flags\u003d8802\u003cBROADCAST,SIMPLEX,MULTICAST\u003e mtu 2304\n\tether 0a:63:df:9a:bf:07 \n\tmedia: autoselect\n\tstatus: inactive\nawdl0: flags\u003d8902\u003cBROADCAST,PROMISC,SIMPLEX,MULTICAST\u003e mtu 1484\n\tether 62:b3:f9:56:b6:91 \n\tnd6 options\u003d1\u003cPERFORMNUD\u003e\n\tmedia: autoselect\n\tstatus: inactive\nbridge0: flags\u003d8863\u003cUP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST\u003e mtu 1500\n\toptions\u003d63\u003cRXCSUM,TXCSUM,TSO4,TSO6\u003e\n\tether 0e:4d:e9:ca:36:00 \n\tConfiguration:\n\t\tid 0:0:0:0:0:0 priority 0 hellotime 0 fwddelay 0\n\t\tmaxage 0 holdcnt 0 proto stp maxaddr 100 timeout 1200\n\t\troot id 0:0:0:0:0:0 priority 0 ifcost 0 port 0\n\t\tipfilter disabled flags 0x2\n\tmember: en2 flags\u003d3\u003cLEARNING,DISCOVER\u003e\n\t        ifmaxaddr 0 port 6 priority 0 path cost 0\n\tmember: en3 flags\u003d3\u003cLEARNING,DISCOVER\u003e\n\t        ifmaxaddr 0 port 7 priority 0 path cost 0\n\tnd6 options\u003d1\u003cPERFORMNUD\u003e\n\tmedia: \u003cunknown type\u003e\n\tstatus: inactive\nGNU bash, version 3.2.57(1)-release (x86_64-apple-darwin15)\nThese shell commands are defined internally.  Type `help\u0027 to see this list.\nType `help name\u0027 to find out more about the function `name\u0027.\nUse `info bash\u0027 to find out more about the shell in general.\nUse `man -k\u0027 or `info\u0027 to find out more about commands not in this list.\n\nA star (*) next to a name means that the command is disabled.\n\n JOB_SPEC [\u0026]                       (( expression ))\n . filename [arguments]             :\n [ arg... ]                         [[ expression ]]\n alias [-p] [name[\u003dvalue] ... ]     bg [job_spec ...]\n bind [-lpvsPVS] [-m keymap] [-f fi break [n]\n builtin [shell-builtin [arg ...]]  caller [EXPR]\n case WORD in [PATTERN [| PATTERN]. cd [-L|-P] [dir]\n command [-pVv] command [arg ...]   compgen [-abcdefgjksuv] [-o option\n complete [-abcdefgjksuv] [-pr] [-o continue [n]\n declare [-afFirtx] [-p] [name[\u003dval dirs [-clpv] [+N] [-N]\n disown [-h] [-ar] [jobspec ...]    echo [-neE] [arg ...]\n enable [-pnds] [-a] [-f filename]  eval [arg ...]\n exec [-cl] [-a name] file [redirec exit [n]\n export [-nf] [name[\u003dvalue] ...] or false\n fc [-e ename] [-nlr] [first] [last fg [job_spec]\n for NAME [in WORDS ... ;] do COMMA for (( exp1; exp2; exp3 )); do COM\n function NAME { COMMANDS ; } or NA getopts optstring name [arg]\n hash [-lr] [-p pathname] [-dt] [na help [-s] [pattern ...]\n history [-c] [-d offset] [n] or hi if COMMANDS; then COMMANDS; [ elif\n jobs [-lnprs] [jobspec ...] or job kill [-s sigspec | -n signum | -si\n let arg [arg ...]                  local name[\u003dvalue] ...\n logout                             popd [+N | -N] [-n]\n printf [-v var] format [arguments] pushd [dir | +N | -N] [-n]\n pwd [-LP]                          read [-ers] [-u fd] [-t timeout] [\n readonly [-af] [name[\u003dvalue] ...]  return [n]\n select NAME [in WORDS ... ;] do CO set [--abefhkmnptuvxBCHP] [-o opti\n shift [n]                          shopt [-pqsu] [-o long-option] opt\n source filename [arguments]        suspend [-f]\n test [expr]                        time [-p] PIPELINE\n times                              trap [-lp] [arg signal_spec ...]\n true                               type [-afptP] name [name ...]\n typeset [-afFirtx] [-p] name[\u003dvalu ulimit [-SHacdfilmnpqstuvx] [limit\n umask [-p] [-S] [mode]             unalias [-a] name [name ...]\n unset [-f] [-v] [name ...]         until COMMANDS; do COMMANDS; done\n variables - Some variable names an wait [n]\n while COMMANDS; do COMMANDS; done  { COMMANDS ; }\n"
+      },
+      "dateCreated": "Jan 19, 2016 3:23:47 PM",
+      "dateStarted": "Feb 14, 2016 1:54:17 PM",
+      "dateFinished": "Feb 14, 2016 1:54:20 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\nfind / -type f -name \u0027*SNAPSHOT*.jar\u0027 -print0\n#ls -al /opt/zeppelin/notebook/\n#ls -alR  /resources/zeppelin",
+      "dateUpdated": "Feb 15, 2016 5:25:50 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453219634517_161459344",
+      "id": "20160119-160714_1451762638",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "Process exited with an error: 1 (Exit value: 1)"
+      },
+      "dateCreated": "Jan 19, 2016 4:07:14 PM",
+      "dateStarted": "Feb 15, 2016 5:25:50 PM",
+      "dateFinished": "Feb 15, 2016 5:30:42 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%spark\nsc.version\nsc.getConf.get(\"spark.home\")\nSystem.getenv().get(\"PYTHONPATH\")\nSystem.getenv().get(\"SPARK_HOME\")\n\nprintln(sc.getConf.toDebugString)",
+      "dateUpdated": "Feb 15, 2016 5:47:27 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453489480765_1338121532",
+      "id": "20160122-190440_545458331",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res0: String \u003d 1.5.0\nres1: String \u003d /Users/mridhusri/Documents/iPython/spark-1.5\nres2: String \u003d /Users/mridhusri/Documents/iPython/spark-1.5/python/lib/py4j-0.8.2.1-src.zip:/Users/mridhusri/Documents/iPython/spark-1.5/python/:/Users/mridhusri/Documents/iPython/spark-1.5/python:/Users/mridhusri/Documents/iPython/spark-1.5/python/lib/py4j-0.8.2.1-src.zip\nres3: String \u003d /Users/mridhusri/Documents/iPython/spark-1.5\nargs\u003d\nmaster\u003dlocal[*]\nspark.app.id\u003dlocal-1455576464477\nspark.app.name\u003dZeppelin\nspark.driver.extraClassPath\u003d::/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/interpreter/spark/zeppelin-spark-0.5.6-incubating.jar\nspark.driver.extraJavaOptions\u003d  -Dfile.encoding\u003dUTF-8  -Dfile.encoding\u003dUTF-8 -Dzeppelin.log.file\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/logs/zeppelin-interpreter-spark-mridhusri-iMridhusris-iMac.local.log\nspark.driver.host\u003d192.168.0.5\nspark.driver.port\u003d62281\nspark.executor.id\u003ddriver\nspark.executor.memory\u003d512m\nspark.externalBlockStore.folderName\u003dspark-11c3e57b-0543-47c4-afc6-4a3a088f5b60\nspark.fileserver.uri\u003dhttp://192.168.0.5:62282\nspark.home\u003d/Users/mridhusri/Documents/iPython/spark-1.5\nspark.jars\u003dfile:/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/interpreter/spark/zeppelin-spark-0.5.6-incubating.jar\nspark.master\u003dlocal[*]\nspark.repl.class.uri\u003dhttp://192.168.0.5:62280\nspark.scheduler.mode\u003dFAIR\nspark.submit.deployMode\u003dclient\nzeppelin.dep.additionalRemoteRepository\u003dspark-packages,http://dl.bintray.com/spark-packages/maven,false;\nzeppelin.dep.localrepo\u003dlocal-repo\nzeppelin.pyspark.python\u003dpython\nzeppelin.spark.concurrentSQL\u003dfalse\nzeppelin.spark.maxResult\u003d1000\nzeppelin.spark.useHiveContext\u003dtrue\n"
+      },
+      "dateCreated": "Jan 22, 2016 7:04:40 PM",
+      "dateStarted": "Feb 15, 2016 5:47:27 PM",
+      "dateFinished": "Feb 15, 2016 5:48:17 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%spark\nlibrary(SparkR)\nSystem.getenv().get(\"SPARK_HOME\")\n.libPaths(c(file.path(Sys.getenv(\"SPARK_HOME\"),\"R\",\"lib\"), .libPaths()))",
+      "dateUpdated": "Feb 15, 2016 5:50:10 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455576520139_-1398707507",
+      "id": "20160215-174840_1223255138",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "\u003cconsole\u003e:22: error: not found: value library\n              library(SparkR)\n              ^\n"
+      },
+      "dateCreated": "Feb 15, 2016 5:48:40 PM",
+      "dateStarted": "Feb 15, 2016 5:50:10 PM",
+      "dateFinished": "Feb 15, 2016 5:50:10 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\nprint sys.version",
+      "dateUpdated": "Feb 14, 2016 1:56:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453763524716_-371699929",
+      "id": "20160125-231204_1171274391",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "2.7.10 |Anaconda 2.4.0 (x86_64)| (default, Oct 19 2015, 18:31:17) \n[GCC 4.2.1 (Apple Inc. build 5577)]\n"
+      },
+      "dateCreated": "Jan 25, 2016 11:12:04 PM",
+      "dateStarted": "Feb 14, 2016 1:56:04 PM",
+      "dateFinished": "Feb 14, 2016 1:56:10 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "System.getenv().get(\"MASTER\")\nSystem.getenv().get(\"SPARK_YARN_JAR\")\nSystem.getenv().get(\"HADOOP_CONF_DIR\")\nSystem.getenv().get(\"JAVA_HOME\")\nSystem.getenv().get(\"SPARK_HOME\")\nSystem.getenv().get(\"PYSPARK_PYTHON\")\nSystem.getenv().get(\"PYTHONPATH\")\nSystem.getenv().get(\"ZEPPELIN_JAVA_OPTS\")\nSystem.setenv(SPARK_HOME\u003d\"/Users/mridhusri/Documents/iPython/spark-1.5\")\n.libPaths(c(file.path(Sys.getenv(\"SPARK_HOME\"), \"R\", \"lib\"), .libPaths()))\n//\"/Library/Frameworks/R.framework/Versions/3.2/Resources/library\"",
+      "dateUpdated": "Feb 15, 2016 4:09:27 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1453763909557_-2035422571",
+      "id": "20160125-231829_752999299",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "res345: String \u003d null\nres346: String \u003d null\nres347: String \u003d null\nres348: String \u003d /Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home\nres349: String \u003d /Users/mridhusri/Documents/iPython/spark-1.5\nres350: String \u003d null\nres351: String \u003d /Users/mridhusri/Documents/iPython/spark-1.5/python/lib/py4j-0.8.2.1-src.zip:/Users/mridhusri/Documents/iPython/spark-1.5/python/:/Users/mridhusri/Documents/iPython/spark-1.5/python:/Users/mridhusri/Documents/iPython/spark-1.5/python/lib/py4j-0.8.2.1-src.zip\nres352: String \u003d null\n\u003cconsole\u003e:2: error: illegal start of simple expression\n       .libPaths(c(file.path(Sys.getenv(\"SPARK_HOME\"), \"R\", \"lib\"), .libPaths()))\n                                                                    ^\n"
+      },
+      "dateCreated": "Jan 25, 2016 11:18:29 PM",
+      "dateStarted": "Feb 15, 2016 4:09:27 PM",
+      "dateFinished": "Feb 15, 2016 4:09:29 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sh\nset",
+      "dateUpdated": "Feb 15, 2016 3:43:21 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/sh"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455310684707_-291957257",
+      "id": "20160212-155804_360067029",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "Apple_PubSub_Socket_Render\u003d/private/tmp/com.apple.launchd.lnh2ToLSZa/Render\nBASH\u003d/bin/bash\nBASH_ARGC\u003d()\nBASH_ARGV\u003d()\nBASH_EXECUTION_STRING\u003dset\nBASH_LINENO\u003d()\nBASH_SOURCE\u003d()\nBASH_VERSINFO\u003d([0]\u003d\"3\" [1]\u003d\"2\" [2]\u003d\"57\" [3]\u003d\"1\" [4]\u003d\"release\" [5]\u003d\"x86_64-apple-darwin15\")\nBASH_VERSION\u003d\u00273.2.57(1)-release\u0027\nDEBUG\u003d0\nDIRSTACK\u003d()\nEUID\u003d501\nGROUPS\u003d()\nHOME\u003d/Users/mridhusri\nHOSTNAME\u003diMridhusris-iMac.local\nHOSTTYPE\u003dx86_64\nIFS\u003d$\u0027 \\t\\n\u0027\nJAVA_HOME\u003d/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home\nJAVA_INTP_OPTS\u003d\u0027  -Dfile.encoding\u003dUTF-8  -Dfile.encoding\u003dUTF-8 -Dzeppelin.log.file\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/logs/zeppelin-interpreter-sh-mridhusri-iMridhusris-iMac.local.log\u0027\nJAVA_MAIN_CLASS_2956\u003dorg.apache.zeppelin.server.ZeppelinServer\nJAVA_MAIN_CLASS_4013\u003dorg.apache.zeppelin.interpreter.remote.RemoteInterpreterServer\nJAVA_OPTS\u003d\u0027  -Dfile.encoding\u003dUTF-8 -Xms1024m -Xmx1024m -XX:MaxPermSize\u003d512m -Dzeppelin.log.file\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/logs/zeppelin-mridhusri-iMridhusris-iMac.local.log  -Dfile.encoding\u003dUTF-8 -Xms1024m -Xmx1024m -XX:MaxPermSize\u003d512m\u0027\nLANG\u003den_US.UTF-8\nLOGNAME\u003dmridhusri\nMACHTYPE\u003dx86_64-apple-darwin15\nOPTERR\u003d1\nOPTIND\u003d1\nOSTYPE\u003ddarwin15\nPATH\u003d/Users/mridhusri/Documents/iPython/scala-2.11.7/bin:/Users/mridhusri/Documents/iPython/spark-1.5/bin:/Users/mridhusri/Documents/iPython/anaconda/bin:/Library/Frameworks/Python.framework/Versions/3.4/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin\nPPID\u003d4013\nPS4\u003d\u0027+ \u0027\nPWD\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all\nPYTHONPATH\u003d/Users/mridhusri/Documents/iPython/spark-1.5/python:/Users/mridhusri/Documents/iPython/spark-1.5/python/lib/py4j-0.8.2.1-src.zip\nSECURITYSESSIONID\u003d186a7\nSHELL\u003d/bin/bash\nSHELLOPTS\u003dbraceexpand:hashall:interactive-comments\nSHLVL\u003d4\nSPARK_HOME\u003d/Users/mridhusri/Documents/iPython/spark-1.5\nSSH_AUTH_SOCK\u003d/private/tmp/com.apple.launchd.kp1inLhdYx/Listeners\nTERM\u003dxterm-256color\nTERM_PROGRAM\u003dApple_Terminal\nTERM_PROGRAM_VERSION\u003d361.1\nTERM_SESSION_ID\u003d2B3A422C-D1A3-4FD9-BC49-6E1F192592AC\nTMPDIR\u003d/var/folders/59/dh5sq6c56bn4l486djz52pc80000gn/T/\nUID\u003d501\nUSER\u003dmridhusri\nXPC_FLAGS\u003d0x0\nXPC_SERVICE_NAME\u003d0\nZEPPELINHUB_API_ADDRESS\u003dhttps://www.zeppelinhub.com\nZEPPELINHUB_API_TOKEN\u003d5d6c57d1-1bee-4967-b2a6-369739efc855\nZEPPELIN_CONF_DIR\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/conf\nZEPPELIN_ENCODING\u003dUTF-8\nZEPPELIN_HOME\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all\nZEPPELIN_IDENT_STRING\u003dmridhusri\nZEPPELIN_INTERPRETER_DIR\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/interpreter\nZEPPELIN_INTP_JAVA_OPTS\u003d\nZEPPELIN_INTP_MEM\u003d\u0027-Xms1024m -Xmx1024m -XX:MaxPermSize\u003d512m\u0027\nZEPPELIN_LOG_DIR\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/logs\nZEPPELIN_MEM\u003d\u0027-Xms1024m -Xmx1024m -XX:MaxPermSize\u003d512m\u0027\nZEPPELIN_NICENESS\u003d0\nZEPPELIN_NOTEBOOK_DIR\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/notebook\nZEPPELIN_NOTEBOOK_STORAGE\u003d\u0027org.apache.zeppelin.notebook.repo.VFSNotebookRepo, com.nflabs.zeppelinhub.notebook.repo.ZeppelinHubRepo\u0027\nZEPPELIN_PID_DIR\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/run\nZEPPELIN_RUNNER\u003d/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin/java\nZEPPELIN_WAR\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/zeppelin-web-0.5.6-incubating.war\n_\u003d/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/bin/java\n__CF_USER_TEXT_ENCODING\u003d0x1F5:0x0:0x0\n"
+      },
+      "dateCreated": "Feb 12, 2016 3:58:04 PM",
+      "dateStarted": "Feb 15, 2016 3:43:21 PM",
+      "dateFinished": "Feb 15, 2016 3:43:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455569001369_-1529228502",
+      "id": "20160215-154321_2033525838",
+      "dateCreated": "Feb 15, 2016 3:43:21 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Tutorial_shell",
+  "id": "2BBTSQQXB",
+  "angularObjects": {
+    "2BCRC6M19": [],
+    "2BANG2RG8": [],
+    "2BACPWMUG": [],
+    "2BBBRWT9Q": [],
+    "2BE76JS7C": [],
+    "2BD2FRUTX": [],
+    "2BB4WQTX8": [],
+    "2BD4NNXC9": [],
+    "2BBHZKNQU": [],
+    "2BC7YE4AV": [],
+    "2BDP5QWCV": [],
+    "2BE1GD93Y": [],
+    "2BD1XTDGP": [],
+    "2BE9MUD1W": []
+  },
+  "config": {},
+  "info": {}
+}
