@@ -35,8 +35,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "%sparkr\n\njobs \u003c- as.data.frame(read.csv(\n  \u0027https://raw.githubusercontent.com/nprapps/pym.js/master/examples/graphic/data.csv\u0027,\n  stringsAsFactors \u003d T\n))\njobs$date \u003c- as.Date(paste(jobs$date,\u0027-01\u0027,sep\u003d\u0027\u0027))\n\nprint(names(jobs))\nprint(head(jobs))",
-      "dateUpdated": "Feb 15, 2016 3:39:13 PM",
+      "text": "%sparkr\n\njobs \u003c- as.data.frame(read.csv( \u0027https://raw.githubusercontent.com/nprapps/pym.js/master/examples/graphic/data.csv\u0027, stringsAsFactors \u003d T))\njobs$date \u003c- as.Date(paste(jobs$date,\u0027-01\u0027,sep\u003d\u0027\u0027))\n\nprint(names(jobs))\nprint(head(jobs))",
+      "dateUpdated": "Feb 15, 2016 8:53:14 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
