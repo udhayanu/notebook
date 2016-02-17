@@ -68,14 +68,81 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "config": {},
+      "text": "%r\ninstall.packages(\"ff\", repos \u003d \"http://cran.us.r-project.org\")",
+      "dateUpdated": "Feb 16, 2016 9:07:23 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
       "settings": {
         "params": {},
         "forms": {}
       },
       "jobName": "paragraph_1455568749100_301084957",
       "id": "20160215-153909_1198707007",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "r interpreter not found"
+      },
       "dateCreated": "Feb 15, 2016 3:39:09 PM",
+      "status": "ERROR",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "  scR \u003c- sparkR.init(\"local\")\n  lines \u003c- textFile(sc, \"bank.csv\")",
+      "dateUpdated": "Feb 16, 2016 9:07:31 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455660707033_-114567856",
+      "id": "20160216-171147_851038705",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Feb 16, 2016 5:11:47 PM",
+      "dateStarted": "Feb 16, 2016 9:07:31 PM",
+      "dateFinished": "Feb 16, 2016 9:07:31 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1455674366109_-1074663696",
+      "id": "20160216-205926_39563323",
+      "dateCreated": "Feb 16, 2016 8:59:26 PM",
       "status": "READY",
       "progressUpdateIntervalMs": 500
     }
