@@ -1,0 +1,480 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n### For this lab we\u0027ll reuse the bike trips dataset. We have some helper Scala classes which we\u0027ll use to parse each line of the CSV files instead of working with raw arrays.\n### The objective for this lab is to familiarize yourself with the different operations and their impact to performance and job scheduling. You\u0027ll have a better understanding of using some of the more advanced Pair RDD operations and when to avoid groupByKey.",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426796703234_625415376",
+      "id": "20150319-162503_406514371",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eFor this lab we\u0027ll reuse the bike trips dataset. We have some helper Scala classes which we\u0027ll use to parse each line of the CSV files instead of working with raw arrays.\u003c/h3\u003e\n\u003ch3\u003eThe objective for this lab is to familiarize yourself with the different operations and their impact to performance and job scheduling. You\u0027ll have a better understanding of using some of the more advanced Pair RDD operations and when to avoid groupByKey.\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 19, 2015 4:25:03 PM",
+      "dateStarted": "Apr 15, 2015 7:19:33 PM",
+      "dateFinished": "Apr 15, 2015 7:19:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Start by reading the input files and parsing each line into a trip or Station record",
+      "text": "import java.text.SimpleDateFormat\nimport java.sql.Timestamp\n\nobject utils extends Serializable {\n    case class Trip(\n      id: Int,\n      duration: Int,\n      startDate: Timestamp,\n      startStation: String,\n      startTerminal: Int,\n      endDate: Timestamp,\n      endStation: String,\n      endTerminal: Int,\n      bike: Int,\n      subscriberType: String,\n      zipCode: Option[String]\n    )\n    \n    object Trip {\n      def parse(i: Array[String]) \u003d {\n        val fmt \u003d new SimpleDateFormat(\"M/d/yyyy HH:mm\")\n      \n        val zip \u003d i.length match { // zip is optional\n          case 11 \u003d\u003e Some(i(10))\n          case _ \u003d\u003e None\n        }\n        Trip(i(0).toInt, i(1).toInt, new Timestamp(fmt.parse(i(2)).getTime), i(3), i(4).toInt, new Timestamp(fmt.parse(i(5)).getTime), i(6), i(7).toInt, i(8).toInt, i(9), zip)\n      }\n    }    \n    \n    case class Station(\n      id: Int,\n      name: String,\n      lat: Double,\n      lon: Double,\n      docks: Int,\n      landmark: String,\n      installDate: Timestamp\n    )\n    \n    object Station {\n      def parse(i: Array[String]) \u003d {\n        val fmt \u003d new SimpleDateFormat(\"M/d/yyyy\")\n      \n        Station(i(0).toInt, i(1), i(2).toDouble, i(3).toDouble, i(4).toInt, i(5), new Timestamp(fmt.parse(i(6)).getTime))\n      }\n    }\n}\n\nval input1 \u003d sc.textFile(\"data/trips/*\")\n\nval header1 \u003d input1.first // to skip the header row\n\nval trips \u003d ???\n\nval input2 \u003d sc.textFile(\"data/stations/*\")\n\nval header2 \u003d input2.first // to skip the header row\n\nval stations \u003d ???\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426729505432_1997702041",
+      "id": "20150318-214505_399918920",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import java.text.SimpleDateFormat\nimport java.sql.Timestamp\ndefined module utils\ninput1: org.apache.spark.rdd.RDD[String] \u003d data/trips/* MappedRDD[245] at textFile at \u003cconsole\u003e:96\nheader1: String \u003d Trip ID,Duration,Start Date,Start Station,Start Terminal,End Date,End Station,End Terminal,Bike #,Subscription Type,Zip Code\nscala.NotImplementedError: an implementation is missing\n\tat scala.Predef$.$qmark$qmark$qmark(Predef.scala:252)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:94)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:99)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:101)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:103)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:105)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:107)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:109)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:111)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:113)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:115)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:117)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:119)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:121)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:123)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:125)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:127)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:129)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:131)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:133)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:135)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:137)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:139)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:141)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:143)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:145)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:147)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:149)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:151)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:153)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:155)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:157)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:159)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:161)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:163)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:165)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:167)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:169)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:171)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:173)\n\tat \u003cinit\u003e(\u003cconsole\u003e:175)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:179)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:852)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1125)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:674)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:705)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:669)\n\tat com.nflabs.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:541)\n\tat com.nflabs.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:517)\n\tat com.nflabs.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:510)\n\tat com.nflabs.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:40)\n\tat com.nflabs.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:76)\n\tat com.nflabs.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:246)\n\tat com.nflabs.zeppelin.scheduler.Job.run(Job.java:152)\n\tat com.nflabs.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:101)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:262)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:178)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:292)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n\tat java.lang.Thread.run(Thread.java:724)\n\n"
+      },
+      "dateCreated": "Mar 18, 2015 9:45:05 PM",
+      "dateStarted": "Apr 4, 2015 2:51:06 PM",
+      "dateFinished": "Apr 4, 2015 2:51:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "val trips \u003d input1.\n filter(_ !\u003d header1).\n map(_.split(\",\")).\n map(utils.Trip.parse(_))\n\nval stations \u003d input2.\n  filter(_ !\u003d header2).\n  map(_.split(\",\")).\n  map(utils.Station.parse(_))",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426856828875_1849706045",
+      "id": "20150320-090708_1709303484",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "trips: org.apache.spark.rdd.RDD[utils.Trip] \u003d MappedRDD[248] at map at \u003cconsole\u003e:106\n\u003cconsole\u003e:98: error: not found: value input2\n       val stations \u003d input2.\n                      ^\n"
+      },
+      "dateCreated": "Mar 20, 2015 9:07:08 AM",
+      "dateStarted": "Apr 4, 2015 2:51:13 PM",
+      "dateFinished": "Apr 4, 2015 2:51:13 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Calculate the Average Duration by start Terminal Using groupByKey",
+      "text": "",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426788855707_-211212549",
+      "id": "20150319-141415_440824413",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT"
+      },
+      "dateCreated": "Mar 19, 2015 2:14:15 PM",
+      "dateStarted": "Mar 19, 2015 9:22:12 PM",
+      "dateFinished": "Mar 19, 2015 9:22:12 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "val byStartTerminal \u003d trips.keyBy(_.startStation)\n\nval durationsByStart \u003d byStartTerminal.mapValues(_.duration)\n\nval grouped \u003d durationsByStart.groupByKey().mapValues(list \u003d\u003e list.sum / list.size)\n\ngrouped.take(10).foreach(println)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426856870011_1520973953",
+      "id": "20150320-090750_149628055",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "byStartTerminal: org.apache.spark.rdd.RDD[(String, utils.Trip)] \u003d MappedRDD[257] at keyBy at \u003cconsole\u003e:105\ndurationsByStart: org.apache.spark.rdd.RDD[(String, Int)] \u003d MappedValuesRDD[258] at mapValues at \u003cconsole\u003e:108\ngrouped: org.apache.spark.rdd.RDD[(String, Int)] \u003d MappedValuesRDD[260] at mapValues at \u003cconsole\u003e:110\n(Mountain View City Hall,1663)\n(California Ave Caltrain Station,5023)\n(San Jose Civic Center,3028)\n(Yerba Buena Center of the Arts (3rd @ Howard),970)\n(Commercial at Montgomery,761)\n(SJSU 4th at San Carlos,1966)\n(2nd at South Park,683)\n(University and Emerson,6545)\n(Embarcadero at Sansome,1549)\n(Townsend at 7th,746)\n"
+      },
+      "dateCreated": "Mar 20, 2015 9:07:50 AM",
+      "dateStarted": "Apr 4, 2015 2:51:38 PM",
+      "dateFinished": "Apr 4, 2015 2:51:41 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "## After having calculated the average duration using a groupByKey how do you think we could optimize this? Think back to the actions we reviewed in this lecture.",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426797200500_1011238613",
+      "id": "20150319-163320_508404707",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eAfter having calculated the average duration using a groupByKey how do you think we could optimize this? Think back to the actions we reviewed in this lecture.\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 19, 2015 4:33:20 PM",
+      "dateStarted": "Mar 19, 2015 4:37:06 PM",
+      "dateFinished": "Mar 19, 2015 4:37:06 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "val results \u003d durationsByStart.aggregateByKey((0, 0))((acc, value) \u003d\u003e (acc._1 + value, acc._2 + 1), (acc1, acc2) \u003d\u003e (acc1._1 + acc2._1, acc1._2 + acc2._2))\nval finalAvg \u003d results.mapValues(i \u003d\u003e i._1 / i._2)\nfinalAvg.take(10)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true,
+        "title": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426797309562_1357298084",
+      "id": "20150319-163509_681634473",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "results: org.apache.spark.rdd.RDD[(String, (Int, Int))] \u003d ShuffledRDD[271] at aggregateByKey at \u003cconsole\u003e:54\nfinalAvg: org.apache.spark.rdd.RDD[(String, Int)] \u003d MappedValuesRDD[272] at mapValues at \u003cconsole\u003e:56\nres143: Array[(String, Int)] \u003d Array((Mountain View City Hall,1663), (California Ave Caltrain Station,5023), (San Jose Civic Center,3028), (SJSU 4th at San Carlos,1966), (Commercial at Montgomery,761), (Yerba Buena Center of the Arts (3rd @ Howard),970), (2nd at South Park,683), (University and Emerson,6545), (Embarcadero at Sansome,1549), (Townsend at 7th,746))\n"
+      },
+      "dateCreated": "Mar 19, 2015 4:35:09 PM",
+      "dateStarted": "Mar 25, 2015 9:12:11 PM",
+      "dateFinished": "Mar 25, 2015 9:12:13 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Now Find the First Trip starting at each terminal Using GroupByKey",
+      "text": "",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426814362948_-1674125859",
+      "id": "20150319-211922_1143354601",
+      "dateCreated": "Mar 19, 2015 9:19:22 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "val firstGrouped \u003d byStartTerminal.groupByKey().mapValues(list \u003d\u003e list.toList.sortBy(_.startDate.getTime).head)\nprintln(firstGrouped.toDebugString)\nfirstGrouped.take(10).foreach(println)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426857125741_-1232873139",
+      "id": "20150320-091205_1352489087",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "firstGrouped: org.apache.spark.rdd.RDD[(String, utils.Trip)] \u003d MappedValuesRDD[262] at mapValues at \u003cconsole\u003e:107\n(2) MappedValuesRDD[262] at mapValues at \u003cconsole\u003e:107 []\n |  ShuffledRDD[261] at groupByKey at \u003cconsole\u003e:107 []\n +-(2) MappedRDD[257] at keyBy at \u003cconsole\u003e:105 []\n    |  MappedRDD[248] at map at \u003cconsole\u003e:106 []\n    |  MappedRDD[247] at map at \u003cconsole\u003e:105 []\n    |  FilteredRDD[246] at filter at \u003cconsole\u003e:104 []\n    |  data/trips/* MappedRDD[245] at textFile at \u003cconsole\u003e:96 []\n    |  data/trips/* HadoopRDD[244] at textFile at \u003cconsole\u003e:96 []\n(Palo Alto Caltrain Station,Trip(4373,1083,2013-08-29 12:22:00.0,Palo Alto Caltrain Station,34,2013-08-29 12:40:00.0,University and Emerson,35,83,Subscriber,Some(94117)))\n(Mountain View City Hall,Trip(4081,218,2013-08-29 09:38:00.0,Mountain View City Hall,27,2013-08-29 09:41:00.0,Mountain View City Hall,27,150,Subscriber,Some(97214)))\n(Beale at Market,Trip(4168,161,2013-08-29 10:56:00.0,Beale at Market,56,2013-08-29 10:59:00.0,Steuart at Market,74,414,Customer,Some(94117)))\n(San Jose Diridon Caltrain Station,Trip(4547,1580,2013-08-29 13:52:00.0,San Jose Diridon Caltrain Station,2,2013-08-29 14:18:00.0,San Jose City Hall,10,107,Customer,Some(94306)))\n(Embarcadero at Bryant,Trip(4558,298,2013-08-29 13:57:00.0,Embarcadero at Bryant,54,2013-08-29 14:02:00.0,Harry Bridges Plaza (Ferry Building),50,275,Subscriber,Some(94109)))\n(Embarcadero at Folsom,Trip(4346,724,2013-08-29 12:14:00.0,Embarcadero at Folsom,51,2013-08-29 12:26:00.0,San Francisco Caltrain (Townsend at 4th),70,267,Subscriber,Some(94127)))\n(San Francisco Caltrain (Townsend at 4th),Trip(4177,278,2013-08-29 11:03:00.0,San Francisco Caltrain (Townsend at 4th),70,2013-08-29 11:08:00.0,2nd at South Park,64,371,Subscriber,Some(94117)))\n(Yerba Buena Center of the Arts (3rd @ Howard),Trip(4355,2044,2013-08-29 12:18:00.0,Yerba Buena Center of the Arts (3rd @ Howard),68,2013-08-29 12:52:00.0,Yerba Buena Center of the Arts (3rd @ Howard),68,548,Customer,Some(94105)))\n(Rengstorff Avenue / California Street,Trip(5007,1016,2013-08-29 20:11:00.0,Rengstorff Avenue / California Street,33,2013-08-29 20:28:00.0,Rengstorff Avenue / California Street,33,11,Customer,Some(94040)))\n(SJSU - San Salvador at 9th,Trip(6210,608,2013-08-30 17:15:00.0,SJSU - San Salvador at 9th,16,2013-08-30 17:26:00.0,San Salvador at 1st,8,12,Customer,Some(95112)))\n"
+      },
+      "dateCreated": "Mar 20, 2015 9:12:05 AM",
+      "dateStarted": "Apr 4, 2015 2:51:58 PM",
+      "dateFinished": "Apr 4, 2015 2:52:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n### You could use groupByKey then sort the Iterable to find the first trip. This works fine with a small dataset but what if you had a much larger volume of data that didn\u0027t fit into memory? What other transformation could we use instead?",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426815411625_-1902952931",
+      "id": "20150319-213651_1384529145",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eYou could use groupByKey then sort the Iterable to find the first trip. This works fine with a small dataset but what if you had a much larger volume of data that didn\u0027t fit into memory? What other transformation could we use instead?\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 19, 2015 9:36:51 PM",
+      "dateStarted": "Apr 4, 2015 3:17:04 PM",
+      "dateFinished": "Apr 4, 2015 3:17:04 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "val firstTrips \u003d byStartTerminal.reduceByKey((a, b) \u003d\u003e {\n    a.startDate.before(b.startDate) match {\n        case true \u003d\u003e a\n        case false \u003d\u003e b\n    }\n})\nprintln(firstTrips.toDebugString)\nfirstTrips.take(10)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426814486389_308636821",
+      "id": "20150319-212126_2134992336",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "firstTrips: org.apache.spark.rdd.RDD[(String, utils.Trip)] \u003d ShuffledRDD[277] at reduceByKey at \u003cconsole\u003e:52\n(2) ShuffledRDD[277] at reduceByKey at \u003cconsole\u003e:52 []\n +-(2) MappedRDD[267] at keyBy at \u003cconsole\u003e:50 []\n    |  MappedRDD[255] at map at \u003cconsole\u003e:51 []\n    |  MappedRDD[254] at map at \u003cconsole\u003e:50 []\n    |  FilteredRDD[253] at filter at \u003cconsole\u003e:49 []\n    |  data/trips/* MappedRDD[252] at textFile at \u003cconsole\u003e:43 []\n    |  data/trips/* HadoopRDD[251] at textFile at \u003cconsole\u003e:43 []\nres152: Array[(String, utils.Trip)] \u003d Array((Mountain View City Hall,Trip(130428,189,2012-12-30 05:51:00.0,Mountain View City Hall,27,2012-12-30 05:54:00.0,Mountain View Caltrain Station,28,714,Subscriber,Some(94024))), (California Ave Caltrain Station,Trip(55079,904,2012-12-30 00:19:00.0,California Ave Caltrain Station,36,2012-12-30 00:34:00.0,Cowper at University,37,19,Customer,None)), (San Jose Civic Center,Trip(133317,1461,2012-12-30 00:35:00.0,San Jose Civic Center,3,2012-12-30 00:59:00.0,San Salvador at 1st,8,197,Customer,None)), (SJSU 4th at San Carlos,Trip(73395,1277,2012-12-30 00:01:00.0,SJSU 4th at San Carlos,12,2012-12-30 00:22:00.0,SJSU 4th at San Carlos,12,47,Customer,Some(91331))), (Commercial at Montgomery,Trip(8466,755,2012-12-30 00:05:00.0,Commercial at Montgomery,45,20..."
+      },
+      "dateCreated": "Mar 19, 2015 9:21:26 PM",
+      "dateStarted": "Mar 25, 2015 9:14:04 PM",
+      "dateFinished": "Mar 25, 2015 9:14:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Join Trips and Stations using a broadcast Join",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426819015589_-203861576",
+      "id": "20150319-223655_440472688",
+      "dateCreated": "Mar 19, 2015 10:36:55 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n### How does that compare to the join we used in the previous lab in terms of time and shuffling?",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426859340485_1746373867",
+      "id": "20150320-094900_1944616016",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eHow does that compare to the join we used in the previous lab in terms of time and shuffling?\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 20, 2015 9:49:00 AM",
+      "dateStarted": "Mar 25, 2015 9:15:06 PM",
+      "dateFinished": "Mar 25, 2015 9:15:06 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solutions",
+      "text": "val bcStations \u003d sc.broadcast(stations.keyBy(_.id).collectAsMap)\n\nval joined \u003d trips.map(trip \u003d\u003e{\n    (trip, bcStations.value.getOrElse(trip.startTerminal, Nil), bcStations.value.getOrElse(trip.endTerminal, Nil))\n})\n\nprintln(joined.toDebugString)\n\njoined.take(10)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426819052428_1659138571",
+      "id": "20150319-223732_251244771",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "bcStations: org.apache.spark.broadcast.Broadcast[scala.collection.Map[Int,utils.Station]] \u003d Broadcast(92)\njoined: org.apache.spark.rdd.RDD[(utils.Trip, Product with Serializable, Product with Serializable)] \u003d MappedRDD[294] at map at \u003cconsole\u003e:65\n(2) MappedRDD[294] at map at \u003cconsole\u003e:65 []\n |  MappedRDD[287] at map at \u003cconsole\u003e:57 []\n |  MappedRDD[286] at map at \u003cconsole\u003e:56 []\n |  FilteredRDD[285] at filter at \u003cconsole\u003e:55 []\n |  data/trips/* MappedRDD[283] at textFile at \u003cconsole\u003e:49 []\n |  data/trips/* HadoopRDD[282] at textFile at \u003cconsole\u003e:49 []\nres174: Array[(utils.Trip, Product with Serializable, Product with Serializable)] \u003d Array((Trip(4576,63,2012-12-30 14:13:00.0,South Van Ness at Market,66,2012-12-30 14:14:00.0,South Van Ness at Market,66,520,Subscriber,Some(94127)),Station(66,South Van Ness at Market,37.774814,-122.418954,19,San Francisco,2012-12-30 00:00:00.0),Station(66,South Van Ness at Market,37.774814,-122.418954,19,San Francisco,2012-12-30 00:00:00.0)), (Trip(4607,70,2012-12-30 14:42:00.0,San Jose City Hall,10,2012-12-30 14:43:00.0,San Jose City Hall,10,661,Subscriber,Some(95138)),Station(10,San Jose City Hall,37.337391,-121.886995,15,San Jose,2012-12-30 00:00:00.0),Station(10,San Jose City Hall,37.337391,-121.886995,15,San Jose,2012-12-30 00:00:00.0)), (Trip(4130,71,2012-12-30 10:16:00.0,Mountain View City Hall,2..."
+      },
+      "dateCreated": "Mar 19, 2015 10:37:32 PM",
+      "dateStarted": "Mar 25, 2015 9:16:31 PM",
+      "dateFinished": "Mar 25, 2015 9:16:32 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426906993441_670493660",
+      "id": "20150320-230313_1309391340",
+      "dateCreated": "Mar 20, 2015 11:03:13 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Lab 3",
+  "id": "Lab3",
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

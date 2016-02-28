@@ -1,0 +1,388 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n### In this lab you\u0027ll use a bike trip dataset of 2 files. The data is in CSV format so you\u0027ll first parse the two files, then join the trips with the stations get the start and end stations details.\n### The objective is to understand the lineage of RDDs, how input is partitioned, and finally the impact of partitioning when joining two RDDs.",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426727371154_-133271043",
+      "id": "20150318-210931_698931778",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eIn this lab you\u0027ll use a bike trip dataset of 2 files. The data is in CSV format so you\u0027ll first parse the two files, then join the trips with the stations get the start and end stations details.\u003c/h3\u003e\n\u003ch3\u003eThe objective is to understand the lineage of RDDs, how input is partitioned, and finally the impact of partitioning when joining two RDDs.\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 18, 2015 9:09:31 PM",
+      "dateStarted": "Mar 19, 2015 10:56:25 AM",
+      "dateFinished": "Mar 19, 2015 10:56:25 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Create 2 New RDDs by Joining Trips with Stations by Start Terminal and End Terminal",
+      "text": "import org.apache.spark._\n\nval input1 \u003d sc.textFile(\"data/trips/*\")\n\nval header1 \u003d input1.first // to skip the header row\n\nval trips \u003d input1.\n filter(_ !\u003d header1).\n map(_.split(\",\"))\n \nval input2 \u003d sc.textFile(\"data/stations/*\")\n\nval header2 \u003d input2.first // to skip the header row\n\nval stations \u003d input2.\n  filter(_ !\u003d header2).\n  map(_.split(\",\"))\n\n/*\nThe id field for stations is index 0, the start terminal for trips is index 4, the end terminal is index 7.\n*/\n\nval startTrips \u003d ???\nval endTrips \u003d ???\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": false,
+        "tableHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426726705698_2089277213",
+      "id": "20150318-205825_362494608",
+      "result": {
+        "code": "ERROR",
+        "type": "TEXT",
+        "msg": "import org.apache.spark._\ninput1: org.apache.spark.rdd.RDD[String] \u003d data/trips/* MappedRDD[8] at textFile at \u003cconsole\u003e:23\nheader1: String \u003d Trip ID,Duration,Start Date,Start Station,Start Terminal,End Date,End Station,End Terminal,Bike #,Subscription Type,Zip Code\ntrips: org.apache.spark.rdd.RDD[Array[String]] \u003d MappedRDD[10] at map at \u003cconsole\u003e:29\ninput2: org.apache.spark.rdd.RDD[String] \u003d data/stations/* MappedRDD[12] at textFile at \u003cconsole\u003e:23\nheader2: String \u003d station_id,name,lat,long,dockcount,landmark,installation,notes\nstations: org.apache.spark.rdd.RDD[Array[String]] \u003d MappedRDD[14] at map at \u003cconsole\u003e:29\nscala.NotImplementedError: an implementation is missing\n\tat scala.Predef$.$qmark$qmark$qmark(Predef.scala:252)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:25)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:30)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:32)\n\tat $iwC$$iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:34)\n\tat $iwC$$iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:36)\n\tat $iwC$$iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:38)\n\tat $iwC$$iwC.\u003cinit\u003e(\u003cconsole\u003e:40)\n\tat $iwC.\u003cinit\u003e(\u003cconsole\u003e:42)\n\tat \u003cinit\u003e(\u003cconsole\u003e:44)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:48)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat .\u003cinit\u003e(\u003cconsole\u003e:7)\n\tat .\u003cclinit\u003e(\u003cconsole\u003e)\n\tat $print(\u003cconsole\u003e)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.lang.reflect.Method.invoke(Method.java:606)\n\tat org.apache.spark.repl.SparkIMain$ReadEvalPrint.call(SparkIMain.scala:852)\n\tat org.apache.spark.repl.SparkIMain$Request.loadAndRun(SparkIMain.scala:1125)\n\tat org.apache.spark.repl.SparkIMain.loadAndRunReq$1(SparkIMain.scala:674)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:705)\n\tat org.apache.spark.repl.SparkIMain.interpret(SparkIMain.scala:669)\n\tat com.nflabs.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:541)\n\tat com.nflabs.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:517)\n\tat com.nflabs.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:510)\n\tat com.nflabs.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:40)\n\tat com.nflabs.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:76)\n\tat com.nflabs.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:246)\n\tat com.nflabs.zeppelin.scheduler.Job.run(Job.java:152)\n\tat com.nflabs.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:101)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:262)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:178)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:292)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)\n\tat java.lang.Thread.run(Thread.java:724)\n\n"
+      },
+      "dateCreated": "Mar 18, 2015 8:58:25 PM",
+      "dateStarted": "Apr 9, 2015 10:22:53 PM",
+      "dateFinished": "Mar 27, 2015 11:49:34 AM",
+      "status": "ABORT",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "val stations \u003d input2.\n  filter(_ !\u003d header2).\n  map(_.split(\",\")).\n  keyBy(_(0).toInt)\n\nval startTrips \u003d stations.join(trips.keyBy(_(4).toInt))\nval endTrips \u003d stations.join(trips.keyBy(_(7).toInt))",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426855523685_-743943178",
+      "id": "20150320-084523_399918920",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "stations: org.apache.spark.rdd.RDD[(Int, Array[String])] \u003d MappedRDD[17] at keyBy at \u003cconsole\u003e:29\nstartTrips: org.apache.spark.rdd.RDD[(Int, (Array[String], Array[String]))] \u003d FlatMappedValuesRDD[21] at join at \u003cconsole\u003e:35\nendTrips: org.apache.spark.rdd.RDD[(Int, (Array[String], Array[String]))] \u003d FlatMappedValuesRDD[25] at join at \u003cconsole\u003e:34\n"
+      },
+      "dateCreated": "Mar 20, 2015 8:45:23 AM",
+      "dateStarted": "Mar 27, 2015 11:49:39 AM",
+      "dateFinished": "Mar 27, 2015 11:49:40 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n### Now examine the lineage of the RDDs by using toDebugString. Try to match the steps of the lineage to the transformations. Can you also identify how many tasks will run and the stage boundaries?",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426778959343_-2136339212",
+      "id": "20150319-112919_1754151425",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eNow examine the lineage of the RDDs by using toDebugString. Try to match the steps of the lineage to the transformations. Can you also identify how many tasks will run and the stage boundaries?\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 19, 2015 11:29:19 AM",
+      "dateStarted": "Mar 20, 2015 8:51:58 AM",
+      "dateFinished": "Mar 20, 2015 8:51:58 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Print the Lineage Of the Two joined RDDs Here",
+      "text": "//",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "tableHide": false,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426779063528_-2011760478",
+      "id": "20150319-113103_22800671",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Mar 19, 2015 11:31:03 AM",
+      "dateStarted": "Mar 27, 2015 11:50:15 AM",
+      "dateFinished": "Mar 27, 2015 11:50:15 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n### Let\u0027s now run an action on the two joined RDDs and examine the jobs on the Spark console. Did you properly identify the stage boundaries?",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426727053310_-854698777",
+      "id": "20150318-210413_1166780749",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eLet\u0027s now run an action on the two joined RDDs and examine the jobs on the Spark console. Did you properly identify the stage boundaries?\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 18, 2015 9:04:13 PM",
+      "dateStarted": "Mar 19, 2015 12:01:47 PM",
+      "dateFinished": "Mar 19, 2015 12:01:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "startTrips.count()\nendTrips.count()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "tableHide": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426779373196_-1574071116",
+      "id": "20150319-113613_1860933243",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res43: Long \u003d 310960\nres44: Long \u003d 310359\n"
+      },
+      "dateCreated": "Mar 19, 2015 11:36:13 AM",
+      "dateStarted": "Mar 27, 2015 11:52:35 AM",
+      "dateFinished": "Mar 27, 2015 11:52:43 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n### How could we optimize this? We\u0027re keying all the RDDs by the station id and joining against the station RDD twice. What\u0027s a more efficient way of performing these joins?",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426782877185_400486478",
+      "id": "20150319-123437_2069766375",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eHow could we optimize this? We\u0027re keying all the RDDs by the station id and joining against the station RDD twice. What\u0027s a more efficient way of performing these joins?\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 19, 2015 12:34:37 PM",
+      "dateStarted": "Mar 20, 2015 9:47:41 AM",
+      "dateFinished": "Mar 20, 2015 9:47:41 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "// since we\u0027re joining with the stations RDD twice it would be more efficient to use a HashPartitioner. Also, we want to match the partitioning of the trips RDD.\n\nval stations \u003d input2.\n  filter(_ !\u003d header2).\n  map(_.split(\",\")).\n  keyBy(_(0).toInt).\n  partitionBy(new HashPartitioner(trips.partitions.size))\n  \nval startTrips \u003d stations.join(trips.keyBy(_(4).toInt))\nval endTrips \u003d stations.join(trips.keyBy(_(7).toInt))",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426784055338_-276806215",
+      "id": "20150319-125415_1356989919",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "stations: org.apache.spark.rdd.RDD[(Int, Array[String])] \u003d ShuffledRDD[33] at partitionBy at \u003cconsole\u003e:32\nstations: org.apache.spark.rdd.RDD[(Int, Array[String])] \u003d MappedRDD[36] at keyBy at \u003cconsole\u003e:30\nstartTrips: org.apache.spark.rdd.RDD[(Int, (Array[String], Array[String]))] \u003d FlatMappedValuesRDD[40] at join at \u003cconsole\u003e:35\nendTrips: org.apache.spark.rdd.RDD[(Int, (Array[String], Array[String]))] \u003d FlatMappedValuesRDD[44] at join at \u003cconsole\u003e:34\n"
+      },
+      "dateCreated": "Mar 19, 2015 12:54:15 PM",
+      "dateStarted": "Mar 27, 2015 11:51:36 AM",
+      "dateFinished": "Mar 27, 2015 11:51:36 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n### Zeppelin is already configured to use the Fair Scheduler. To see an example of concurrent jobs running and the impact to performance, let\u0027s run the actions above concurrently. We can do this by using async actions. These are implemented using Scala futures.",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426908625423_103118728",
+      "id": "20150320-233025_118719912",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eZeppelin is already configured to use the Fair Scheduler. To see an example of concurrent jobs running and the impact to performance, let\u0027s run the actions above concurrently. We can do this by using async actions. These are implemented using Scala futures.\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 20, 2015 11:30:25 PM",
+      "dateStarted": "Mar 20, 2015 11:36:50 PM",
+      "dateFinished": "Mar 20, 2015 11:36:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.SparkContext._\nimport scala.concurrent._\nimport scala.concurrent.ExecutionContext.Implicits._\n\nval fut1 \u003d startTrips.countAsync()\nval fut2 \u003d endTrips.countAsync()\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "tableHide": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426907266563_46798725",
+      "id": "20150320-230746_442632699",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.SparkContext._\nimport scala.concurrent._\nimport scala.concurrent.ExecutionContext.Implicits._\nfut1: org.apache.spark.FutureAction[Long] \u003d org.apache.spark.SimpleFutureAction@41e7d8bd\nfut2: org.apache.spark.FutureAction[Long] \u003d org.apache.spark.SimpleFutureAction@4a0c416f\n"
+      },
+      "dateCreated": "Mar 20, 2015 11:07:46 PM",
+      "dateStarted": "Mar 27, 2015 11:52:51 AM",
+      "dateFinished": "Mar 27, 2015 11:52:53 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426907351573_633310935",
+      "id": "20150320-230911_1745283964",
+      "dateCreated": "Mar 20, 2015 11:09:11 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Lab 2",
+  "id": "Lab2",
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

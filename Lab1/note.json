@@ -1,0 +1,167 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n### This lab is just to verify all services are running properly on the lab environment. Just click the run button above and report any errors to the instructor.",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426770184175_-1100729728",
+      "id": "20150319-090304_1320984865",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eThis lab is just to verify all services are running properly on the lab environment. Just click the run button above and report any errors to the instructor.\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 19, 2015 9:03:04 AM",
+      "dateStarted": "Mar 27, 2015 11:43:46 AM",
+      "dateFinished": "Mar 27, 2015 11:43:48 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Testing Spark on the Cluster",
+      "text": "val input \u003d sc.textFile(\"data/trips/*\")\n\ninput.map(_.split(\",\")).count()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426855242470_-1593851854",
+      "id": "20150320-084042_1901752970",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "input: org.apache.spark.rdd.RDD[String] \u003d data/trips/* MappedRDD[5] at textFile at \u003cconsole\u003e:19\nres1: Long \u003d 315808\n"
+      },
+      "dateCreated": "Mar 20, 2015 8:40:42 AM",
+      "dateStarted": "Jun 19, 2015 10:01:14 PM",
+      "dateFinished": "Jun 19, 2015 10:01:52 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Testing Spark SQL",
+      "text": "%sql\nshow tables",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 94.0,
+          "optionOpen": false,
+          "keys": [
+            {
+              "name": "result",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          ],
+          "values": [],
+          "groups": [],
+          "scatter": {
+            "xAxis": {
+              "name": "result",
+              "index": 0.0,
+              "aggr": "sum"
+            }
+          }
+        },
+        "title": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1427201726512_-545516371",
+      "id": "20150324-085526_1460656414",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TABLE",
+        "msg": "result\n"
+      },
+      "dateCreated": "Mar 24, 2015 8:55:26 AM",
+      "dateStarted": "Jun 19, 2015 10:01:35 PM",
+      "dateFinished": "Jun 19, 2015 10:01:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Testing Cassandra",
+      "text": "import org.apache.spark.sql.cassandra._\n\nval cqlContext \u003d new CassandraSQLContext(sc)\n\ncqlContext.sql(\"select * from demo.clicks\").collect.foreach(println)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1427201683608_-1585754803",
+      "id": "20150324-085443_303291536",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.sql.cassandra._\ncqlContext: org.apache.spark.sql.cassandra.CassandraSQLContext \u003d org.apache.spark.sql.cassandra.CassandraSQLContext@3d71cc18\n[1]\n"
+      },
+      "dateCreated": "Mar 24, 2015 8:54:43 AM",
+      "dateStarted": "Apr 14, 2015 5:06:51 PM",
+      "dateFinished": "Apr 14, 2015 5:06:54 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1429736095950_1564893383",
+      "id": "20150422-165455_105048221",
+      "dateCreated": "Apr 22, 2015 4:54:55 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Lab 1",
+  "id": "Lab1",
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

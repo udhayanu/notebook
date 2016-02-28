@@ -1,0 +1,186 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n#### This is simply to illustrate the difference using Kryo vs Java serialization. In this case we have to use a pre-compiled set of classes which are registered when the SparkContext inititiates, using a custom KryoRegistrator instance. The code for that is provided at the bottom of this lab for your reference. This notebook is running with a different instance of the Zeppelin Spark interpreter configured to use the Kryo registrator.",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1428635024772_192546293",
+      "id": "20150409-230344_1872821614",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch4\u003eThis is simply to illustrate the difference using Kryo vs Java serialization. In this case we have to use a pre-compiled set of classes which are registered when the SparkContext inititiates, using a custom KryoRegistrator instance. The code for that is provided at the bottom of this lab for your reference. This notebook is running with a different instance of the Zeppelin Spark interpreter configured to use the Kryo registrator.\u003c/h4\u003e\n"
+      },
+      "dateCreated": "Apr 9, 2015 11:03:44 PM",
+      "dateStarted": "Apr 9, 2015 11:06:33 PM",
+      "dateFinished": "Apr 9, 2015 11:06:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.storage._\nimport labs._\n\nval input1 \u003d sc.textFile(\"data/trips/*\")\n\nval header1 \u003d input1.first // to skip the header row\n\nval trips \u003d input1.\n filter(_ !\u003d header1).\n map(_.split(\",\")).\n map(Trip.parse(_))\n\nval input2 \u003d sc.textFile(\"data/stations/*\")\n\nval header2 \u003d input2.first // to skip the header row\n\nval stations \u003d input2.\n  filter(_ !\u003d header2).\n  map(_.split(\",\")).\n  map(Station.parse(_))",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": false,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1428633798719_-1356570962",
+      "id": "20150409-224318_848682986",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "import org.apache.spark.storage._\nimport labs._\ninput1: org.apache.spark.rdd.RDD[String] \u003d data/trips/* MappedRDD[1] at textFile at \u003cconsole\u003e:26\nheader1: String \u003d Trip ID,Duration,Start Date,Start Station,Start Terminal,End Date,End Station,End Terminal,Bike #,Subscription Type,Zip Code\ntrips: org.apache.spark.rdd.RDD[labs.Trip] \u003d MappedRDD[4] at map at \u003cconsole\u003e:33\ninput2: org.apache.spark.rdd.RDD[String] \u003d data/stations/* MappedRDD[6] at textFile at \u003cconsole\u003e:26\nheader2: String \u003d station_id,name,lat,long,dockcount,landmark,installation,notes\nstations: org.apache.spark.rdd.RDD[labs.Station] \u003d MappedRDD[9] at map at \u003cconsole\u003e:33\n"
+      },
+      "dateCreated": "Apr 9, 2015 10:43:18 PM",
+      "dateStarted": "Apr 12, 2015 2:50:57 PM",
+      "dateFinished": "Apr 12, 2015 2:51:14 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n### Let\u0027s start by calculating the average duration of trips both by start AND end terminal in the trips RDD. Refer back to Lab 3 for the transformations to run the calculation.\n\n1. First run the job without any caching\n2. Now try calling `cache` on the trips RDD and re-run the transformation\n3. Finally, use `persist(StorageLevel.MEMORY_ONLY_SER)` and re-run, compare the storage statistics in the Spark UI\n(**note**: the Spark UI port for this SparkContext will likely be 4041)",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1428669157960_-2062147142",
+      "id": "20150410-083237_639834626",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eLet\u0027s start by calculating the average duration of trips both by start AND end terminal in the trips RDD. Refer back to Lab 3 for the transformations to run the calculation.\u003c/h3\u003e\n\u003col\u003e\n\u003cli\u003eFirst run the job without any caching\u003c/li\u003e\n\u003cli\u003eNow try calling \u003ccode\u003ecache\u003c/code\u003e on the trips RDD and re-run the transformation\u003c/li\u003e\n\u003cli\u003eFinally, use \u003ccode\u003epersist(StorageLevel.MEMORY_ONLY_SER)\u003c/code\u003e and re-run, compare the storage statistics in the Spark UI\n\u003cbr  /\u003e(\u003cstrong\u003enote\u003c/strong\u003e: the Spark UI port for this SparkContext will likely be 4041)\u003c/li\u003e\n\u003c/ol\u003e\n"
+      },
+      "dateCreated": "Apr 10, 2015 8:32:37 AM",
+      "dateStarted": "Apr 10, 2015 8:34:09 AM",
+      "dateFinished": "Apr 10, 2015 8:34:09 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "//2 - trips.persist(StorageLevel.MEMORY_ONLY)\n//3 - trips.persist(StorageLevel.MEMORY_ONLY_SER)\n\nval durationsByStart \u003d trips.keyBy(_.startTerminal).mapValues(_.duration)\nval durationsByEnd \u003d trips.keyBy(_.endTerminal).mapValues(_.duration)\n\nval resultsStart \u003d durationsByStart.aggregateByKey((0, 0))((acc, value) \u003d\u003e (acc._1 + value, acc._2 + 1), (acc1, acc2) \u003d\u003e (acc1._1 + acc2._1, acc1._2 + acc2._2))\nval avgStart \u003d resultsStart.mapValues(i \u003d\u003e i._1 / i._2)\n\nval resultsEnd \u003d durationsByEnd.aggregateByKey((0, 0))((acc, value) \u003d\u003e (acc._1 + value, acc._2 + 1), (acc1, acc2) \u003d\u003e (acc1._1 + acc2._1, acc1._2 + acc2._2))\nval avgEnd \u003d resultsEnd.mapValues(i \u003d\u003e i._1 / i._2)\n\navgStart.collect()\navgEnd.collect()",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1428633820418_1111439990",
+      "id": "20150409-224340_1911111597",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "res8: trips.type \u003d MappedRDD[4] at map at \u003cconsole\u003e:33\ndurationsByStart: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MappedValuesRDD[11] at mapValues at \u003cconsole\u003e:32\ndurationsByEnd: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MappedValuesRDD[13] at mapValues at \u003cconsole\u003e:31\nresultsStart: org.apache.spark.rdd.RDD[(Int, (Int, Int))] \u003d ShuffledRDD[14] at aggregateByKey at \u003cconsole\u003e:34\navgStart: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MappedValuesRDD[15] at mapValues at \u003cconsole\u003e:35\nresultsEnd: org.apache.spark.rdd.RDD[(Int, (Int, Int))] \u003d ShuffledRDD[16] at aggregateByKey at \u003cconsole\u003e:34\navgEnd: org.apache.spark.rdd.RDD[(Int, Int)] \u003d MappedValuesRDD[17] at mapValues at \u003cconsole\u003e:35\nres13: Array[(Int, Int)] \u003d Array((84,1716), (34,3437), (56,1004), (76,1439), (4,1084), (16,1190), (82,908), (66,1157), (22,2776), (28,1633), (54,1133), (80,1576), (46,2032), (48,1616), (30,1563), (14,2221), (32,2161), (36,5023), (24,7758), (62,620), (64,683), (50,1605), (42,1050), (74,1059), (72,1436), (6,1163), (70,824), (8,1059), (12,1966), (38,4023), (60,1549), (58,1714), (26,2277), (10,1271), (68,970), (2,969), (39,1419), (61,877), (41,1164), (13,1007), (21,1564), (47,1059), (71,1881), (77,935), (55,708), (53,1590), (25,2481), (29,3419), (59,1161), (65,746), (35,6545), (73,1238), (11,2017), (27,1663), (75,1098), (51,880), (33,6192), (37,2472), (57,1016), (23,2149), (45,761), (83,679), (63,802), (69,743), (67,1122), (7,1234), (3,3028), (9,2068), (49,756), (31,1627), (5,833))\nres14: Array[(Int, Int)] \u003d Array((84,2526), (34,5071), (56,920), (76,1441), (4,1120), (16,2383), (82,1144), (66,1256), (22,3217), (28,1784), (54,1057), (80,1153), (46,1355), (48,1672), (30,1509), (14,867), (32,2071), (36,4180), (24,3933), (62,734), (64,680), (50,1306), (42,1023), (74,946), (72,1510), (6,1060), (70,769), (8,1189), (12,2158), (38,3016), (60,1845), (58,1996), (26,906), (10,2132), (68,927), (2,822), (39,1303), (61,796), (41,1172), (13,1042), (21,1430), (47,926), (71,2563), (77,760), (55,709), (53,1544), (25,2837), (29,2752), (59,1986), (65,760), (35,5624), (73,1974), (11,1206), (27,1620), (75,1135), (51,824), (33,4787), (37,3390), (57,859), (23,1327), (45,781), (63,740), (83,744), (69,730), (67,1387), (7,865), (3,2640), (9,1854), (49,657), (31,2360), (5,1892))\n"
+      },
+      "dateCreated": "Apr 9, 2015 10:43:40 PM",
+      "dateStarted": "Apr 12, 2015 2:51:16 PM",
+      "dateFinished": "Apr 12, 2015 2:51:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n#### Open up the Spark UI, you\u0027ll have to try port 4041 since this is another instance of the SparkContext. If you look at the Storage tab you should see the trips dataset using serialized storage, using up much less space than the Java serialized version.\n\n#### In order to configure Kryo serialization we first set `spark.serializer\u003dorg.apache.spark.serializer.KryoSerializer` and `spark.kryo.registrator\u003dlabs.Lab4KryoRegistrator`. You can take a look at these values in the Interpreter section of Zeppelin, for the spark-kryo interpreter.\n\n```scala\npackage labs\n\nimport com.esotericsoftware.kryo.Kryo\nimport org.apache.spark.serializer.KryoRegistrator\n\ncase class Trip(\n                 id: Int,\n                 duration: Int,\n                 startDate: String,\n                 startStation: String,\n                 startTerminal: Int,\n                 endDate: String,\n                 endStation: String,\n                 endTerminal: Int,\n                 bike: Int,\n                 subscriberType: String,\n                 zipCode: Option[String]\n                 )\n\nobject Trip {\n  def parse(i: Array[String]) \u003d {\n    val zip \u003d i.length match {\n      case 11 \u003d\u003e Some(i(10))\n      case _ \u003d\u003e None\n    }\n    Trip(i(0).toInt, i(1).toInt, i(2), i(3), i(4).toInt, i(5), i(6), i(7).toInt, i(8).toInt, i(9), zip)\n  }\n}\n\ncase class Station(\n                    id: Int,\n                    name: String,\n                    lat: Double,\n                    lon: Double,\n                    docks: Int,\n                    landmark: String,\n                    installDate: String\n                    )\n\nobject Station {\n  def parse(i: Array[String]) \u003d {\n    Station(i(0).toInt, i(1), i(2).toDouble, i(3).toDouble, i(4).toInt, i(5), i(6))\n  }\n}\n\nclass Lab4KryoRegistrator extends KryoRegistrator {\n\n  override def registerClasses(kryo: Kryo): Unit \u003d {\n    kryo.register(classOf[Trip])\n    kryo.register(classOf[Station])\n  }\n}\n\n```",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1428634045803_-1747908211",
+      "id": "20150409-224725_476762518",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch4\u003eOpen up the Spark UI, you\u0027ll have to try port 4041 since this is another instance of the SparkContext. If you look at the Storage tab you should see the trips dataset using serialized storage, using up much less space than the Java serialized version.\u003c/h4\u003e\n\u003ch4\u003eIn order to configure Kryo serialization we first set \u003ccode\u003espark.serializer\u003dorg.apache.spark.serializer.KryoSerializer\u003c/code\u003e and \u003ccode\u003espark.kryo.registrator\u003dlabs.Lab4KryoRegistrator\u003c/code\u003e. You can take a look at these values in the Interpreter section of Zeppelin, for the spark-kryo interpreter.\u003c/h4\u003e\n\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003epackage labs\n\nimport com.esotericsoftware.kryo.Kryo\nimport org.apache.spark.serializer.KryoRegistrator\n\ncase class Trip(\n                 id: Int,\n                 duration: Int,\n                 startDate: String,\n                 startStation: String,\n                 startTerminal: Int,\n                 endDate: String,\n                 endStation: String,\n                 endTerminal: Int,\n                 bike: Int,\n                 subscriberType: String,\n                 zipCode: Option[String]\n                 )\n\nobject Trip {\n  def parse(i: Array[String]) \u003d {\n    val zip \u003d i.length match {\n      case 11 \u003d\u0026gt; Some(i(10))\n      case _ \u003d\u0026gt; None\n    }\n    Trip(i(0).toInt, i(1).toInt, i(2), i(3), i(4).toInt, i(5), i(6), i(7).toInt, i(8).toInt, i(9), zip)\n  }\n}\n\ncase class Station(\n                    id: Int,\n                    name: String,\n                    lat: Double,\n                    lon: Double,\n                    docks: Int,\n                    landmark: String,\n                    installDate: String\n                    )\n\nobject Station {\n  def parse(i: Array[String]) \u003d {\n    Station(i(0).toInt, i(1), i(2).toDouble, i(3).toDouble, i(4).toInt, i(5), i(6))\n  }\n}\n\nclass Lab4KryoRegistrator extends KryoRegistrator {\n\n  override def registerClasses(kryo: Kryo): Unit \u003d {\n    kryo.register(classOf[Trip])\n    kryo.register(classOf[Station])\n  }\n}\n\u003c/code\u003e\u003c/pre\u003e\n"
+      },
+      "dateCreated": "Apr 9, 2015 10:47:25 PM",
+      "dateStarted": "Apr 10, 2015 9:12:51 AM",
+      "dateFinished": "Apr 10, 2015 9:12:51 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1428635118562_-1498471095",
+      "id": "20150409-230518_1798360223",
+      "dateCreated": "Apr 9, 2015 11:05:18 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Lab 4 - With Kryo",
+  "id": "Lab4wKryo",
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

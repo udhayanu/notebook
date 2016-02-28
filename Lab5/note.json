@@ -1,0 +1,362 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n### This lab will not be run in Zeppelin, but using sbt and your choice of Eclipse or IntelliJ.",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426827811077_-2141928871",
+      "id": "20150320-010331_1981504431",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch3\u003eThis lab will not be run in Zeppelin, but using sbt and your choice of Eclipse or IntelliJ.\u003c/h3\u003e\n"
+      },
+      "dateCreated": "Mar 20, 2015 1:03:31 AM",
+      "dateStarted": "Apr 21, 2015 4:17:50 PM",
+      "dateFinished": "Apr 21, 2015 4:17:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Creating a basic sbt project",
+      "text": "%md\n1. First start a command line and create a directory for your project, call it lab5\n2. Inside the new directory, run the sbt command\n3. Once the sbt console comes up, enter the following commands:\n```bash\nset name :\u003d \"lab5\"\nset version :\u003d \"1.0\"\nset scalaVersion :\u003d \"2.10.4\"\nsession save\nexit\n```\n4. Once you exit, you should have a basic build.sbt file along with a project directory\n5. Edit the build.sbt file to verify its settings match what you entered above\n6. Add the following lines to the build.sbt file:\n```scala\n val sparkVersion \u003d \"1.2.1\"\n \n libraryDependencies ++\u003d Seq(\n \t\"org.apache.spark\" %% \"spark-core\" % sparkVersion\n )\n```\n7. Now create the following directory structure:\nsrc/\n\u0026nbsp;\u0026nbsp;main/\n\u0026nbsp;\u0026nbsp;\u0026nbsp;\u0026nbsp;resources/\n\u0026nbsp;\u0026nbsp;\u0026nbsp;\u0026nbsp;scala/\n\u0026nbsp;\u0026nbsp;test/\n\u0026nbsp;\u0026nbsp;\u0026nbsp;\u0026nbsp;resources/\n\u0026nbsp;\u0026nbsp;\u0026nbsp;\u0026nbsp;scala/\n8. Create a file Lab5.scala under src/main/scala\n9. Copy this code below into the file:\n```scala\n package labs\n \n import org.apache.spark.{SparkConf, SparkContext}\n \n object Lab5 {\n\n  def main(args: Array[String]) \u003d {\n    val sc \u003d new SparkContext(new SparkConf().\n      setAppName(\"lab5\"))\n      \n    val trips \u003d sc.textFile(\"data/trips/*\")\n    val stations \u003d sc.textFile(\"data/stations/*\")\n    \n    trips.count()\n    stations.count()\n    \n    println(\"Press [Enter] to quit\")\n    Console.readLine()\n    \n    sc.stop\n  }\n }\n```\n10. From the root of the lab5 project, run:\n```bash\nsbt compile\n```\n11. Verify no errors occurred\n12. Now let\u0027s create a JAR we can submit to Spark\n```bash\nsbt package\n```\n13. The JAR should be in `target/scala-2.10/lab5_2.10-1.0.jar`\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "tableHide": false,
+        "title": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426826522263_865060572",
+      "id": "20150320-004202_1451222956",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003col\u003e\n\u003cli\u003eFirst start a command line and create a directory for your project, call it lab5\u003c/li\u003e\n\u003cli\u003eInside the new directory, run the sbt command\u003c/li\u003e\n\u003cli\u003eOnce the sbt console comes up, enter the following commands:\u003cpre\u003e\u003ccode class\u003d\"bash\"\u003eset name :\u003d \"lab5\"\nset version :\u003d \"1.0\"\nset scalaVersion :\u003d \"2.10.4\"\nsession save\nexit\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eOnce you exit, you should have a basic build.sbt file along with a project directory\u003c/li\u003e\n\u003cli\u003eEdit the build.sbt file to verify its settings match what you entered above\u003c/li\u003e\n\u003cli\u003eAdd the following lines to the build.sbt file:\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003eval sparkVersion \u003d \"1.2.1\"\n\nlibraryDependencies ++\u003d Seq(\n\"org.apache.spark\" %% \"spark-core\" % sparkVersion\n)\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eNow create the following directory structure:\n\u003cbr  /\u003esrc/\n\u003cbr  /\u003e\u0026nbsp;\u0026nbsp;main/\n\u003cbr  /\u003e\u0026nbsp;\u0026nbsp;\u0026nbsp;\u0026nbsp;resources/\n\u003cbr  /\u003e\u0026nbsp;\u0026nbsp;\u0026nbsp;\u0026nbsp;scala/\n\u003cbr  /\u003e\u0026nbsp;\u0026nbsp;test/\n\u003cbr  /\u003e\u0026nbsp;\u0026nbsp;\u0026nbsp;\u0026nbsp;resources/\n\u003cbr  /\u003e\u0026nbsp;\u0026nbsp;\u0026nbsp;\u0026nbsp;scala/\u003c/li\u003e\n\u003cli\u003eCreate a file Lab5.scala under src/main/scala\u003c/li\u003e\n\u003cli\u003eCopy this code below into the file:\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003epackage labs\n\nimport org.apache.spark.{SparkConf, SparkContext}\n\nobject Lab5 {\n\ndef main(args: Array[String]) \u003d {\nval sc \u003d new SparkContext(new SparkConf().\n  setAppName(\"lab5\"))\n\nval trips \u003d sc.textFile(\"data/trips/*\")\nval stations \u003d sc.textFile(\"data/stations/*\")\n\ntrips.count()\nstations.count()\n\nprintln(\"Press [Enter] to quit\")\nConsole.readLine()\n\nsc.stop\n}\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eFrom the root of the lab5 project, run:\u003cpre\u003e\u003ccode class\u003d\"bash\"\u003esbt compile\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eVerify no errors occurred\u003c/li\u003e\n\u003cli\u003eNow let\u0027s create a JAR we can submit to Spark\u003cpre\u003e\u003ccode class\u003d\"bash\"\u003esbt package\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eThe JAR should be in \u003ccode\u003etarget/scala-2.10/lab5_2.10-1.0.jar\u003c/code\u003e\u003c/li\u003e\n\u003c/ol\u003e\n"
+      },
+      "dateCreated": "Mar 20, 2015 12:42:02 AM",
+      "dateStarted": "Apr 21, 2015 3:36:14 PM",
+      "dateFinished": "Apr 21, 2015 3:36:14 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Using Eclipse",
+      "text": "%md\n#### To use Eclipse with an sbt project, we first have to enable the eclipse-sbt plugin. This plugin will generate an Eclipse project for us that we can then import. It doesn\u0027t provide all the advanced functionality we get with sbt but provides a familiar environment if you prefer Eclipse.\n\n1. Create a file plugins.sbt in the \"project\" folder\n2. Add the following line to the plugins.sbt file:\n```scala\naddSbtPlugin(\"com.typesafe.sbteclipse\" % \"sbteclipse-plugin\" % \"3.0.0\")\n```\n3. Run the eclipse task from the sbt command line:\n```bash\nsbt eclipse\n```\n4. Open Eclipse and import a new project, using the root directory of our app\n5. Verify that all dependencies and files are included in the project and that it compiles properly",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "tableHide": false,
+        "title": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1426826683053_-1493387244",
+      "id": "20150320-004443_526581305",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch4\u003eTo use Eclipse with an sbt project, we first have to enable the eclipse-sbt plugin. This plugin will generate an Eclipse project for us that we can then import. It doesn\u0027t provide all the advanced functionality we get with sbt but provides a familiar environment if you prefer Eclipse.\u003c/h4\u003e\n\u003col\u003e\n\u003cli\u003eCreate a file plugins.sbt in the \u0026ldquo;project\u0026rdquo; folder\u003c/li\u003e\n\u003cli\u003eAdd the following line to the plugins.sbt file:\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003eaddSbtPlugin(\"com.typesafe.sbteclipse\" % \"sbteclipse-plugin\" % \"3.0.0\")\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eRun the eclipse task from the sbt command line:\u003cpre\u003e\u003ccode class\u003d\"bash\"\u003esbt eclipse\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eOpen Eclipse and import a new project, using the root directory of our app\u003c/li\u003e\n\u003cli\u003eVerify that all dependencies and files are included in the project and that it compiles properly\u003c/li\u003e\n\u003c/ol\u003e\n"
+      },
+      "dateCreated": "Mar 20, 2015 12:44:43 AM",
+      "dateStarted": "Mar 24, 2015 11:09:32 AM",
+      "dateFinished": "Mar 24, 2015 11:09:32 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Using IntelliJ",
+      "text": "%md\n#### IntelliJ has a very functional Scala plugin with full support for sbt. There\u0027s no need to include a plugin and you can directly open an SBT project or create it from within the IDE.\n\n##### First install the Scala plugin\n\n1. Start IntelliJ\n2. Go to Preferences -\u003e Plugins\n3. Search for \"Scala\" and enable the plugin\n\n##### Now open an existing project\n\n1. Go to open a project\n2. Browse to the path of our Lab5 app and open it\n3. Select \"Use auto-import\" and \"Create directories for empty content roots automatically\"\n4. Set the \u0027Project SDK\u0027 to 1.7\n5. Click \u0027OK\u0027\n\n#### Now let\u0027s try creating a new project from scratch\n\n1. Select \"Create New Project\"\n2. Make sure Scala is selected and SBT as the project type\n3. Enter a project name, location (different than the one above)\n4. Set SDK to 1.7, SBT to the latest 0.13.*, Scala to the latest 2.10.*\n5. Check \"Use auto-import\" and \"Create directories for empty content roots automatically\"\n6. Uncheck \"Download sources and docs\" and \"Download SBT sources and docs\"\n7. Click finish\n8. Open the build.sbt file and paste the contents below:\n```scala\n val sparkVersion \u003d \"1.2.1\"\n\n libraryDependencies ++\u003d Seq(\n  \"org.apache.spark\" %% \"spark-core\" % sparkVersion\n )\n```\n9. Create a new package called \"labs\" and add a file called \"Lab5.scala\" with the same contents above\n10. From the \"Build\" menu, select \"Make Project\"",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1427208607612_682721578",
+      "id": "20150324-105007_415028935",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch4\u003eIntelliJ has a very functional Scala plugin with full support for sbt. There\u0027s no need to include a plugin and you can directly open an SBT project or create it from within the IDE.\u003c/h4\u003e\n\u003ch5\u003eFirst install the Scala plugin\u003c/h5\u003e\n\u003col\u003e\n\u003cli\u003eStart IntelliJ\u003c/li\u003e\n\u003cli\u003eGo to Preferences -\u003e Plugins\u003c/li\u003e\n\u003cli\u003eSearch for \u0026ldquo;Scala\u0026rdquo; and enable the plugin\u003c/li\u003e\n\u003c/ol\u003e\n\u003ch5\u003eNow open an existing project\u003c/h5\u003e\n\u003col\u003e\n\u003cli\u003eGo to open a project\u003c/li\u003e\n\u003cli\u003eBrowse to the path of our Lab5 app and open it\u003c/li\u003e\n\u003cli\u003eSelect \u0026ldquo;Use auto-import\u0026rdquo; and \u0026ldquo;Create directories for empty content roots automatically\u0026rdquo;\u003c/li\u003e\n\u003cli\u003eSet the \u0027Project SDK\u0027 to 1.7\u003c/li\u003e\n\u003cli\u003eClick \u0027OK\u0027\u003c/li\u003e\n\u003c/ol\u003e\n\u003ch4\u003eNow let\u0027s try creating a new project from scratch\u003c/h4\u003e\n\u003col\u003e\n\u003cli\u003eSelect \u0026ldquo;Create New Project\u0026rdquo;\u003c/li\u003e\n\u003cli\u003eMake sure Scala is selected and SBT as the project type\u003c/li\u003e\n\u003cli\u003eEnter a project name, location (different than the one above)\u003c/li\u003e\n\u003cli\u003eSet SDK to 1.7, SBT to the latest 0.13.\u003cem\u003e, Scala to the latest 2.10.\u003c/em\u003e\u003c/li\u003e\n\u003cli\u003eCheck \u0026ldquo;Use auto-import\u0026rdquo; and \u0026ldquo;Create directories for empty content roots automatically\u0026rdquo;\u003c/li\u003e\n\u003cli\u003eUncheck \u0026ldquo;Download sources and docs\u0026rdquo; and \u0026ldquo;Download SBT sources and docs\u0026rdquo;\u003c/li\u003e\n\u003cli\u003eClick finish\u003c/li\u003e\n\u003cli\u003eOpen the build.sbt file and paste the contents below:\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003eval sparkVersion \u003d \"1.2.1\"\n\nlibraryDependencies ++\u003d Seq(\n\"org.apache.spark\" %% \"spark-core\" % sparkVersion\n)\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eCreate a new package called \u0026ldquo;labs\u0026rdquo; and add a file called \u0026ldquo;Lab5.scala\u0026rdquo; with the same contents above\u003c/li\u003e\n\u003cli\u003eFrom the \u0026ldquo;Build\u0026rdquo; menu, select \u0026ldquo;Make Project\u0026rdquo;\u003c/li\u003e\n\u003c/ol\u003e\n"
+      },
+      "dateCreated": "Mar 24, 2015 10:50:07 AM",
+      "dateStarted": "Apr 21, 2015 4:13:19 PM",
+      "dateFinished": "Apr 21, 2015 4:13:19 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Debugging In Eclipse",
+      "text": "%md\n#### For this assignment, we\u0027ll use the project you have already loaded in Eclipse and sbt\n1. In Eclipse create a new Debug Configuration for a Scala Application\n2. Set a VM argument such as: `-Dspark.master\u003dlocal[*]`\n3. Set a breakpoint on the first line of the Lab5 app\n4. Start the debugger using the Debug Configuration you created\n5. You should shortly hit your breakpoint in Eclipse",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1427208824762_1091815284",
+      "id": "20150324-105344_1114655415",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch4\u003eFor this assignment, we\u0027ll use the project you have already loaded in Eclipse and sbt\u003c/h4\u003e\n\u003col\u003e\n\u003cli\u003eIn Eclipse create a new Debug Configuration for a Scala Application\u003c/li\u003e\n\u003cli\u003eSet a VM argument such as: \u003ccode\u003e-Dspark.master\u003dlocal[*]\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003eSet a breakpoint on the first line of the Lab5 app\u003c/li\u003e\n\u003cli\u003eStart the debugger using the Debug Configuration you created\u003c/li\u003e\n\u003cli\u003eYou should shortly hit your breakpoint in Eclipse\u003c/li\u003e\n\u003c/ol\u003e\n"
+      },
+      "dateCreated": "Mar 24, 2015 10:53:44 AM",
+      "dateStarted": "Apr 21, 2015 3:45:39 PM",
+      "dateFinished": "Apr 21, 2015 3:45:39 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Debugging In IntelliJ",
+      "text": "%md\n#### For this assignment, we\u0027ll use one of the previous projects you have running in IntelliJ and sbt.\n1. In IntelliJ create a new Run Configuration for an Application\n2. In the VM Options enter `-Dspark.master\u003dlocal[*]`\n3. Set a breakpoint on the first line of the Lab5 app\n4. Start the debugger using the Run Configuration you created\n5. You should shortly hit your breakpoint in IntelliJ",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1427208846195_1769758170",
+      "id": "20150324-105406_725466051",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch4\u003eFor this assignment, we\u0027ll use one of the previous projects you have running in IntelliJ and sbt.\u003c/h4\u003e\n\u003col\u003e\n\u003cli\u003eIn IntelliJ create a new Run Configuration for an Application\u003c/li\u003e\n\u003cli\u003eIn the VM Options enter \u003ccode\u003e-Dspark.master\u003dlocal[*]\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003eSet a breakpoint on the first line of the Lab5 app\u003c/li\u003e\n\u003cli\u003eStart the debugger using the Run Configuration you created\u003c/li\u003e\n\u003cli\u003eYou should shortly hit your breakpoint in IntelliJ\u003c/li\u003e\n\u003c/ol\u003e\n"
+      },
+      "dateCreated": "Mar 24, 2015 10:54:06 AM",
+      "dateStarted": "Apr 21, 2015 3:53:38 PM",
+      "dateFinished": "Apr 21, 2015 3:53:38 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n#### Now let\u0027s add some more functionality\n\n1. Add code to skip the header in each CSV file\n2. Use the code below to calculate the distance between two latitude/longitude points (note: this is simply calculating the direct distance)\n```scala\n def distanceOf(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double \u003d {\n   val earthRadius \u003d 3963 - 13 * Math.sin(lat1)\n   \n   val dLat \u003d Math.toRadians(lat2-lat1)\n   val dLon \u003d Math.toRadians(lon2-lon1)\n\n   val a \u003d Math.pow(Math.sin(dLat / 2), 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.pow(Math.sin(dLon / 2), 2)\n   \n   val c \u003d 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))\n   \n   val dist \u003d earthRadius * c\n\n   dist\n }\n```\n3. Add the case classes below to parse and store the trip and station records\n```scala\n case class Trip(\n                 id: Int,\n                 duration: Int,\n                 startDate: String,\n                 startStation: String,\n                 startTerminal: Int,\n                 endDate: String,\n                 endStation: String,\n                 endTerminal: Int,\n                 bike: Int,\n                 subscriberType: String,\n                 zipCode: Option[String]\n                 )\n\n object Trip {\n  def parse(i: Array[String]) \u003d {\n    val zip \u003d i.length match {\n      case 11 \u003d\u003e Some(i(10))\n      case _ \u003d\u003e None\n    }\n    Trip(i(0).toInt, i(1).toInt, i(2), i(3), i(4).toInt, i(5), i(6), i(7).toInt, i(8).toInt, i(9), zip)\n  }\n }\n\n case class Station(\n                    id: Int,\n                    name: String,\n                    lat: Double,\n                    lon: Double,\n                    docks: Int,\n                    landmark: String,\n                    installDate: String\n                    )\n\n object Station {\n  def parse(i: Array[String]) \u003d {\n    Station(i(0).toInt, i(1), i(2).toDouble, i(3).toDouble, i(4).toInt, i(5), i(6))\n  }\n\n  val default \u003d Station(0, \"None\", 0, 0, 0, \"\", \"\")\n }\n```\n4. Write a transformation that calculates the distance of each trip and outputs the trip id and distance values\n5. Save the data out to HDFS\n6. Build your JAR using your IDE or the command line\n```\nsbt package\n```\n",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1427208872891_-1355695063",
+      "id": "20150324-105432_549229490",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch4\u003eNow let\u0027s add some more functionality\u003c/h4\u003e\n\u003col\u003e\n\u003cli\u003eAdd code to skip the header in each CSV file\u003c/li\u003e\n\u003cli\u003eUse the code below to calculate the distance between two latitude/longitude points (note: this is simply calculating the direct distance)\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003edef distanceOf(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double \u003d {\nval earthRadius \u003d 3963 - 13 * Math.sin(lat1)\n\nval dLat \u003d Math.toRadians(lat2-lat1)\nval dLon \u003d Math.toRadians(lon2-lon1)\n\nval a \u003d Math.pow(Math.sin(dLat / 2), 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.pow(Math.sin(dLon / 2), 2)\n\nval c \u003d 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))\n\nval dist \u003d earthRadius * c\n\ndist\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eAdd the case classes below to parse and store the trip and station records\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003ecase class Trip(\n             id: Int,\n             duration: Int,\n             startDate: String,\n             startStation: String,\n             startTerminal: Int,\n             endDate: String,\n             endStation: String,\n             endTerminal: Int,\n             bike: Int,\n             subscriberType: String,\n             zipCode: Option[String]\n             )\n\nobject Trip {\ndef parse(i: Array[String]) \u003d {\nval zip \u003d i.length match {\n  case 11 \u003d\u0026gt; Some(i(10))\n  case _ \u003d\u0026gt; None\n}\nTrip(i(0).toInt, i(1).toInt, i(2), i(3), i(4).toInt, i(5), i(6), i(7).toInt, i(8).toInt, i(9), zip)\n}\n}\n\ncase class Station(\n                id: Int,\n                name: String,\n                lat: Double,\n                lon: Double,\n                docks: Int,\n                landmark: String,\n                installDate: String\n                )\n\nobject Station {\ndef parse(i: Array[String]) \u003d {\nStation(i(0).toInt, i(1), i(2).toDouble, i(3).toDouble, i(4).toInt, i(5), i(6))\n}\n\nval default \u003d Station(0, \"None\", 0, 0, 0, \"\", \"\")\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eWrite a transformation that calculates the distance of each trip and outputs the trip id and distance values\u003c/li\u003e\n\u003cli\u003eSave the data out to HDFS\u003c/li\u003e\n\u003cli\u003eBuild your JAR using your IDE or the command line\u003cpre\u003e\u003ccode\u003esbt package\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003c/ol\u003e\n"
+      },
+      "dateCreated": "Mar 24, 2015 10:54:32 AM",
+      "dateStarted": "Apr 13, 2015 8:33:08 AM",
+      "dateFinished": "Apr 13, 2015 8:33:08 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "%md\n```scala\nobject Lab5 {\n\n  def joinAndCalculateDistance(trips: RDD[Trip], stations: Broadcast[Map[Int, Station]]) \u003d {\n    trips.map(t \u003d\u003e {\n      val start \u003d stations.value.getOrElse(t.startTerminal, Station.default)\n      val end \u003d stations.value.getOrElse(t.endTerminal, Station.default)\n\n      (t.id, distanceOf(start.lat, start.lon, end.lat, end.lon))\n    })\n  }\n\n  def main(args: Array[String]) \u003d {\n    val sc \u003d new SparkContext(new SparkConf().\n      setAppName(\"lab5\"))\n\n    val output \u003d args.length match {\n      case 1 \u003d\u003e args(0)\n      case _ \u003d\u003e \"data/lab5/output\"\n    }\n\n    val trips_input \u003d sc.textFile(\"data/trips/*\")\n    val trips_header \u003d trips_input.first\n    val trips \u003d trips_input.filter(_ !\u003d trips_header).map(_.split(\",\")).map(Trip.parse(_))\n\n    val stations_input \u003d sc.textFile(\"data/stations/*\")\n    val stations_header \u003d stations_input.first\n    val stations \u003d stations_input.filter(_ !\u003d stations_header).map(_.split(\",\")).map(Station.parse(_)).keyBy((_.id)).collectAsMap()\n    val bcstations \u003d sc.broadcast(stations)\n    \n    val result \u003d joinAndCalculateDistance(trips, bcstations)\n\n    result.coalesce(1).saveAsTextFile(output)\n\n    println(\"Press [Enter] to quit\")\n    Console.readLine()\n\n    sc.stop\n  }\n\n  def distanceOf(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double \u003d {\n    val earthRadius \u003d 3963 - 13 * Math.sin(lat1)\n\n    val dLat \u003d Math.toRadians(lat2-lat1)\n    val dLon \u003d Math.toRadians(lon2-lon1)\n\n    val a \u003d Math.pow(Math.sin(dLat / 2), 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.pow(Math.sin(dLon / 2), 2)\n\n    val c \u003d 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))\n\n    val dist \u003d earthRadius * c\n\n    dist\n  }\n}\n```",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1428374199124_-966724526",
+      "id": "20150406-223639_1497547439",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003eobject Lab5 {\n\n  def joinAndCalculateDistance(trips: RDD[Trip], stations: Broadcast[Map[Int, Station]]) \u003d {\n    trips.map(t \u003d\u0026gt; {\n      val start \u003d stations.value.getOrElse(t.startTerminal, Station.default)\n      val end \u003d stations.value.getOrElse(t.endTerminal, Station.default)\n\n      (t.id, distanceOf(start.lat, start.lon, end.lat, end.lon))\n    })\n  }\n\n  def main(args: Array[String]) \u003d {\n    val sc \u003d new SparkContext(new SparkConf().\n      setAppName(\"lab5\"))\n\n    val output \u003d args.length match {\n      case 1 \u003d\u0026gt; args(0)\n      case _ \u003d\u0026gt; \"data/lab5/output\"\n    }\n\n    val trips_input \u003d sc.textFile(\"data/trips/*\")\n    val trips_header \u003d trips_input.first\n    val trips \u003d trips_input.filter(_ !\u003d trips_header).map(_.split(\",\")).map(Trip.parse(_))\n\n    val stations_input \u003d sc.textFile(\"data/stations/*\")\n    val stations_header \u003d stations_input.first\n    val stations \u003d stations_input.filter(_ !\u003d stations_header).map(_.split(\",\")).map(Station.parse(_)).keyBy((_.id)).collectAsMap()\n    val bcstations \u003d sc.broadcast(stations)\n\n    val result \u003d joinAndCalculateDistance(trips, bcstations)\n\n    result.coalesce(1).saveAsTextFile(output)\n\n    println(\"Press [Enter] to quit\")\n    Console.readLine()\n\n    sc.stop\n  }\n\n  def distanceOf(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double \u003d {\n    val earthRadius \u003d 3963 - 13 * Math.sin(lat1)\n\n    val dLat \u003d Math.toRadians(lat2-lat1)\n    val dLon \u003d Math.toRadians(lon2-lon1)\n\n    val a \u003d Math.pow(Math.sin(dLat / 2), 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.pow(Math.sin(dLon / 2), 2)\n\n    val c \u003d 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))\n\n    val dist \u003d earthRadius * c\n\n    dist\n  }\n}\n\u003c/code\u003e\u003c/pre\u003e\n"
+      },
+      "dateCreated": "Apr 6, 2015 10:36:39 PM",
+      "dateStarted": "Apr 13, 2015 8:34:22 AM",
+      "dateFinished": "Apr 13, 2015 8:34:22 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n#### Let\u0027s add some unit tests first to verify the `distanceOf` function is correct and then to verify the whole transformation\n\n1. First add the following two dependencies to your `build.sbt` file:\n```scala\n  \"org.scalatest\" %% \"scalatest\" % \"2.2.1\" % \"test\",\n  \"com.holdenkarau\" %% \"spark-testing-base\" % \"1.2.0_1.1.1_0.0.6\" % \"test\"\n```\n2. Create a test class in `src/test/scala/Lab5Test.scala`\n3. Add the content below to `src/test/resources/log4j.properties`\n```\n log4j.rootCategory\u003dWARN, console\n\n log4j.appender.console\u003dorg.apache.log4j.ConsoleAppender\n log4j.appender.console.layout\u003dorg.apache.log4j.PatternLayout\n log4j.appender.console.target\u003dSystem.err\n\n log4j.logger.labs\u003dINFO\n```\n4. Use the code below as a starting point\n```scala\n package labs\n\n import com.holdenkarau.spark.testing.SharedSparkContext\n import org.scalatest.FunSuite\n\n class Lab5Test extends FunSuite with SharedSparkContext {\n\n  test(\"distance calculation\") {\n    val start \u003d (42.178, -82.556)\n    val end \u003d (42.229, -82.5528)\n\n    val expected \u003d 3.542615227517951\n  }\n\n  test(\"join trips and stations and calculate distance\") {\n  }\n }\n```\n5. Once you\u0027ve written your tests, use your IDE or the command line to run them\n```bash\nsbt test\n```",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1428373294824_-1541021650",
+      "id": "20150406-222134_1657026231",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003ch4\u003eLet\u0027s add some unit tests first to verify the \u003ccode\u003edistanceOf\u003c/code\u003e function is correct and then to verify the whole transformation\u003c/h4\u003e\n\u003col\u003e\n\u003cli\u003eFirst add the following two dependencies to your \u003ccode\u003ebuild.sbt\u003c/code\u003e file:\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003e\"org.scalatest\" %% \"scalatest\" % \"2.2.1\" % \"test\",\n\"com.holdenkarau\" %% \"spark-testing-base\" % \"1.2.0_1.1.1_0.0.6\" % \"test\"\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eCreate a test class in \u003ccode\u003esrc/test/scala/Lab5Test.scala\u003c/code\u003e\u003c/li\u003e\n\u003cli\u003eAdd the content below to \u003ccode\u003esrc/test/resources/log4j.properties\u003c/code\u003e\u003cpre\u003e\u003ccode\u003elog4j.rootCategory\u003dWARN, console\n\nlog4j.appender.console\u003dorg.apache.log4j.ConsoleAppender\nlog4j.appender.console.layout\u003dorg.apache.log4j.PatternLayout\nlog4j.appender.console.target\u003dSystem.err\n\nlog4j.logger.labs\u003dINFO\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eUse the code below as a starting point\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003epackage labs\n\nimport com.holdenkarau.spark.testing.SharedSparkContext\nimport org.scalatest.FunSuite\n\nclass Lab5Test extends FunSuite with SharedSparkContext {\n\ntest(\"distance calculation\") {\nval start \u003d (42.178, -82.556)\nval end \u003d (42.229, -82.5528)\n\nval expected \u003d 3.542615227517951\n}\n\ntest(\"join trips and stations and calculate distance\") {\n}\n}\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003eOnce you\u0027ve written your tests, use your IDE or the command line to run them\u003cpre\u003e\u003ccode class\u003d\"bash\"\u003esbt test\n\u003c/code\u003e\u003c/pre\u003e\n\u003c/li\u003e\n\u003c/ol\u003e\n"
+      },
+      "dateCreated": "Apr 6, 2015 10:21:34 PM",
+      "dateStarted": "Apr 26, 2015 7:36:11 PM",
+      "dateFinished": "Apr 26, 2015 7:36:12 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Solution",
+      "text": "%md\n```scala\nclass Lab5Test extends FunSuite with SharedSparkContext {\n\n  test(\"distance calculation\") {\n    val start \u003d (42.178, -82.556)\n    val end \u003d (42.229, -82.5528)\n\n    val expected \u003d 3.542615227517951\n\n    assertResult(expected) {\n      Lab5.distanceOf(start._1, start._2, end._1, end._2)\n    }\n  }\n\n  test(\"join trips and stations and calculate distance\") {\n    val trips \u003d sc.makeRDD(Seq(Trip(1, 1, \"1/1/2015 1:00\", \"Start\", 1, \"1/1/2015\", \"End\", 2, 1, \"Subscriber\", Some(1234))))\n    val stations \u003d sc.broadcast(scala.collection.Map(1 -\u003e Station(1, \"Start\", 42.178, -82.556, 1, \"\", \"\"), 2 -\u003e Station(2, \"End\", 42.229, -82.5528, 1, \"\", \"\")))\n\n    val expected \u003d Array((1, 3.542615227517951))\n\n    assertResult(expected) {\n      Lab5.joinAndCalculateDistance(trips, stations).collect()\n    }\n  }\n}\n```",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "title": true,
+        "editorHide": true,
+        "tableHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1427327468489_948705973",
+      "id": "20150325-195108_19003448",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cpre\u003e\u003ccode class\u003d\"scala\"\u003eclass Lab5Test extends FunSuite with SharedSparkContext {\n\n  test(\"distance calculation\") {\n    val start \u003d (42.178, -82.556)\n    val end \u003d (42.229, -82.5528)\n\n    val expected \u003d 3.542615227517951\n\n    assertResult(expected) {\n      Lab5.distanceOf(start._1, start._2, end._1, end._2)\n    }\n  }\n\n  test(\"join trips and stations and calculate distance\") {\n    val trips \u003d sc.makeRDD(Seq(Trip(1, 1, \"1/1/2015 1:00\", \"Start\", 1, \"1/1/2015\", \"End\", 2, 1, \"Subscriber\", Some(1234))))\n    val stations \u003d sc.broadcast(scala.collection.Map(1 -\u0026gt; Station(1, \"Start\", 42.178, -82.556, 1, \"\", \"\"), 2 -\u0026gt; Station(2, \"End\", 42.229, -82.5528, 1, \"\", \"\")))\n\n    val expected \u003d Array((1, 3.542615227517951))\n\n    assertResult(expected) {\n      Lab5.joinAndCalculateDistance(trips, stations).collect()\n    }\n  }\n}\n\u003c/code\u003e\u003c/pre\u003e\n"
+      },
+      "dateCreated": "Mar 25, 2015 7:51:08 PM",
+      "dateStarted": "Apr 6, 2015 11:06:46 PM",
+      "dateFinished": "Apr 6, 2015 11:06:46 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1428376006134_816006475",
+      "id": "20150406-230646_967558207",
+      "dateCreated": "Apr 6, 2015 11:06:46 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Lab 5",
+  "id": "Lab5",
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}
