@@ -179,8 +179,9 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Lab 4",
+  "name": "Spark II Lab 4",
   "id": "Lab4",
+  "angularObjects": {},
   "config": {
     "looknfeel": "default"
   },

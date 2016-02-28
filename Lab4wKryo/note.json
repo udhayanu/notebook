@@ -177,8 +177,9 @@
       "progressUpdateIntervalMs": 500
     }
   ],
-  "name": "Lab 4 - With Kryo",
+  "name": "Spark II Lab 4 - With Kryo",
   "id": "Lab4wKryo",
+  "angularObjects": {},
   "config": {
     "looknfeel": "default"
   },

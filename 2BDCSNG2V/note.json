@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%pyspark\nprint sys.version\nprint sc.version\nfoldername \u003d \"/Users/mridhusri/Documents/iPython/ampcamp6/data/cs100/lab1/\"",
-      "dateUpdated": "Feb 21, 2016 7:38:17 PM",
+      "dateUpdated": "Feb 28, 2016 12:10:42 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,8 +29,8 @@
         "msg": "2.7.10 |Anaconda 2.4.0 (x86_64)| (default, Oct 19 2015, 18:31:17) \n[GCC 4.2.1 (Apple Inc. build 5577)]\n1.5.0\n"
       },
       "dateCreated": "Feb 21, 2016 7:12:25 PM",
-      "dateStarted": "Feb 21, 2016 7:38:17 PM",
-      "dateFinished": "Feb 21, 2016 7:38:53 PM",
+      "dateStarted": "Feb 28, 2016 12:10:42 PM",
+      "dateFinished": "Feb 28, 2016 12:10:42 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
