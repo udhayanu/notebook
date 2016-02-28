@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%sh\ndate +\"%r %a %d %h %y (Julian Date: %j)\"\necho $ZEPPELIN_NOTEBOOK_DIR\nls $ZEPPELIN_NOTEBOOK_DIR\n#cat /opt/zeppelin/notebook/2BBTSQQXB/note.json\n# http://www.linuxnix.com/7-linuxunix-gzip-and-gunzip-command-examples/\npwd\n\nls -al\n#help\n\n",
-      "dateUpdated": "Feb 15, 2016 2:17:05 PM",
+      "dateUpdated": "Feb 21, 2016 6:59:32 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -26,11 +26,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "02:17:05 PM Mon 15 Feb 16 (Julian Date: 046)\n/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/notebook\n2A94M5J1Z\n2B9CP75EC\n2B9NA1G7B\n2B9Q4W1Z6\n2BA49XX94\n2BA5WHQHC\n2BACUPT3J\n2BAS2M27G\n2BAXH9DHZ\n2BB2P3DKW\n2BBGVGHWG\n2BBHJ3BFP\n2BBK7B5YS\n2BBPTJQ8Q\n2BBQSSFPE\n2BBRBXN6P\n2BBTSQQXB\n2BBUSBWER\n2BCANPNMN\n2BCGQW27Y\n2BCSXUYY5\ntutorial-python\ntutorial-scala\n/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all\ntotal 3688\ndrwxr-xr-x@ 21 mridhusri  staff      714 Feb 12 16:04 .\ndrwxr-xr-x  33 mridhusri  staff     1122 Feb 12 15:26 ..\n-rw-r--r--@  1 mridhusri  staff    10244 Feb 12 15:33 .DS_Store\n-rw-r--r--@  1 mridhusri  staff      542 Jan 11 09:09 DISCLAIMER\n-rw-r--r--@  1 mridhusri  staff    32370 Jan 11 09:10 LICENSE\n-rw-r--r--@  1 mridhusri  staff     5627 Jan 11 09:10 NOTICE\n-rw-r--r--@  1 mridhusri  staff     6561 Jan 11 09:09 README.md\n-rw-r-----@  1 mridhusri  staff   461474 Jan 11 20:12 bank.csv\ndrwxr-xr-x@  7 mridhusri  staff      238 Jan 11 09:09 bin\ndrwxr-xr-x@ 10 mridhusri  staff      340 Feb 12 15:29 conf\n-rw-r--r--   1 mridhusri  staff      809 Feb 14 13:55 derby.log\ndrwxr-xr-x@ 17 mridhusri  staff      578 Feb 12 14:53 interpreter\ndrwxr-xr-x@ 83 mridhusri  staff     2822 Feb 12 15:09 lib\ndrwxr-xr-x@ 37 mridhusri  staff     1258 Jan 11 09:10 licenses\ndrwxr-xr-x  10 mridhusri  staff      340 Feb 15 14:17 logs\ndrwxr-xr-x   9 mridhusri  staff      306 Feb 14 13:55 metastore_db\ndrwxr-xr-x@ 26 mridhusri  staff      884 Feb 12 15:34 notebook\ndrwxr-xr-x   5 mridhusri  staff      170 Feb 14 13:54 run\ndrwxr-xr-x   3 mridhusri  staff      102 Feb 12 15:29 webapps\n-rw-r--r--@  1 mridhusri  staff    57049 Jan 11 09:09 zeppelin-server-0.5.6-incubating.jar\n-rw-r--r--@  1 mridhusri  staff  1295612 Jan 11 09:09 zeppelin-web-0.5.6-incubating.war\n"
+        "msg": "06:59:35 PM Sun 21 Feb 16 (Julian Date: 052)\n/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/notebook\n2A94M5J1Z\n2B9CP75EC\n2B9NA1G7B\n2B9Q4W1Z6\n2BA49XX94\n2BA5WHQHC\n2BACUPT3J\n2BAS2M27G\n2BAXH9DHZ\n2BB2P3DKW\n2BBGVGHWG\n2BBHJ3BFP\n2BBK7B5YS\n2BBPTJQ8Q\n2BBQSSFPE\n2BBRBXN6P\n2BBTSQQXB\n2BBUSBWER\n2BCANPNMN\n2BCGQW27Y\n2BCSXUYY5\n2BDCSNG2V\ntutorial-python\ntutorial-scala\n/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all\ntotal 3696\ndrwxr-xr-x@ 22 mridhusri  staff      748 Feb 15 14:36 .\ndrwxr-xr-x  33 mridhusri  staff     1122 Feb 12 15:26 ..\n-rw-r--r--@  1 mridhusri  staff    12292 Feb 16 21:27 .DS_Store\n-rw-r--r--@  1 mridhusri  staff      542 Jan 11 09:09 DISCLAIMER\n-rw-r--r--@  1 mridhusri  staff    32370 Jan 11 09:10 LICENSE\n-rw-r--r--@  1 mridhusri  staff     5627 Jan 11 09:10 NOTICE\n-rw-r--r--@  1 mridhusri  staff     6561 Jan 11 09:09 README.md\n-rw-r-----@  1 mridhusri  staff   461474 Jan 11 20:12 bank.csv\ndrwxr-xr-x@  7 mridhusri  staff      238 Jan 11 09:09 bin\ndrwxr-xr-x@ 10 mridhusri  staff      340 Feb 12 15:29 conf\n-rw-r--r--   1 mridhusri  staff      809 Feb 21 18:59 derby.log\ndrwxr-xr-x@ 17 mridhusri  staff      578 Feb 12 14:53 interpreter\ndrwxr-xr-x@ 86 mridhusri  staff     2924 Feb 16 17:08 lib\ndrwxr-xr-x@ 37 mridhusri  staff     1258 Jan 11 09:10 licenses\ndrwxr-xr-x   4 mridhusri  staff      136 Feb 15 14:36 local-repo\ndrwxr-xr-x  14 mridhusri  staff      476 Feb 21 18:59 logs\ndrwxr-xr-x   9 mridhusri  staff      306 Feb 21 18:59 metastore_db\ndrwxr-xr-x@ 28 mridhusri  staff      952 Feb 21 18:51 notebook\ndrwxr-xr-x   5 mridhusri  staff      170 Feb 21 18:59 run\ndrwxr-xr-x   3 mridhusri  staff      102 Feb 12 15:29 webapps\n-rw-r--r--@  1 mridhusri  staff    57049 Jan 11 09:09 zeppelin-server-0.5.6-incubating.jar\n-rw-r--r--@  1 mridhusri  staff  1295612 Jan 11 09:09 zeppelin-web-0.5.6-incubating.war\n"
       },
       "dateCreated": "Jan 19, 2016 3:06:24 PM",
-      "dateStarted": "Feb 15, 2016 2:17:05 PM",
-      "dateFinished": "Feb 15, 2016 2:17:05 PM",
+      "dateStarted": "Feb 21, 2016 6:59:33 PM",
+      "dateFinished": "Feb 21, 2016 6:59:35 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
@@ -278,7 +278,7 @@
     },
     {
       "text": "%spark\nsc.version\nsc.getConf.get(\"spark.home\")\nSystem.getenv().get(\"PYTHONPATH\")\nSystem.getenv().get(\"SPARK_HOME\")\n\nprintln(sc.getConf.toDebugString)",
-      "dateUpdated": "Feb 15, 2016 5:47:27 PM",
+      "dateUpdated": "Feb 21, 2016 7:00:16 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -299,19 +299,19 @@
       "jobName": "paragraph_1453489480765_1338121532",
       "id": "20160122-190440_545458331",
       "result": {
-        "code": "SUCCESS",
+        "code": "ERROR",
         "type": "TEXT",
-        "msg": "res0: String \u003d 1.5.0\nres1: String \u003d /Users/mridhusri/Documents/iPython/spark-1.5\nres2: String \u003d /Users/mridhusri/Documents/iPython/spark-1.5/python/lib/py4j-0.8.2.1-src.zip:/Users/mridhusri/Documents/iPython/spark-1.5/python/:/Users/mridhusri/Documents/iPython/spark-1.5/python:/Users/mridhusri/Documents/iPython/spark-1.5/python/lib/py4j-0.8.2.1-src.zip\nres3: String \u003d /Users/mridhusri/Documents/iPython/spark-1.5\nargs\u003d\nmaster\u003dlocal[*]\nspark.app.id\u003dlocal-1455576464477\nspark.app.name\u003dZeppelin\nspark.driver.extraClassPath\u003d::/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/interpreter/spark/zeppelin-spark-0.5.6-incubating.jar\nspark.driver.extraJavaOptions\u003d  -Dfile.encoding\u003dUTF-8  -Dfile.encoding\u003dUTF-8 -Dzeppelin.log.file\u003d/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/logs/zeppelin-interpreter-spark-mridhusri-iMridhusris-iMac.local.log\nspark.driver.host\u003d192.168.0.5\nspark.driver.port\u003d62281\nspark.executor.id\u003ddriver\nspark.executor.memory\u003d512m\nspark.externalBlockStore.folderName\u003dspark-11c3e57b-0543-47c4-afc6-4a3a088f5b60\nspark.fileserver.uri\u003dhttp://192.168.0.5:62282\nspark.home\u003d/Users/mridhusri/Documents/iPython/spark-1.5\nspark.jars\u003dfile:/Users/mridhusri/Documents/iPython/zeppelin-0.5.6-incubating-bin-all/interpreter/spark/zeppelin-spark-0.5.6-incubating.jar\nspark.master\u003dlocal[*]\nspark.repl.class.uri\u003dhttp://192.168.0.5:62280\nspark.scheduler.mode\u003dFAIR\nspark.submit.deployMode\u003dclient\nzeppelin.dep.additionalRemoteRepository\u003dspark-packages,http://dl.bintray.com/spark-packages/maven,false;\nzeppelin.dep.localrepo\u003dlocal-repo\nzeppelin.pyspark.python\u003dpython\nzeppelin.spark.concurrentSQL\u003dfalse\nzeppelin.spark.maxResult\u003d1000\nzeppelin.spark.useHiveContext\u003dtrue\n"
+        "msg": ""
       },
       "dateCreated": "Jan 22, 2016 7:04:40 PM",
-      "dateStarted": "Feb 15, 2016 5:47:27 PM",
-      "dateFinished": "Feb 15, 2016 5:48:17 PM",
-      "status": "FINISHED",
+      "dateStarted": "Feb 21, 2016 7:00:16 PM",
+      "dateFinished": "Feb 21, 2016 7:00:16 PM",
+      "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%spark\nlibrary(SparkR)\nSystem.getenv().get(\"SPARK_HOME\")\n.libPaths(c(file.path(Sys.getenv(\"SPARK_HOME\"),\"R\",\"lib\"), .libPaths()))",
-      "dateUpdated": "Feb 15, 2016 5:50:10 PM",
+      "dateUpdated": "Feb 21, 2016 7:00:20 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -335,17 +335,17 @@
       "result": {
         "code": "ERROR",
         "type": "TEXT",
-        "msg": "\u003cconsole\u003e:22: error: not found: value library\n              library(SparkR)\n              ^\n"
+        "msg": ""
       },
       "dateCreated": "Feb 15, 2016 5:48:40 PM",
-      "dateStarted": "Feb 15, 2016 5:50:10 PM",
-      "dateFinished": "Feb 15, 2016 5:50:10 PM",
+      "dateStarted": "Feb 21, 2016 7:00:20 PM",
+      "dateFinished": "Feb 21, 2016 7:00:20 PM",
       "status": "ERROR",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%pyspark\nprint sys.version",
-      "dateUpdated": "Feb 14, 2016 1:56:04 PM",
+      "dateUpdated": "Feb 21, 2016 7:00:24 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -371,8 +371,8 @@
         "msg": "2.7.10 |Anaconda 2.4.0 (x86_64)| (default, Oct 19 2015, 18:31:17) \n[GCC 4.2.1 (Apple Inc. build 5577)]\n"
       },
       "dateCreated": "Jan 25, 2016 11:12:04 PM",
-      "dateStarted": "Feb 14, 2016 1:56:04 PM",
-      "dateFinished": "Feb 14, 2016 1:56:10 PM",
+      "dateStarted": "Feb 21, 2016 7:00:24 PM",
+      "dateFinished": "Feb 21, 2016 7:00:24 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
