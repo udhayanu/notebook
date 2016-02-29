@@ -2,7 +2,7 @@
   "paragraphs": [
     {
       "text": "%pyspark\nprint sys.version\nprint sc.version\nfoldername \u003d \"/Users/mridhusri/Documents/iPython/ampcamp6/data/cs100/lab1/\"",
-      "dateUpdated": "Feb 28, 2016 12:10:42 PM",
+      "dateUpdated": "Feb 28, 2016 12:50:17 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -29,14 +29,14 @@
         "msg": "2.7.10 |Anaconda 2.4.0 (x86_64)| (default, Oct 19 2015, 18:31:17) \n[GCC 4.2.1 (Apple Inc. build 5577)]\n1.5.0\n"
       },
       "dateCreated": "Feb 21, 2016 7:12:25 PM",
-      "dateStarted": "Feb 28, 2016 12:10:42 PM",
-      "dateFinished": "Feb 28, 2016 12:10:42 PM",
+      "dateStarted": "Feb 28, 2016 12:50:17 PM",
+      "dateFinished": "Feb 28, 2016 12:50:17 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "text": "%pyspark\n\n#\n# Spark for Python Developers\n# Chapter 1 - Code Word Count\n#\n\n# Word count on manuscript using PySpark\n\n# import regex module\nimport re\n# import add from operator module\nfrom operator import add\n\n\n# read input file\nfile_in \u003d sc.textFile(foldername + \u0027shakespeare.txt\u0027)\n\n# count lines\nprint(\u0027number of lines in file: %s\u0027 % file_in.count())\n\n# add up lenths of each line\n#\nchars \u003d file_in.map(lambda s: len(s)).reduce(add)\nprint(\u0027number of characters in file: %s\u0027 % chars)\n\n# Get words from the input file\nwords \u003dfile_in.flatMap(lambda line: re.split(\u0027\\W+\u0027, line.lower().strip()))\n\n# words of more than 3 characters\nwords \u003d words.filter(lambda x: len(x) \u003e 3)\n\n# set count 1 per word\nwords \u003d words.map(lambda w: (w,1))\n\n# reduce phase - sum count all the words\nwords \u003d words.reduceByKey(add)\n\n# create tuple (count, word) and sort in descending\nwords \u003d words.map(lambda x: (x[1], x[0])).sortByKey(False)\n\n# take top 20 words by frequency\nwords.take(20)\n\n\n\n",
-      "dateUpdated": "Feb 21, 2016 7:34:21 PM",
+      "dateUpdated": "Feb 28, 2016 12:50:19 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -63,8 +63,8 @@
         "msg": "number of lines in file: 122395\nnumber of characters in file: 5205583\n"
       },
       "dateCreated": "Feb 21, 2016 6:51:12 PM",
-      "dateStarted": "Feb 21, 2016 7:33:53 PM",
-      "dateFinished": "Feb 21, 2016 7:33:59 PM",
+      "dateStarted": "Feb 28, 2016 12:50:19 PM",
+      "dateFinished": "Feb 28, 2016 12:50:30 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },

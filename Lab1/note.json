@@ -67,8 +67,8 @@
       "progressUpdateIntervalMs": 500
     },
     {
-      "text": "val foldername \u003d\"/Users/mridhusri/Documents/iPython/ampcamp6/data/resources/Datasets/bdu_sparkII\"",
-      "dateUpdated": "Feb 28, 2016 12:42:06 PM",
+      "text": "%spark\nval foldername \u003d\"/Users/mridhusri/Documents/iPython/ampcamp6/data/resources/Datasets/bdu_sparkII/\"",
+      "dateUpdated": "Feb 28, 2016 12:58:14 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -90,20 +90,20 @@
       "jobName": "paragraph_1456678706469_1555472006",
       "id": "20160228-115826_1736206266",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": "java.lang.ClassNotFoundException: scala.io.AnsiColor\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:381)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:424)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:357)\n\tat java.lang.ClassLoader.defineClass1(Native Method)\n\tat java.lang.ClassLoader.defineClass(ClassLoader.java:760)\n\tat java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)\n\tat java.net.URLClassLoader.defineClass(URLClassLoader.java:467)\n\tat java.net.URLClassLoader.access$100(URLClassLoader.java:73)\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:368)\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:362)\n\tat java.security.AccessController.doPrivileged(Native Method)\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:361)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:424)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:357)\n\tat scala.Console.setOut(Console.scala)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpretInput(SparkInterpreter.java:691)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:674)\n\tat org.apache.zeppelin.spark.SparkInterpreter.interpret(SparkInterpreter.java:667)\n\tat org.apache.zeppelin.interpreter.ClassloaderInterpreter.interpret(ClassloaderInterpreter.java:57)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:93)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:300)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:169)\n\tat org.apache.zeppelin.scheduler.FIFOScheduler$1.run(FIFOScheduler.java:134)\n\tat java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)\n\tat java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n"
+        "msg": "foldername: String \u003d /Users/mridhusri/Documents/iPython/ampcamp6/data/resources/Datasets/bdu_sparkII/\n"
       },
       "dateCreated": "Feb 28, 2016 11:58:26 AM",
-      "dateStarted": "Feb 28, 2016 12:42:07 PM",
-      "dateFinished": "Feb 28, 2016 12:42:39 PM",
-      "status": "ERROR",
+      "dateStarted": "Feb 28, 2016 12:58:14 PM",
+      "dateFinished": "Feb 28, 2016 12:58:15 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Testing Spark on the Cluster",
       "text": "\nval input \u003d sc.textFile(foldername+\"trip_data.csv\")\n\ninput.map(_.split(\",\")).count()",
-      "dateUpdated": "Feb 28, 2016 12:11:03 PM",
+      "dateUpdated": "Feb 28, 2016 12:58:17 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -127,19 +127,20 @@
       "jobName": "paragraph_1426855242470_-1593851854",
       "id": "20150320-084042_1901752970",
       "result": {
-        "code": "ERROR",
+        "code": "SUCCESS",
         "type": "TEXT",
-        "msg": ""
+        "msg": "input: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[4] at textFile at \u003cconsole\u003e:26\nres7: Long \u003d 315808\n"
       },
       "dateCreated": "Mar 20, 2015 8:40:42 AM",
-      "dateStarted": "Feb 28, 2016 12:11:03 PM",
-      "dateFinished": "Feb 28, 2016 12:11:03 PM",
-      "status": "ERROR",
+      "dateStarted": "Feb 28, 2016 12:58:17 PM",
+      "dateFinished": "Feb 28, 2016 12:58:19 PM",
+      "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
     {
       "title": "Testing Spark SQL",
       "text": "%sql\nshow tables",
+      "dateUpdated": "Feb 28, 2016 12:51:54 PM",
       "config": {
         "colWidth": 12.0,
         "graph": {
@@ -164,7 +165,8 @@
           }
         },
         "title": true,
-        "tableHide": false
+        "tableHide": false,
+        "enabled": true
       },
       "settings": {
         "params": {},
@@ -175,11 +177,11 @@
       "result": {
         "code": "SUCCESS",
         "type": "TABLE",
-        "msg": "result\n"
+        "msg": "tableName\tisTemporary\n"
       },
       "dateCreated": "Mar 24, 2015 8:55:26 AM",
-      "dateStarted": "Jun 19, 2015 10:01:35 PM",
-      "dateFinished": "Jun 19, 2015 10:01:48 PM",
+      "dateStarted": "Feb 28, 2016 12:51:54 PM",
+      "dateFinished": "Feb 28, 2016 12:51:56 PM",
       "status": "FINISHED",
       "progressUpdateIntervalMs": 500
     },
